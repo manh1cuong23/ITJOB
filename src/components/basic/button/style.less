@@ -1,0 +1,88 @@
+@import '@/styles/variables.less';
+.my-button{
+  white-space: nowrap;
+  padding: 8px 16px;
+  font: 500 13px/2 Inter, sans-serif;
+  border-radius: @border-radius-s !important;
+}
+.my-button.ant-btn{
+  height: 36px;
+}
+.primary-button {
+  background-color: @primary-500;
+  color: white !important;
+  border-top-width: 0px !important;
+  border-left-width: 0px !important;
+  border-right-width: 0px !important;
+  border-bottom-width: 2px !important;
+  border-color:  @primary-700;
+  &:hover {
+    background-color: @primary-400 !important;
+  }
+
+  &:disabled {
+    border-color: @grayscale-300 !important;
+    color:@grayscale-400 !important;
+    background-color:  @grayscale-300 !important;
+  }
+
+  &.selected {
+    background-color: @selected-color;
+  }
+}
+
+.secondary-button {
+  background-color:  @grayscale-500 !important;
+  border-top-width: 0px !important;
+  border-left-width: 0px !important;
+  border-right-width: 0px !important;
+  border-bottom-width: 2px !important;
+  border-color:  @grayscale-800 !important;
+  color: white !important;
+  &:hover {
+    background-color:  @grayscale-400 !important;
+  }
+
+  &:disabled {
+    border-color: @grayscale-300 !important;
+    color:@grayscale-400 !important;
+    background-color:  @grayscale-300 !important;
+  }
+
+  &.selected {
+    background-color: darken(@secondary-500, 10%);
+  }
+}
+
+.outline-button {
+  background-color: #fff !important;
+  border: 1px solid @grayscale-300 !important;
+  color:@grayscale-800 !important;
+  box-shadow: 0px 1px 1px 0px @grayscale-200;
+  /* Body-13/Medium */
+  font-family: Inter !important;
+  font-size: 13px !important;
+  font-style: normal !important;
+  font-weight: 500 !important;
+  line-height: 20px !important; /* 153.846% */
+  padding: 8px 16px;
+  span{
+    line-height: 21px;
+  }
+  &:hover {
+    border-color: @primary-500 !important;
+    color: @primary-500 !important;
+    background-color: @primary-50 !important;
+  }
+
+  &:disabled {
+    border-color: @grayscale-300 !important;
+    color:@grayscale-400 !important;
+    background-color:  @grayscale-300 !important;
+  }
+
+  &.selected {
+    border-color: @selected-color;
+    color: @selected-color;
+  }
+}

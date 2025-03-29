@@ -1,0 +1,46 @@
+.adjust-wrapper {
+  border: 1px solid #d6d3d1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  background-color: #fff;
+  height: 18.5px;
+  gap: 8px;
+
+  .select-fluctuation {
+    height: 8px !important;
+    width: 50px;
+    margin-top: -4px;
+  }
+
+  .percent-label {
+    font-size: 20px;
+    color: #57534e;
+    .ant-form-item-control-input {
+        margin-top: -1px;
+    }
+    span {
+        font-size: 15px;
+    }
+  }
+
+  .my-input {
+    height: 20px;
+    bottom: 11px;
+  }
+}
+
+.adjust-wrapper.disabled {
+  background-color: #ebebea;
+  cursor: no-drop;
+}
+
+:where(.css-dev-only-do-not-override-1n2m0rq).ant-checkbox-wrapper.ant-checkbox-wrapper-in-form-item input[type="checkbox"] {
+    width: 20px !important;
+    height: 20px !important;
+}
+
+.input-wrapper .my-input-container .ant-input-disabled input[disabled] {
+  background-color: transparent !important;
+}

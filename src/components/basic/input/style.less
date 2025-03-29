@@ -1,0 +1,126 @@
+@import '@/styles/variables.less';
+/* Default input style */
+.my-input {
+  border-radius: 8px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  z-index: 2;
+  // gap: 8px;
+  color: @grayscale-900;
+  justify-content: start;
+  padding: 2px 12px !important;
+  font: 400 13px/2 Inter, sans-serif;
+  border: 1px solid @grayscale-300;
+  height: 36px;
+  input {
+    font: 400 14px/2 Inter, sans-serif !important;
+    &::placeholder {
+      color: @grayscale-400 !important;
+    }
+  }
+
+  &-search {
+    padding: 4px 6px;
+  }
+  &-item {
+    color: @grayscale-900;
+    font: 400 13px/2 Inter, sans-serif;
+  }
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  align-self: stretch;
+  flex: 1;
+  flex-basis: 0%;
+  margin: auto 0;
+  &:focus {
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+  }
+
+  /* Disabled state */
+  &.disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+    border: 1px solid #d9d9d9;
+  }
+
+  /* Selected state */
+  &.selected {
+    border-color: #15803d;
+    box-shadow: 0 0 0 2px rgba(21, 128, 61, 0.2);
+  }
+
+  /* Error state */
+  &:where(
+      .css-dev-only-do-not-override-1vgrtbl
+    ).ant-input-outlined.ant-input-status-error:not(.ant-input-disabled) {
+    border-color: @primary-500;
+    background: @primary-50 !important;
+  }
+
+  /* Warning state */
+  &.warning {
+    border-color: #faad14;
+    box-shadow: 0 0 0 2px rgba(250, 173, 20, 0.2);
+  }
+}
+
+/* Tooltip icon color */
+.help-icon {
+  color: #15803d;
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+/* Optional input */
+span.optional-text {
+  color: #d6d3d1;
+  font-size: 12px;
+}
+.search-icon {
+  font-size: 16px;
+  color: @grayscale-700;
+}
+
+.ant-dropdown {
+  overflow-x: hidden !important;
+}
+
+.auto-complete {
+  .dropdown-item {
+    display: flex;
+    height: 36px;
+    padding: 8px var(--Space-S, 8px);
+    justify-content: space-between;
+    align-items: center;
+    align-self: stretch;
+    border-radius: 6px;
+    background: var(--Colour-Primary-50, #fdecf0);
+  }
+}
+.menu-item {
+  display: flex;
+  justify-content: flex-start;
+}
+.menu-item:last-child {
+  margin-bottom: 12px;
+}
+
+.menu-item:hover {
+  background-color: @primary-50 !important;
+
+  span {
+    color: @primary-500;
+  }
+}
+.custom-dropdown-menu {
+  max-height: 380px;
+}
+.ant-input-disabled {
+  color: rgba(0, 0, 0, 0.25) !important;
+}
+.my-textarea textarea {
+  height: 100px;
+  overflow-y: auto !important;
+  resize: none;
+}

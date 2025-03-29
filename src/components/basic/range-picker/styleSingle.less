@@ -1,0 +1,52 @@
+@import "@/styles/variables.less";
+
+.ant-picker {
+  padding: 2px 12px;
+  gap: 12px;
+  border: 1px solid @grayscale-300;
+  border-radius: @primary-border-radius !important;
+  display: flex;
+  flex-direction: row-reverse;
+  height: 36px;
+  .ant-picker-suffix {
+    display: flex !important; 
+    opacity: 1 !important;
+  }
+  .ant-picker-clear {
+    display: flex;
+  }
+  &:hover .ant-picker-suffix {
+    visibility: visible !important;
+  }
+
+  &:hover .ant-picker-clear {
+    visibility: visible;
+  }
+  .ant-picker-input:first-child {
+    order: 3;
+  }
+
+  .ant-picker-input:last-child {
+    order: 1;
+  }
+
+  .ant-picker-range-separator {
+    order: 2;
+    margin: 0 8px;
+  }
+
+  .ant-picker-suffix {
+    order: 4;
+  }
+
+  .ant-picker-clear {
+    order: 5;
+  }
+}
+
+.ant-picker-input {
+  color: @grayscale-900;
+  padding: 4px 6px !important;
+  font: 400 13px / 2 Inter, sans-serif;
+}
+

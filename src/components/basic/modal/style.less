@@ -1,0 +1,39 @@
+@import '@/styles/variables.less';
+.my-modal {
+  .ant-modal-header{
+    border-radius: 12px 12px var(--none, 0px) var(--none, 0px);
+    border-bottom: 1px solid var(--Colour-Greyscale-300, #D6D3D1);
+    background: var(--Colour-Greyscale-100, #EEEDEC);
+    display: flex;
+    padding: 16px;
+    align-items: flex-end;
+    gap: 12px;
+    align-self: stretch;
+    margin-bottom: 0;
+  }
+  .ant-modal-content{
+    padding: 0 !important;
+    border-radius: 12px;
+  }
+  .ant-modal-body{
+    padding: 16px;
+  }
+  .ant-modal-footer{
+    padding: 16px;
+    border-top: 1px solid @grayscale-300;
+    margin-top: 0;
+  }
+  .ant-modal-title{
+    color: var(--Colour-Greyscale-900, #1C1917);
+    /* H4-18/Medium */
+    font-family: Inter;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 120%; /* 21.6px */
+    button{
+      width: 24px;
+      height: 24px;
+    }
+  }
+}

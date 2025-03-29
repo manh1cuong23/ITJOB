@@ -1,0 +1,33 @@
+@import '@/styles/variables.less';
+
+.label-start {
+  color: red;
+  margin-left: 2px;
+  margin-bottom: 4px;
+}
+:where(.css-dev-only-do-not-override-1vgrtbl).ant-form-item
+  .ant-form-item-label
+  > label {
+  height: 15px;
+}
+:where(.css-dev-only-do-not-override-1vgrtbl).ant-form-vertical
+  .ant-form-item:not(.ant-form-item-horizontal)
+  .ant-form-item-label,
+:where(.css-dev-only-do-not-override-1vgrtbl).ant-form-vertical
+  .ant-form-item:not(.ant-form-item-horizontal)
+  .ant-col-24.ant-form-item-label,
+:where(.css-dev-only-do-not-override-1vgrtbl).ant-form-vertical
+  .ant-form-item:not(.ant-form-item-horizontal)
+  .ant-col-xl-24.ant-form-item-label {
+  padding: 0;
+}
+.ant-form-item-required, .label-txt {
+  color: var(--Colour-Greyscale-900, #1c1917) !important;
+  text-align: center;
+  /* Body-13/Medium */
+  font-family: Inter;
+  font-size: 13px !important;
+  font-style: normal;
+  font-weight: 500 !important;
+  line-height: 20px; /* 153.846% */
+}

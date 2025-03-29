@@ -1,0 +1,157 @@
+@import '@/styles/variables.less';
+li.ant-pagination-next,
+li.ant-pagination-prev,
+li.ant-pagination-item {
+  border: 1px solid #d6d3d1 !important;
+  margin: 0 5px !important;
+}
+
+li.ant-pagination-item-active {
+  border-color: #d92d20 !important;
+}
+
+.custum-table {
+  .ant-table-thead .ant-table-cell {
+    border-bottom: 1px solid var(--Colour-Greyscale-300, #d6d3d1) !important;
+    background: var(--Colour-Greyscale-200, #e7e5e4) !important;
+  }
+  .ant-table-tbody .ant-table-cell {
+    border-bottom: 1px solid var(--Colour-Greyscale-300, #d6d3d1) !important;
+    background: var(--Colour-Greyscale-White, #fff);
+  }
+  .ant-table-thead .ant-table-cell:not(:last-child),
+  .ant-table-tbody .ant-table-cell:not(:last-child) {
+    border-right: 1px solid var(--Colour-Greyscale-300, #d6d3d1) !important;
+  }
+  .ant-table-content,
+  .ant-table-summary {
+    border-radius: 8px;
+    // border: 1px solid var(--Colour-Greyscale-300, #d6d3d1);
+  }
+
+  .ant-table-summary .ant-table-cell {
+    border-radius: 8px;
+  }
+
+  .ant-table-summary .total-row td.ant-table-cell {
+    border-radius: 0 !important;
+    border-bottom: 1px solid var(--Colour-Greyscale-300, #d6d3d1);
+  }
+
+  .ant-table-content {
+    scrollbar-width: auto;
+    scrollbar-color: auto;
+  }
+  // .ant-table-body::-webkit-scrollbar {
+  //   width: 0;
+  //   /* Ẩn thanh cuộn mặc định */
+  //   height: 0;
+  //   /* Ẩn thanh cuộn mặc định */
+  // }
+
+  .ant-table-body {
+    scrollbar-width: thin;
+    /* Dùng cho Firefox */
+    scrollbar-color: transparent transparent;
+    /* Mặc định màu thanh cuộn */
+    cursor: default;
+  }
+
+  /* Hiển thị thanh cuộn khi hover vào bảng */
+  .ant-table-body:hover {
+    scrollbar-color: @grayscale-300 @grayscale-200;
+    /* Màu khi hover */
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 100px;
+  }
+
+  .ant-table-body:hover::-webkit-scrollbar {
+    width: 8px;
+    /* Chiều rộng thanh cuộn */
+    height: 8px;
+    /* Chiều cao thanh cuộn */
+    cursor: pointer !important;
+  }
+
+  .ant-table-body:hover::-webkit-scrollbar-thumb {
+    scrollbar-color: @grayscale-300 @grayscale-200;
+    /* Màu của thanh cuộn */
+    border-radius: 100px !important;
+    /* Bo góc thanh cuộn */
+    transition: background-color 0.3s;
+    border: 100px solid transparent;
+    cursor: pointer !important;
+  }
+
+  /* Thay đổi màu khi hover vào thanh cuộn */
+  .ant-table-body:hover::-webkit-scrollbar-thumb:hover {
+    background-color: @grayscale-100;
+    /* Màu của thanh cuộn khi hover */
+    cursor: pointer !important;
+  }
+
+  .row-without-border .ant-table-cell {
+    border-right: 0 !important;
+    border-radius: 0 !important;
+  }
+}
+
+.scrollX {
+  .ant-table-content {
+    overflow: auto !important;
+  }
+}
+.table-hidden-scrool {
+  .ant-table-body {
+    overflow: hidden !important;
+  }
+}
+.table-hidden-scrool-x {
+  .ant-table-body {
+    overflow-x: hidden !important;
+  }
+}
+.custom-scroll-table {
+  .ant-table-container {
+    border: 1px solid var(--Colour-Greyscale-300, #d6d3d1) !important;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+}
+
+.table-action-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #eeedec;
+  border-radius: 4px;
+  padding: 4px;
+  margin: 0 4px;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.table-action-button:hover {
+  background: @primary-50;
+  color: @primary-500;
+  border: 1px solid @primary-500;
+}
+.table-action-button:hover path {
+  stroke: @primary-500 !important;
+}
+
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.title-wrapper {
+  margin-left: 4px;
+}
+
+.text-right {
+  text-align: right;
+}

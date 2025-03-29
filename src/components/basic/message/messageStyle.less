@@ -1,0 +1,68 @@
+/* MessageComponent.css */
+.message-container {
+  position: fixed;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 15px;
+  border-radius: 8px;
+  color: white;
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  font-size: 13px;
+  color: #292524;
+  z-index: 1000;
+  max-width: 700px;
+  animation: slideIn 0.3s ease, slideOut 0.3s ease 2.7s forwards;
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.message-container.success {
+  box-shadow: -3px 0 0 0 #16a34a, 0px 2px 8px rgba(0, 0, 0, 0.1);
+  path {
+    stroke: #16a34a;
+  }
+}
+
+.message-container.error {
+  box-shadow: -3px 0 0 0 #dc2626, 0px 2px 8px rgba(0, 0, 0, 0.1);
+  path {
+    stroke: #dc2626;
+  }
+}
+
+.message-container.warning {
+  box-shadow: -3px 0 0 0 #f59e0b, 0px 2px 8px rgba(0, 0, 0, 0.1);
+  path {
+    stroke: #f59e0b;
+  }
+}
+
+.message-text {
+  flex: 1;
+  margin-left: 10px;
+  text-align: center;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+}

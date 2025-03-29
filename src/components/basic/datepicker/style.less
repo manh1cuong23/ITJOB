@@ -1,0 +1,47 @@
+@import '@/styles/variables.less';
+.my-date-picker-item {
+  .ant-picker {
+    white-space: nowrap;
+    padding: 8px 16px;
+    font: 500 13px/2 Inter, sans-serif;
+    overflow: hidden;
+    border: 1px solid @grayscale-300;
+    border-radius: @primary-border-radius !important;
+    height: 36px;
+  }
+
+  .ant-picker .ant-picker-input,
+  .ant-picker.ant-picker-range {
+    display: flex;
+    flex-direction: row-reverse;
+    color: @grayscale-900;
+  }
+  .ant-picker .ant-picker-input span.ant-picker-suffix,
+  .ant-picker.ant-picker-range span.ant-picker-suffix {
+    margin-left: 0;
+    margin-right: 5px;
+    svg {
+      color: @grayscale-500;
+    }
+  }
+  :where(.css-dev-only-do-not-override-1vgrtbl).ant-picker:hover
+    .ant-picker-suffix:not(:last-child) {
+    opacity: 1 !important;
+  }
+}
+.my-date-picker {
+  .ant-picker-suffix {
+    transition: all 0.3s ease-in-out;
+  }
+}
+.can-hide-icon:hover {
+  .ant-picker-suffix {
+    opacity: 0 !important;
+  }
+}
+/* Tooltip icon color */
+.help-icon {
+  color: #15803d;
+  margin-left: 8px;
+  cursor: pointer;
+}

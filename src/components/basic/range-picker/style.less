@@ -1,0 +1,182 @@
+@import '@/styles/variables.less';
+.custom-range-picker {
+  &.ant-picker {
+    border: none !important;
+    padding: 0;
+    gap: 12px;
+    border: 1px solid @grayscale-300;
+    border-radius: @primary-border-radius !important;
+  }
+  .ant-picker-input {
+    border-radius: 8px !important;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: @grayscale-900;
+    justify-content: start;
+    padding: 0px !important;
+    font: 400 13px / 2 Inter, sans-serif;
+    border: 1px solid #d6d3d1;
+  }
+  .ant-picker-range-separator {
+    display: none;
+  }
+}
+.custom-range-picker .ant-picker:focus {
+  border: 1px solid #d6d3d1 !important; /* Giữ border của ô picker khi focus */
+  box-shadow: none !important; /* Loại bỏ bóng */
+}
+
+.custom-range-picker .ant-picker-input:focus {
+  outline: none !important; /* Ẩn outline */
+  border-color: transparent; /* Ẩn border khi focus */
+}
+
+.custom-range-picker .ant-picker-input {
+  border: 1px solid #d6d3d1; /* Đặt border mặc định */
+}
+.custom-range-picker-wrapper {
+  position: relative;
+  margin-top: 40px;
+}
+.custom-input-icons .icon1 {
+  position: absolute;
+  left: calc(50% - 30px);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.custom-input-icons .icon3{
+  position: absolute;
+  left: calc(50% - 30px);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.custom-input-icons .icon2 {
+  position: absolute;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.custom-input-label {
+  .label {
+    top: -40px;
+    position: absolute;
+    color: rgba(0, 0, 0, 0.88);
+    font-size: 14px;
+    font-weight: 500;
+  }
+  .label-from {
+    left: 0px;
+  }
+  .label-to {
+    left: calc(50% + 5px);
+  }
+}
+
+.from-date {
+  padding-right: 8px !important;
+  padding-left: 12px !important;
+}
+
+.to-date {
+  padding-left: 8px !important;
+  padding-right: 12px !important;
+}
+
+
+.custom-range-picker-search {
+    &.ant-picker {
+    border: none !important;
+    padding: 0;
+    gap: 4px !important;
+    border-radius: @primary-border-radius !important;
+    box-shadow: none !important;
+    .ant-picker-outlined:focus-within  {
+      box-shadow: none !important;
+    }
+    .ant-picker-input:first-child {
+      width: 100px !important;
+
+      input {
+        text-align: right;
+      }
+    }
+    .ant-picker-input {
+      width: 125px;
+    }
+  }
+  .ant-picker-input {
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    color: @grayscale-900;
+    justify-content: start;
+    padding: 0px !important;
+    font: 400 13px / 2 Inter, sans-serif;
+    box-shadow: none !important;
+  }
+  .ant-picker-range .ant-picker-range-separator {
+    padding: 0 !important;
+  }
+  .ant-picker-range-separator {
+    // display: none;
+    padding: 0px !important;
+    margin: 0px !important;
+    height: 50%;
+  }
+  .custom-suffix-icon {
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+  
+  .ant-picker-range .ant-picker-active-bar {
+    left: 0;
+  }
+  
+  .ant-picker-range .ant-picker-input > input {
+    padding-right: 30px; /* Tăng khoảng cách để icon không đè lên text */
+  }
+  
+  .ant-picker-suffix {
+    right: 10px; /* Di chuyển icon sang bên phải */
+    left: auto; /* Vô hiệu hoá giá trị bên trái mặc định */
+    position: absolute;
+  }
+}
+
+// .border-none {
+//    &.ant-picker {
+//     border: none !important;
+//     padding: 0;
+//     gap: 4px !important;
+//     border-radius: @primary-border-radius !important;
+//     box-shadow: none !important;
+//     .ant-picker-outlined:focus-within  {
+//       box-shadow: none !important;
+//     }
+//     .ant-picker-input:first-child {
+//       width: 90px !important;
+//     }
+//     .ant-picker-input {
+//       width: 80px;
+//     }
+//   }
+// }
+
+.date-range-picker.disabled {
+  cursor: no-drop;
+}

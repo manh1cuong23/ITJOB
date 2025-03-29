@@ -1,0 +1,32 @@
+@import "@/styles/variables.less";
+.my-card {
+  border-radius: 10px;
+  background-color: #fff;
+  color: @primary-900;
+  border: 1px solid @grayscale-300;
+  max-width: 100%;
+  margin-bottom: 16px;
+  &-header {
+    border-bottom: 1px solid rgba(214, 211, 209, 1);
+    color: var(--Colour-Primary-900, #38060F);
+    p{
+      /* Body-13/Medium */
+      font-family: Inter;
+      font-size: 13px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: 20px; /* 153.846% */
+      text-transform: uppercase;
+      margin: 0;
+    }
+    display: flex;
+    padding: 16px;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    align-self: stretch;
+  }
+  &-body {
+    padding: 16px;
+  }
+}

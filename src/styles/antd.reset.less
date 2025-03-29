@@ -1,0 +1,100 @@
+@import '@/styles/variables.less';
+.ant-list-item {
+  padding: 12px 12px !important;
+}
+// .anticon svg {
+//   color: @primary-color;
+// }
+
+.ant-table-cell .ant-btn.ant-btn-link {
+  padding: 0 4px !important;
+}
+
+.ant-card-extra {
+  margin: 0 !important;
+  width: 100% !important;
+}
+
+.ant-btn + .ant-btn {
+  margin-left: 10px !important;
+}
+
+.ant-form-item {
+  margin-bottom: 0px !important;
+}
+
+.ant-menu-item-selected {
+  background-color: @primary-50 !important;
+  color: #ffffff !important;
+}
+.ant-menu-item-selected span,.ant-menu-item-selected svg,
+.ant-menu .ant-menu-submenu-selected >.ant-menu-submenu-title {
+  color: @primary-600 !important;
+  stroke: @primary-600 !important;
+  stroke-width: 4; 
+}
+
+.ant-card-body {
+  padding: 0px 12px !important;
+}
+.ant-card-head {
+  border-bottom: none !important;
+  margin-bottom: 0 !important;
+}
+
+.ant-menu-inline .ant-menu-selected::after,
+.ant-menu-inline .ant-menu-item-selected::after {
+  transform: scaleY(0) !important;
+}
+
+.ant-transfer-list {
+  width: 35vw !important;
+  max-width: 300px !important;
+  height: 60vh !important;
+}
+
+.fullscreen .ant-modal-mask {
+  background-color: #fff !important;
+}
+
+.fullscreen .ant-modal {
+  max-width: 100vw !important;
+}
+
+.fix-pagination .ant-table-pagination {
+  position: fixed !important;
+  bottom: 0 !important;
+  right: 20px;
+}
+
+:where(.css-dev-only-do-not-override-1vgrtbl).ant-menu
+  .ant-menu-item
+  .ant-menu-item-icon
+  + span,
+:where(.css-dev-only-do-not-override-1vgrtbl).ant-menu
+  .ant-menu-submenu-title
+  .ant-menu-item-icon
+  + span,
+:where(.css-dev-only-do-not-override-1vgrtbl).ant-menu
+  .ant-menu-item
+  .anticon
+  + span,
+:where(.css-dev-only-do-not-override-1vgrtbl).ant-menu
+  .ant-menu-submenu-title
+  .anticon
+  + span {
+  transition: none;
+}
+
+:where(.css-dev-only-do-not-override-1vgrtbl).ant-menu
+  .ant-menu-item
+  .ant-menu-item-icon,
+:where(.css-dev-only-do-not-override-1vgrtbl).ant-menu
+  .ant-menu-submenu-title
+  .ant-menu-item-icon,
+:where(.css-dev-only-do-not-override-1vgrtbl).ant-menu .ant-menu-item .anticon,
+:where(.css-dev-only-do-not-override-1vgrtbl).ant-menu
+  .ant-menu-submenu-title
+  .anticon {
+  transition: none;
+}

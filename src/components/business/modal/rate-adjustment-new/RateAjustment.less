@@ -1,0 +1,57 @@
+.rate-ajustment-wrapper {
+  display: flex;
+  flex-direction: column;
+  .rate-backgroud-wrapper {
+    background-color: #fff;
+    padding: 12px;
+  }
+  .room-ajustment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 36px;
+
+    .search-list {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      .ant-form-item {
+        height: 100%;
+        display: flex;
+        align-items: center;
+
+        .ant-row {
+          height: 100%;
+        }
+      }
+    }
+  }
+  .my-select button {
+    gap: 0px !important;
+  }
+}
+.austment_table {
+  .ant-table {
+    border-collapse: collapse; /* Đảm bảo các đường viền không bị chồng */
+  }
+
+  .ant-table-thead > tr > th,
+  .ant-table-tbody > tr > td {
+    border: 1px solid #d9d9d9; /* Viền giữa các ô */
+  }
+
+  .ant-table-tbody > tr:hover > td {
+    background-color: #f5f5f5; /* Màu nền khi hover */
+  }
+
+  .ant-table-tbody > tr > td {
+    padding: 8px; /* Khoảng cách bên trong ô */
+    text-align: center; /* Căn giữa dữ liệu */
+  }
+
+  .ant-table-thead > tr > th {
+    background-color: #fafafa; /* Nền cho tiêu đề */
+    text-align: center; /* Căn giữa tiêu đề */
+  }
+}

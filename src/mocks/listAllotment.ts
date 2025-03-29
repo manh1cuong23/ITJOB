@@ -1,0 +1,172 @@
+export type HotelData = {
+    id: string | null;
+    hotelId: string;
+    hotelName: string;
+    date: string;
+    roomTypeId: string;
+    roomTypeCode: string;
+    roomTypeName: string;
+    buildingCode: string;
+    buildingName: string;
+    allotmentNo: string;
+    travelAgentCode: string;
+    packageCode: string;
+    packageName: string;
+    travelAgentName: string;
+    availableRooms: number;
+    totalRooms: number;
+    rate: number;
+    currency: string;
+    ratePlanCode: string;
+  };
+  
+export  const hotelDataArray: HotelData[] = [
+    {
+      id: null,
+      hotelId: "26",
+      hotelName: "Mandala Mui Ne",
+      date: "2024-10-04",
+      roomTypeId: "1",
+      roomTypeCode: "EX1",
+      roomTypeName: "EX1",
+      buildingCode: "D",
+      buildingName: "Diamond",
+      allotmentNo: "ALFR00003",
+      travelAgentCode: "FR",
+      packageCode: "BR_LU",
+      packageName: "BreakFast + Lunch",
+      travelAgentName: "Fourier",
+      availableRooms: 10,
+      totalRooms: 130,
+      rate: 1200000.0,
+      currency: "VND",
+      ratePlanCode: "VNP_BR_LU_COM",
+    },
+    {
+      id: null,
+      hotelId: "26",
+      hotelName: "Mandala Mui Ne",
+      date: "2024-10-03",
+      roomTypeId: "1",
+      roomTypeCode: "EX1",
+      roomTypeName: "EX1",
+      buildingCode: "D",
+      buildingName: "Diamond",
+      allotmentNo: "ALFR00003",
+      travelAgentCode: "FR",
+      packageCode: "BR_LU",
+      packageName: "BreakFast + Lunch",
+      travelAgentName: "Fourier",
+      availableRooms: 10,
+      totalRooms: 130,
+      rate: 1200000.0,
+      currency: "VND",
+      ratePlanCode: "VNP_BR_LU_COM",
+    },
+    {
+      id: null,
+      hotelId: "26",
+      hotelName: "Mandala Mui Ne",
+      date: "2024-10-02",
+      roomTypeId: "1",
+      roomTypeCode: "EX1",
+      roomTypeName: "EX1",
+      buildingCode: "D",
+      buildingName: "Diamond",
+      allotmentNo: "ALFR00003",
+      travelAgentCode: "FR",
+      packageCode: "BR_LU",
+      packageName: "BreakFast + Lunch",
+      travelAgentName: "Fourier",
+      availableRooms: 10,
+      totalRooms: 130,
+      rate: 1200000.0,
+      currency: "VND",
+      ratePlanCode: "VNP_BR_LU_COM",
+    },
+    {
+      id: null,
+      hotelId: "26",
+      hotelName: "Mandala Mui Ne",
+      date: "2024-10-01",
+      roomTypeId: "1",
+      roomTypeCode: "EX1",
+      roomTypeName: "EX1",
+      buildingCode: "D",
+      buildingName: "Diamond",
+      allotmentNo: "ALFR00003",
+      travelAgentCode: "FR",
+      packageCode: "BR_LU",
+      packageName: "BreakFast + Lunch",
+      travelAgentName: "Fourier",
+      availableRooms: 10,
+      totalRooms: 130,
+      rate: 1200000.0,
+      currency: "VND",
+      ratePlanCode: "VNP_BR_LU_COM",
+    },
+    {
+      id: null,
+      hotelId: "26",
+      hotelName: "Mandala Mui Ne",
+      date: "2024-09-28",
+      roomTypeId: "1",
+      roomTypeCode: "EX1",
+      roomTypeName: "EX1",
+      buildingCode: "D",
+      buildingName: "Diamond",
+      allotmentNo: "ALFR00002",
+      travelAgentCode: "FR",
+      packageCode: "BR_LU_DI",
+      packageName: "BreakFast + Lunch + Dinner",
+      travelAgentName: "Fourier",
+      availableRooms: 10,
+      totalRooms: 130,
+      rate: 1200000.0,
+      currency: "VND",
+      ratePlanCode: "VNP_BR_LU_COM",
+    },
+    {
+      id: null,
+      hotelId: "26",
+      hotelName: "Mandala Mui Ne",
+      date: "2024-09-27",
+      roomTypeId: "1",
+      roomTypeCode: "EX1",
+      roomTypeName: "EX1",
+      buildingCode: "D",
+      buildingName: "Diamond",
+      allotmentNo: "ALFR00002",
+      travelAgentCode: "FR",
+      packageCode: "BR_LU_DI",
+      packageName: "BreakFast + Lunch + Dinner",
+      travelAgentName: "Fourier",
+      availableRooms: 10,
+      totalRooms: 130,
+      rate: 1200000.0,
+      currency: "VND",
+      ratePlanCode: "VNP_BR_LU_COM",
+    },
+    {
+      id: null,
+      hotelId: "26",
+      hotelName: "Mandala Mui Ne",
+      date: "2024-09-26",
+      roomTypeId: "1",
+      roomTypeCode: "EX1",
+      roomTypeName: "EX1",
+      buildingCode: "D",
+      buildingName: "Diamond",
+      allotmentNo: "ALFR00002",
+      travelAgentCode: "FR",
+      packageCode: "BR_LU_DI",
+      packageName: "BreakFast + Lunch + Dinner",
+      travelAgentName: "Fourier",
+      availableRooms: 10,
+      totalRooms: 130,
+      rate: 1200000.0,
+      currency: "VND",
+      ratePlanCode: "VNP_BR_LU_COM",
+    }
+  ];
+  
