@@ -6,7 +6,7 @@ import DaskboardContent from './component/daskboard-content/DaskboardContent';
 const DashboardComponent: React.FC = () => {
   return (
     <div className="dashboard bg-white">
-      <DaskboardSearch />
+      <DaskboardSearch isDashBoard />
       <DaskboardContent />
     </div>
   );

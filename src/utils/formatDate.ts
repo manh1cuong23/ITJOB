@@ -1,13 +1,15 @@
 import moment from 'moment';
 import dayjs from 'dayjs';
 
-
 export const formatDate = (date: Date): string => {
   const day = String(date.getDate()).padStart(2, '0');
   const month = String(date.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0
   const year = date.getFullYear();
   return `${day}-${month}-${year}`;
 };
+export function formatDateToYMD(isoString: string) {
+  return new Date(isoString).toISOString().split('T')[0];
+}
 
 export const formatDateUS = (inputString?: string) => {
   if (!inputString) return '';
@@ -34,7 +36,7 @@ export const formatDateTable = (dateString: string) => {
         console.log('Invalid date:', dateString);
         return '-';
       }
-      return dateString; 
+      return dateString;
     }
     const day = String(date.getDate()).padStart(2, '0'); // Lấy ngày và đảm bảo có 2 chữ số
     const month = String(date.getMonth() + 1).padStart(2, '0'); // Lấy tháng (tháng bắt đầu từ 0)

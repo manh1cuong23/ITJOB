@@ -1,6 +1,7 @@
 import { Device } from '@/interface/layout/index.interface';
 import { MenuChild } from '@/interface/layout/menu.interface';
 import { Role } from './login';
+import { TypeUser } from '../common/type';
 
 export type Locale = 'en_US' | 'vi_VN';
 
@@ -13,7 +14,7 @@ export interface UserState {
   /** login status */
   logged: boolean;
 
-  role: Role;
+  role?: TypeUser;
 
   /** user's device */
   device: Device;
@@ -35,7 +36,7 @@ export interface UserState {
 
   /** User Info */
   userInfo?: any;
-	passWord?: string;
+  passWord?: string;
 }
 
 export interface LoginState {

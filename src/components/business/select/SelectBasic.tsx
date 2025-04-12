@@ -1,4 +1,4 @@
-import { getTypeID } from '@/api/features/typeID';
+// import { getTypeID } from '@/api/features/typeID';
 import { MyFormItem } from '@/components/basic/form-item';
 import { SelectCompact } from '@/components/basic/select';
 import { ISource } from '@/utils/formatSelectSource';
@@ -65,8 +65,7 @@ const SelectBasic = ({
       {...props}
       initialValue={defaultValue}
       required={required}
-      disabled={disabled}
-    >
+      disabled={disabled}>
       <SelectCompact
         loading={loading}
         onChange={onChange}

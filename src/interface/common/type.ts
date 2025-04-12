@@ -5,6 +5,10 @@ export interface Options {
   value: number | string;
   text: string;
 }
+export interface OptionsCommon {
+  value: number | string;
+  lable: string;
+}
 
 export interface SelectOptions {
   type: 'select';
@@ -36,4 +40,11 @@ export interface CommonState {
 export interface KeyLabel {
   key: string;
   label: string;
+}
+
+export enum TypeUser {
+  Undifine,
+  User,
+  Employer,
+  Admin,
 }

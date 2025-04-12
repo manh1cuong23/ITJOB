@@ -6,6 +6,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import { getGlobalState } from '@/utils/getGloabal';
 import { AppState } from '..';
+import { TypeUser } from '@/interface/common/type';
 
 const initialState: UserState = {
   ...getGlobalState(),
@@ -14,11 +15,11 @@ const initialState: UserState = {
   logged: localStorage.getItem('token') ? true : false,
   menuList: [],
   username: localStorage.getItem('username') || '',
-  role: (localStorage.getItem('username') || '') as Role,
+  role: TypeUser.Undifine,
   token: '',
   userInfo: null as any,
   perms: [] as any[],
-	passWord: '',
+  passWord: '',
 };
 
 const authSlice = createSlice({
@@ -27,11 +28,9 @@ const authSlice = createSlice({
   reducers: {
     setUserItem(state, action: PayloadAction<Partial<UserState>>) {
       const { username } = action.payload;
-
       if (username !== state.username) {
         localStorage.setItem('username', action.payload.username || '');
       }
-
       Object.assign(state, action.payload);
     },
     setToken(state, action: PayloadAction<string>) {
@@ -61,9 +60,9 @@ const authSlice = createSlice({
       state.menuList = [];
       localStorage.clear();
     },
-		setPassWord(state, action: PayloadAction<string>) {
-			state.passWord = action.payload;
-		}
+    setPassWord(state, action: PayloadAction<string>) {
+      state.passWord = action.payload;
+    },
   },
 });
 
@@ -75,6 +74,15 @@ export const selectLocale = (state: AppState) => state.auth.locale;
 export const selectNewUser = (state: AppState) => state.auth.newUser;
 export const selectPassWord = (state: AppState) => state.auth.passWord;
 
-export const { setUserItem, setToken, setPerms, setUserInfo, setLocale, setNewUser, clearLoginStatus, setPassWord } = authSlice.actions;
+export const {
+  setUserItem,
+  setToken,
+  setPerms,
+  setUserInfo,
+  setLocale,
+  setNewUser,
+  clearLoginStatus,
+  setPassWord,
+} = authSlice.actions;
 
 export default authSlice.reducer;

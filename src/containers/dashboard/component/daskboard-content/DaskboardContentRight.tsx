@@ -6,11 +6,12 @@ import CardSection from '@/components/basic/card/CardSection';
 const DaskboardContentRight: React.FC = () => {
   return (
     <div className="w-1/3">
-      <h1 className="text-lg font-bold text-black">Tiêu điểm</h1>
-      <div>
-        <MyCardjobCompany />
-        <CardSection />
-        <CardSection />
+      <div className="ml-4">
+        <h1 className="text-lg font-bold text-black">Tiêu điểm</h1>
+        <div className="h-[1400px]">
+          <MyCardjobCompany />
+          <CardSection />
+        </div>
       </div>
     </div>
   );

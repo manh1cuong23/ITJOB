@@ -12,7 +12,7 @@ const MyTag: React.FC<MyCardProps> = ({
   className = '',
   style,
 }) => {
-  return <Button className={className}>{title}</Button>;
+  return <Button className={`${className} min-w-[80px]`}>{title}</Button>;
 };
 
 export default MyTag;
