@@ -7,12 +7,10 @@ export interface ILoginParams {
   username: string;
 }
 
-
 export interface ILoginForm {
   username: string;
   password: string;
 }
-
 
 export interface ILoginResult {
   success: boolean;
@@ -24,9 +22,9 @@ export interface ILoginResultData {
   user_id: number;
   user_context: IUserContext;
   company_id: string;
-  access_token: string;
+  accessToken: string;
   expires_in: number;
-  refresh_token: string;
+  refreshToken: string;
   refresh_expires_in: number;
 }
 export interface IUserContext {

@@ -9,7 +9,7 @@ import { request, type RequestOptions } from '@/utils/request';
 
 /** Login POST /api/auth/login */
 export async function authLogin(body: any, options?: RequestOptions) {
-  return request<API.ResOp>('auth/api/permission/user/login', {
+  return request<API.ResOp>('users/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -20,10 +20,7 @@ export async function authLogin(body: any, options?: RequestOptions) {
 }
 
 /** Register POST /api/auth/register */
-export async function authRegister(
-  body: any,
-  options?: RequestOptions
-) {
+export async function authRegister(body: any, options?: RequestOptions) {
   return request<any>('/api/auth/register', {
     method: 'POST',
     headers: {
@@ -34,10 +31,7 @@ export async function authRegister(
   });
 }
 
-export async function authGenerateOtp(
-  body: any,
-  options?: RequestOptions
-) {
+export async function authGenerateOtp(body: any, options?: RequestOptions) {
   return request<any>('auth/api/permission/user/generate-otp-email', {
     method: 'POST',
     headers: {
@@ -48,10 +42,7 @@ export async function authGenerateOtp(
   });
 }
 
-export async function authConfirmOtp(
-  body: any,
-  options?: RequestOptions
-) {
+export async function authConfirmOtp(body: any, options?: RequestOptions) {
   return request<any>('auth/api/permission/user/confirm-otp-email', {
     method: 'POST',
     headers: {
@@ -62,10 +53,7 @@ export async function authConfirmOtp(
   });
 }
 
-export async function authForgetPassword(
-  body: any,
-  options?: RequestOptions
-) {
+export async function authForgetPassword(body: any, options?: RequestOptions) {
   return request<any>('auth/api/permission/user/forget-password-email', {
     method: 'POST',
     headers: {
@@ -76,10 +64,7 @@ export async function authForgetPassword(
   });
 }
 
-export async function authResetPassword(
-  body: any,
-  options?: RequestOptions
-) {
+export async function authResetPassword(body: any, options?: RequestOptions) {
   return request<any>('auth/api/permission/user/reset-password', {
     method: 'POST',
     headers: {

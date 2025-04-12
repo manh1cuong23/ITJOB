@@ -8,7 +8,6 @@ import {
 import { Layout, Dropdown, Divider, Tooltip } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import keycloak from '@/api/features/keycloak';
 import { MyButton } from '@/components/basic/button';
 import { pageTitles } from '@/constants/page';
 import { ReactComponent as BackSvg } from '@/assets/icons/ic_back.svg';
@@ -25,6 +24,8 @@ import {
   setIndividualData,
 } from '@/stores/slices/group-booking.slice';
 import { Profile } from '@/components/business/modal/forgot-password';
+import MenuList from '@/containers/menu/MenuList';
+import { TypeUser } from '@/interface/common/type';
 
 const { Header } = Layout;
 
@@ -37,6 +38,7 @@ type Action = 'userInfo' | 'userSetting' | 'logout';
 
 const HeaderComponent: FC<HeaderProps> = ({ collapsed, toggle }) => {
   const { lastName } = useSelector(state => state.tagsView);
+  const { role } = useSelector(state => state.auth);
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -82,7 +84,6 @@ const HeaderComponent: FC<HeaderProps> = ({ collapsed, toggle }) => {
       case 'logout':
         localStorage.clear();
         window.location.href = '/login';
-        keycloak.logout();
         return;
     }
   };
@@ -234,7 +235,21 @@ const HeaderComponent: FC<HeaderProps> = ({ collapsed, toggle }) => {
       className="layout-page-header bg-2"
       style={headerStyle}
       data-theme="light">
-      <div>{/* <span>logo</span> */}</div>
+      {role == TypeUser.User ? (
+        <div className="flex gap-[10px]">
+          <div className="bg-gray-500">
+            <img
+              className="h-[50px] object-contain"
+              src="https://itviec.com/assets/logo-itviec-4492a2f2577a15a0a1d55444c21c0fa55810822b3b189fc689b450fb62ce0b5b.png"
+            />
+          </div>
+          <div className="mx-4">
+            <MenuList />
+          </div>
+        </div>
+      ) : (
+        <div></div>
+      )}
       <div style={rightSectionStyle}>
         <SettingOutlined
           className="svg-icon"

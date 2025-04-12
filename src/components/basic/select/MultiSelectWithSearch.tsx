@@ -8,13 +8,13 @@ import { ReactComponent as RedTickSvg } from '@/assets/icons/ic_red_tick.svg';
 
 interface Option {
   label: string;
-  value: string;
+  value: string | number;
 }
 
 interface MultiSelectWithSearchProps {
   options: Option[];
   value?: string[] | '';
-  onChange?: (value: string[]) => void;
+  onChange?: (value: any[]) => void;
   maxTagCount?: number;
   placeholder?: string;
   prefix?: string | React.ReactNode;
@@ -32,7 +32,7 @@ interface MultiSelectWithSearchProps {
 
 const MultiSelectWithSearch: React.FC<MultiSelectWithSearchProps> = ({
   options,
-  maxTagCount = 1,
+  maxTagCount = 2,
   placeholder,
   value,
   onChange,
@@ -42,13 +42,13 @@ const MultiSelectWithSearch: React.FC<MultiSelectWithSearchProps> = ({
   showCheckbox = true,
   disabled = false,
   onBlur,
-  maxWidth = '150px',
+  maxWidth = '300px',
   defaultOption,
   classButon,
   reset = false,
 }) => {
   const allOptions = options;
-  const [selectedOptions, setSelectedOptions] = useState<string[] | 'All'>(
+  const [selectedOptions, setSelectedOptions] = useState<any[] | 'All'>(
     value || []
   );
   const [loading, setLoading] = useState<boolean>(false);
@@ -71,7 +71,6 @@ const MultiSelectWithSearch: React.FC<MultiSelectWithSearchProps> = ({
   };
 
   useEffect(() => {
-    console.log(reset);
     if (reset) {
       setSelectedOptions([]);
     }
@@ -424,8 +423,6 @@ const MultiSelectWithSearch: React.FC<MultiSelectWithSearchProps> = ({
   const handleSortOptions = (visible: boolean) => {
     if (visible) {
       if (Array.isArray(selectedOptions)) {
-        console.log('đã vào sort');
-
         const checkedItems = options.filter(item =>
           selectedOptions.includes(item.value)
         );

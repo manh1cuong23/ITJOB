@@ -14,6 +14,8 @@ interface IProps {
   loading?: boolean;
   required?: boolean;
   form?: FormInstance;
+  isSpan?: boolean;
+  showTime?: any;
 }
 
 const DatepickerBasic = ({
@@ -24,6 +26,7 @@ const DatepickerBasic = ({
   disabled = false,
   disabledDate,
   loading,
+  isSpan,
   required = false,
   form,
   ...props
@@ -39,7 +42,7 @@ const DatepickerBasic = ({
       disabled={disabled}
       required={required}
       form={form}
-    >
+      {...(isSpan ? { labelCol: { span: 24 }, wrapperCol: { span: 24 } } : {})}>
       <MyDatePicker
         onChange={_onChange}
         disabledDate={disabledDate}

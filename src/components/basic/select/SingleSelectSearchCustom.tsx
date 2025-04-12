@@ -9,19 +9,20 @@ import { MyInput } from '../input';
 import './style.less';
 export interface Option {
   label: string;
-  value: string;
+  value: string | number;
 }
 
 interface SingleSelectSearchCustomProps {
   options: Option[];
   value?: string;
   defaultOption?: string;
-  onChange?: (value: string) => void;
+  onChange?: (value: any) => void;
   placeholder?: string;
   prefix?: string;
   style?: React.CSSProperties;
   disabled?: boolean;
   className?: string;
+  classSelect?: string;
   maxWidth?: string;
   classButon?: string;
 }
@@ -35,13 +36,12 @@ const SingleSelectSearchCustom: React.FC<SingleSelectSearchCustomProps> = ({
   style,
   placeholder = 'Select',
   disabled = false,
+  classSelect,
   className = '',
   maxWidth = '150px',
   classButon,
 }) => {
-  const [selectedOption, setSelectedOption] = useState<string | undefined>(
-    value
-  );
+  const [selectedOption, setSelectedOption] = useState<any | undefined>(value);
   const [sortOption, setSortOption] = useState<Option[] | undefined>(undefined);
 
   const [searchTerm, setSearchTerm] = useState('');
@@ -50,19 +50,11 @@ const SingleSelectSearchCustom: React.FC<SingleSelectSearchCustomProps> = ({
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (value) {
-      setSelectedOption(value);
-    } else {
-      setSelectedOption(undefined);
-    }
+    setSelectedOption(value);
   }, [value]);
 
   useEffect(() => {
-    if (defaultOption) {
-      setSelectedOption(defaultOption);
-    } else {
-      setSelectedOption(undefined);
-    }
+    setSelectedOption(defaultOption);
   }, [defaultOption]);
 
   // const filteredOptions = options.filter(option =>
@@ -144,11 +136,6 @@ const SingleSelectSearchCustom: React.FC<SingleSelectSearchCustomProps> = ({
       }
     }
   }, [highlightedIndex]);
-  useEffect(() => {
-    console.log('check searchTerm', searchTerm);
-    console.log('filteredOptions', filteredOptions);
-    console.log('sortOption', sortOption);
-  }, [searchTerm]);
   const items = [
     {
       key: 'search',
@@ -160,7 +147,6 @@ const SingleSelectSearchCustom: React.FC<SingleSelectSearchCustomProps> = ({
             value={searchTerm}
             allowClear
             onChange={e => {
-              console.log('ec', e.target.value);
               if (e && typeof e.stopPropagation === 'function') {
                 e.stopPropagation();
               }
@@ -188,7 +174,9 @@ const SingleSelectSearchCustom: React.FC<SingleSelectSearchCustomProps> = ({
               <div
                 key={option.value}
                 className={`single menu-item ${
-                  selectedOption === option.value ? 'selected' : ''
+                  String(selectedOption) === String(option.value)
+                    ? 'selected'
+                    : ''
                 } ${highlightedIndex === index ? 'highlighted' : ''}`}
                 onClick={() => handleMenuItemClick(option)}
                 style={{
@@ -199,7 +187,7 @@ const SingleSelectSearchCustom: React.FC<SingleSelectSearchCustomProps> = ({
                     highlightedIndex === index ? '#FDECF0' : 'inherit',
                 }}>
                 <span>{option.label}</span>
-                {selectedOption === option.value && (
+                {String(selectedOption) === String(option.value) && (
                   <RedTickSvg className="red-tick-icon" />
                 )}
               </div>
@@ -242,14 +230,18 @@ const SingleSelectSearchCustom: React.FC<SingleSelectSearchCustomProps> = ({
             {prefix && <p>{prefix}</p>}
             <Tooltip
               title={
-                selectedOption
-                  ? options.find(option => option.value === selectedOption)
-                      ?.label
+                selectedOption !== undefined && selectedOption !== null
+                  ? options.find(
+                      option => String(selectedOption) === String(option.value)
+                    )?.label
                   : 'N/A'
               }>
               <span
                 style={{
-                  color: selectedOption ? '#44403C' : '#A8A29E',
+                  color:
+                    selectedOption !== undefined && selectedOption !== null
+                      ? '#44403C'
+                      : '#A8A29E',
                   // maxWidth: '50px',
                   maxWidth: maxWidth,
                   whiteSpace: 'nowrap',
@@ -257,9 +249,10 @@ const SingleSelectSearchCustom: React.FC<SingleSelectSearchCustomProps> = ({
                   textOverflow: 'ellipsis',
                   display: 'inline-block',
                 }}>
-                {selectedOption
-                  ? options.find(option => option.value === selectedOption)
-                      ?.label
+                {selectedOption !== undefined && selectedOption !== null
+                  ? options.find(
+                      option => String(selectedOption) === String(option.value)
+                    )?.label
                   : disabled
                   ? '-'
                   : placeholder}

@@ -7,10 +7,11 @@ import { Outlet } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUserItem } from '@/stores/slices/auth.slice';
 import SideBar from '../sidebar';
+import { TypeUser } from '@/interface/common/type';
 const { Content } = Layout;
 
 const LayoutPage: FC = () => {
-  const { collapsed } = useSelector(state => state.auth);
+  const { collapsed, role } = useSelector(state => state.auth);
   const dispatch = useDispatch();
 
   const toggle = () => {
@@ -22,7 +23,7 @@ const LayoutPage: FC = () => {
   };
   return (
     <Layout className="layout-page">
-      {/* <SideBar /> */}
+      {role != TypeUser.User && <SideBar />}
       <Layout>
         <HeaderComponent collapsed={collapsed} toggle={toggle} />
         <Content className="layout-page-content">

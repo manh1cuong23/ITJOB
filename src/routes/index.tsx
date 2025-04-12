@@ -4,6 +4,8 @@ import { Navigate, RouteObject } from 'react-router';
 import WrapperRouteComponent from './config';
 import LayoutPage from '@/components/core/layout';
 import { useSelector } from 'react-redux';
+import LoginForm from '@/pages/login';
+import { TypeUser } from '@/interface/common/type';
 
 const NotFound = lazy(
   () => import(/* webpackChunkName: "404'"*/ '@/pages/404')
@@ -14,38 +16,58 @@ const BookingPage = lazy(
 const DashboardPage = lazy(
   () => import(/* webpackChunkName: "dashboard'"*/ '@/pages/dashboard')
 );
+const JobboardPage = lazy(
+  () => import(/* webpackChunkName: "dashboard'"*/ '@/pages/jobBoard')
+);
+const JobDetailPage = lazy(
+  () => import(/* webpackChunkName: "dashboard'"*/ '@/pages/job-detail')
+);
 
-const GuestProfilePage = lazy(
+const RecruiterPage = lazy(
+  () => import(/* webpackChunkName: "package-plan'"*/ '@/pages/Recruiter')
+);
+const ProfilePage = lazy(
+  () => import(/* webpackChunkName: "package-plan'"*/ '@/pages/profile')
+);
+const ApplyJobPage = lazy(
+  () => import(/* webpackChunkName: "package-plan'"*/ '@/pages/apply-job')
+);
+const InviteJobPage = lazy(
+  () => import(/* webpackChunkName: "package-plan'"*/ '@/pages/invite-job')
+);
+const ManagementJobPage = lazy(
+  () => import(/* webpackChunkName: "package-plan'"*/ '@/pages/management-job')
+);
+const CandicatePage = lazy(
+  () => import(/* webpackChunkName: "package-plan'"*/ '@/pages/management-cv')
+);
+const JobResultPage = lazy(
+  () => import(/* webpackChunkName: "package-plan'"*/ '@/pages/job-result')
+);
+const CVDetailPage = lazy(
+  () => import(/* webpackChunkName: "package-plan'"*/ '@/pages/cv-detail')
+);
+const CreateRecruiterPage = lazy(
   () =>
-    import(/* webpackChunkName: "room-avaibility'"*/ '@/pages/guest-profile')
-);
-const ServicePage = lazy(
-  () => import(/* webpackChunkName: "room-avaibility'"*/ '@/pages/service')
-);
-
-const AllotmentPage = lazy(
-  () => import(/* webpackChunkName: "package-plan'"*/ '@/pages/allotment')
-);
-
-const AllotmentReportPage = lazy(
-  () =>
-    import(/* webpackChunkName: "package-plan'"*/ '@/pages/allotment-report')
+    import(
+      /* webpackChunkName: "package-plan'"*/ '@/pages/Recruiter/components/CreateRecruiter'
+    )
 );
 
 const routeList: RouteObject[] = [
-  // {
-  //   path: '/login',
-  //   element: (
-  //     <WrapperRouteComponent
-  //       element={<LoginForm />}
-  //       // titleId="title.login"
-  //       auth={false}
-  //     />
-  //   ),
-  // },
+  {
+    path: '/login',
+    element: (
+      <WrapperRouteComponent
+        element={<LoginForm />}
+        // titleId="title.login"
+        auth={false}
+      />
+    ),
+  },
   {
     path: '/',
-    element: <WrapperRouteComponent element={<LayoutPage />} auth={true} />,
+    element: <WrapperRouteComponent element={<LayoutPage />} />,
     children: [
       {
         path: '',
@@ -56,53 +78,145 @@ const routeList: RouteObject[] = [
         element: (
           <WrapperRouteComponent
             element={<DashboardPage />}
+            role={TypeUser.Employer}
+            auth={false}
             title="Dashboard"
           />
         ),
       },
 
       {
-        path: 'guest-profile',
+        path: 'list-job',
         element: (
           <WrapperRouteComponent
-            element={<GuestProfilePage />}
+            element={<JobboardPage />}
+            title="Dashboard"
+            role={TypeUser.User}
+            auth={true}
+          />
+        ),
+      },
+      {
+        path: 'profile',
+        element: (
+          <WrapperRouteComponent
+            element={<ProfilePage />}
+            title="Profile"
+            role={TypeUser.User}
+            auth={true}
+          />
+        ),
+      },
+      {
+        path: 'apply-jobs',
+        element: (
+          <WrapperRouteComponent
+            element={<ApplyJobPage />}
+            title="Profile"
+            role={TypeUser.User}
+            auth={true}
+          />
+        ),
+      },
+      {
+        path: 'invite-jobs',
+        element: (
+          <WrapperRouteComponent
+            element={<InviteJobPage />}
+            title="Profile"
+            role={TypeUser.User}
+            auth={true}
+          />
+        ),
+      },
+      {
+        path: ':id/job-detail',
+        element: (
+          <WrapperRouteComponent
+            role={TypeUser.User}
+            auth={true}
+            element={<JobDetailPage />}
+            title="Dashboard"
+          />
+        ),
+      },
+      {
+        path: 'recruiter/:id',
+        element: (
+          <WrapperRouteComponent
+            role={TypeUser.User}
+            auth={true}
+            element={<RecruiterPage />}
             title="Guest Profile"
           />
         ),
       },
       {
-        path: 'service',
-        element: (
-          <WrapperRouteComponent element={<ServicePage />} title="Service" />
-        ),
-      },
-
-      {
-        path: 'booking',
-        element: (
-          <WrapperRouteComponent element={<BookingPage />} title="Booking" />
-        ),
-      },
-
-      {
-        path: 'allotment',
+        path: 'recruiter/job/create',
         element: (
           <WrapperRouteComponent
-            element={<AllotmentPage />}
-            title="Allotment"
+            role={TypeUser.Employer}
+            auth={true}
+            element={<CreateRecruiterPage />}
+            title="Guest Profile"
           />
         ),
       },
       {
-        path: 'allotment-report',
+        path: 'recruiter/job/update/:id',
         element: (
           <WrapperRouteComponent
-            element={<AllotmentReportPage />}
-            title="Allotment Report"
+            role={TypeUser.Employer}
+            auth={true}
+            element={<CreateRecruiterPage isCreate={false} />}
+            title="Guest Profile"
           />
         ),
       },
-
+      {
+        path: 'recruiter/management/job',
+        element: (
+          <WrapperRouteComponent
+            role={TypeUser.Employer}
+            auth={true}
+            element={<ManagementJobPage />}
+            title="Guest Profile"
+          />
+        ),
+      },
+      {
+        path: 'recruiter/candicate',
+        element: (
+          <WrapperRouteComponent
+            role={TypeUser.Employer}
+            auth={true}
+            element={<CandicatePage />}
+            title="Guest Profile"
+          />
+        ),
+      },
+      {
+        path: 'recruiter/jobs/results/:id',
+        element: (
+          <WrapperRouteComponent
+            role={TypeUser.Employer}
+            auth={true}
+            element={<JobResultPage />}
+            title="Guest Profile"
+          />
+        ),
+      },
+      {
+        path: 'recruiter/cv/:id/detail',
+        element: (
+          <WrapperRouteComponent
+            role={TypeUser.Employer}
+            auth={true}
+            element={<CVDetailPage />}
+            title="Guest Profile"
+          />
+        ),
+      },
       {
         path: '*',
         element: (

@@ -1,8 +1,8 @@
 import { IBaseMiddlewareRequest } from '../types';
 import { createAsyncThunk, type Dispatch } from '@reduxjs/toolkit';
-import Api from '@/api/features';
 import { clearLoginStatus } from '../slices/auth.slice';
-
+import jwtDecode from 'jwt-decode';
+import { authLogin } from '@/api/features/auth';
 interface ILoginRequest extends IBaseMiddlewareRequest<any> {
   params: any;
 }
@@ -13,17 +13,19 @@ export const loginAsync = createAsyncThunk(
   async ({ params, onSuccess, onError }: ILoginRequest) => {
     try {
       // Gọi API để đăng nhập
-      const response = await Api.auth.authLogin(params) as any;
-      if (response.data.access_token) {
-        onSuccess?.(response);
-        // Lưu token vào localStorage
-        localStorage.setItem('token', response.data.access_token);
-        localStorage.setItem('refresh_token', response.data.refresh_token);
-        localStorage.setItem('username', params.username);
+      const response = (await authLogin(params)) as any;
 
+      if (response?.result?.accessToken) {
+        const accessToken = response.result.accessToken;
+        const decoded = accessToken && (jwtDecode(accessToken) as any);
+        onSuccess?.(decoded.payload);
+        // Lưu token vào localStorage
+        localStorage.setItem('token', response.result.accessToken);
+        localStorage.setItem('refreshToken', response.result.refreshToken);
+        localStorage.setItem('username', decoded.payload.userId);
         return response;
       } else {
-        onError?.(response);
+        onError?.(response.message);
         return response;
       }
     } catch (error) {

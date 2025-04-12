@@ -1,6 +1,8 @@
-import { getTypeID } from '@/api/features/typeID';
 import { MyFormItem } from '@/components/basic/form-item';
-import { MultiSelectWithSearch, SelectCompact } from '@/components/basic/select';
+import {
+  MultiSelectWithSearch,
+  SelectCompact,
+} from '@/components/basic/select';
 import { ISource } from '@/utils/formatSelectSource';
 import { useEffect, useState } from 'react';
 

@@ -23,7 +23,7 @@ const MyCardjobBasic: React.FC<MyCardProps> = ({
     address: 'Quận Gò Vấp, Hồ Chí Minh',
   };
   return (
-    <div className=" my-6 flex rounded border border-solid transition-all hover:shadow-md border-primary p-[16px] bg-[rgb(254,238,235)] p-[16px]">
+    <div className=" my-2 flex rounded cursor-pointer border border-solid transition-all hover:shadow-md border-primary p-[16px] bg-[rgb(254,238,235)] p-[16px] w-full">
       <div className="w-[140px] h-[120px] flex items-center justify-center bg-white">
         <img className="w-[80px] h-[80px]" src={dataitem.img} />
       </div>

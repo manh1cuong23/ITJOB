@@ -1,4 +1,3 @@
-import { getTypeID } from '@/api/features/typeID';
 import { MyFormItem } from '@/components/basic/form-item';
 import { SelectCompact } from '@/components/basic/select';
 import { ISource } from '@/utils/formatSelectSource';

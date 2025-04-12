@@ -23,9 +23,9 @@ const MyCardjobCompany: React.FC<MyCardProps> = ({
   };
   return (
     <div
-      className={`${className} my-6 rounded bg-white shadow-sm hover:shadow-md`}>
+      className={`${className} my-6 rounded bg-white shadow-md hover:shadow-lg`}>
       <img
-        className="h-[150px] w-full max-w-[404px] rounded-tl rounded-tr object-cover object-center"
+        className="h-[150px] w-full  rounded-tl rounded-tr object-cover object-center"
         src={dataitem.img}
       />
       <div className="px-4 flex-1  p-[16px]">
