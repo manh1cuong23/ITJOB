@@ -1,65 +1,174 @@
+import {
+  getListCandicate,
+  getListJob,
+  inviteCandicate,
+  makeApproveCV,
+  makeRejectCV,
+} from '@/api/features/recruite';
 import { MyButton } from '@/components/basic/button';
-import BookInterviewModal from '@/components/business/modal/book-interview/BookInterviewModal';
+import { MyFormItem } from '@/components/basic/form-item';
+import { SingleSelectSearchCustom } from '@/components/basic/select';
+import MyTag from '@/components/basic/tags/tag';
+import ConfirmModal from '@/components/business/modal/ConfirmModal/BookInterviewModal';
+import {
+  educationLevels,
+  englishSkillOptions,
+  experienceLevels,
+  genders,
+  levels,
+} from '@/constants/job';
+import { checkAndformatDate, formatDateNew } from '@/utils/formatDate';
+import { getLableSingle } from '@/utils/helper';
+import { Form, message } from 'antd';
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { Label } from 'recharts';
 
-const dataUser = [
-  {
-    name: 'Ứng viên',
-    value: 'Ngô thị Đậu',
-  },
-  {
-    name: 'Ngày sinh',
-    value: '01/09/1999',
-  },
-  {
-    name: 'Quê quán',
-    value: 'Nam Đàn, Nghệ An',
-  },
-  {
-    name: 'Giới tính',
-    value: 'Nam',
-  },
-];
-const dataUser2 = [
-  {
-    name: 'Năm kinh nghiệm',
-    value: '6 tháng',
-  },
-  {
-    name: 'Học Vấn',
-    value: 'Đại học',
-  },
-  {
-    name: 'Cấp bậc',
-    value: 'Intern',
-  },
-  {
-    name: 'Ngành nghề',
-    value: 'IT',
-  },
-];
-const dataUser3 = [
-  {
-    name: 'Chức vụ hiện tại',
-    value: 'Senior công ty A',
-  },
-  {
-    name: 'Mức lương mong muống',
-    value: '20 - 30 triệu',
-  },
-  {
-    name: 'Trình độ ngoại ngữ',
-    value: 'Cơ bản giao tiếp',
-  },
-];
 const CVDetailContainer: React.FC = () => {
+  const { id, applyId } = useParams();
+  const [data, setData] = useState<any>([]);
+  const [dataJob, setDataJob] = useState<any>([]);
   const [open, setOpen] = useState(false);
+  const [openCancel, setOpenCancel] = useState(false);
+  const [isInvite, setIsInvite] = useState<boolean>(false);
+
+  const [form] = Form.useForm();
+
+  const fetchById = async (id: string) => {
+    const res = await getListCandicate({ user_id: id });
+    if (res?.result) {
+      const { candidate_info, email, fields_info, skills_info, _id } =
+        res.result[0];
+      setData({
+        ...candidate_info,
+        email: email,
+        skills: skills_info,
+        fields: fields_info,
+        idUser: _id,
+      });
+    }
+  };
+
+  const fetListJob = async () => {
+    const res = await getListJob([]);
+    if (res?.result) {
+      const data = res?.result?.jobs?.map((item: any) => ({
+        label:
+          item?.name +
+          ' - ' +
+          getLableSingle(item?.level, levels) +
+          ' - ' +
+          formatDateNew(item?.createdAt),
+        value: item?._id,
+      }));
+      setDataJob(data);
+    }
+  };
+  useEffect(() => {
+    if (applyId == 'invite') {
+      setIsInvite(true);
+      fetListJob();
+    }
+  }, [applyId]);
+  console.log('Data', data);
+  const makeAprroCv = async () => {
+    if (applyId && applyId !== 'invite') {
+      const res = await makeApproveCV(applyId);
+      if (res && res?.message) {
+        message.success('chuyển trạng thái ứng viên thành công');
+        setOpen(false);
+      }
+    } else {
+      const data1 = await form.validateFields();
+      if (id) {
+        console.log('data?.idUser', data?.idUser, data);
+        const res = await inviteCandicate(data?.idUser, data1);
+        if (res && res?.message) {
+          message.success('Mời ứng viên thành công');
+          setOpen(false);
+        }
+      }
+    }
+  };
+  const makeRejectCv = async () => {
+    if (applyId) {
+      const res = await makeRejectCV(applyId);
+      if (res && res?.message) {
+        message.success('chuyển trạng thái ứng viên thành công');
+        setOpenCancel(false);
+      }
+    }
+  };
+  useEffect(() => {
+    if (id) {
+      fetchById(id);
+    }
+  }, [id]);
+  const dataUser = [
+    {
+      name: 'Ứng viên',
+      value: data?.name,
+    },
+    {
+      name: 'Ngày sinh',
+      value: checkAndformatDate(data?.checkAndformatDate),
+    },
+    {
+      name: 'Quê quán',
+      value: data?.address,
+    },
+    {
+      name: 'Giới tính',
+      value: getLableSingle(data?.gender?.[0], genders),
+    },
+  ];
+  const dataUser2 = [
+    {
+      name: 'Năm kinh nghiệm',
+      value: getLableSingle(data?.experience_years, experienceLevels),
+    },
+    {
+      name: 'Học Vấn',
+      value: getLableSingle(data?.education, educationLevels),
+    },
+    {
+      name: 'Cấp bậc',
+      value: getLableSingle(data?.level, levels),
+    },
+    {
+      name: 'Ngành nghề',
+      value: data?.fields?.[0]?.name,
+    },
+  ];
+  const dataUser3 = [
+    {
+      name: 'Chức vụ hiện tại',
+      value: data?.current_job_position,
+    },
+    {
+      name: 'Mức lương mong muống',
+      value: data?.salary_expected,
+    },
+    {
+      name: 'Trình độ tiếng anh',
+      value: getLableSingle(data?.language_level, englishSkillOptions),
+    },
+    {
+      name: 'Kĩ năng',
+      value:
+        data?.skills &&
+        data?.skills?.length > 0 &&
+        data?.skills?.map((item: any) => (
+          <MyTag title={item?.name} className="mx-2 bg-red-300" />
+        )),
+    },
+  ];
   return (
     <div className="mx-auto w-[1260px] pt-[20px] bg-white h-[500px] mt-[20px] px-4">
       <div>
         <div className="flex gap-[16px] items-center mb-4">
           <h1 className="text-[22px] font-medium ">Chức danh/ Vị trí</h1>
-          <h1>: Senior Content creater</h1>
+          <h1>: {data?.feature_job_position}</h1>
         </div>
         <div className="flex items-center ml-5">
           <img
@@ -70,7 +179,7 @@ const CVDetailContainer: React.FC = () => {
             {dataUser &&
               dataUser.length > 0 &&
               dataUser.map((item, index) => (
-                <div className="flex items-center gap-[16px] my-2">
+                <div className="flex items-center gap-[16px] my-4">
                   <div className=" text-[14px] font-bold w-[100px]">
                     <h1>{item.name} :</h1>
                   </div>
@@ -89,7 +198,7 @@ const CVDetailContainer: React.FC = () => {
             {dataUser2 &&
               dataUser2.length > 0 &&
               dataUser2.map((item, index) => (
-                <div className="flex items-center gap-[16px] my-2">
+                <div className="flex items-center gap-[16px] my-4">
                   <div className=" text-[14px] font-bold w-[150px]">
                     <h1>{item.name} :</h1>
                   </div>
@@ -103,7 +212,7 @@ const CVDetailContainer: React.FC = () => {
             {dataUser3 &&
               dataUser3.length > 0 &&
               dataUser3.map((item, index) => (
-                <div className="flex items-center gap-[16px] my-2">
+                <div className="flex items-center gap-[16px] my-4">
                   <div className=" text-[14px] font-bold min-w-[200px]">
                     <h1>{item.name} :</h1>
                   </div>
@@ -120,23 +229,57 @@ const CVDetailContainer: React.FC = () => {
         </h1>
       </div>
       <div className="py-4 flex justify-end gap-[16px]">
-        <MyButton buttonType="secondary">Bỏ qua</MyButton>
+        {!isInvite && (
+          <MyButton
+            onClick={() => {
+              setOpenCancel(true);
+            }}
+            buttonType="secondary">
+            Bỏ qua
+          </MyButton>
+        )}
+
         <MyButton
           onClick={() => {
             setOpen(true);
           }}>
-          Đã Liên hệ phỏng vấn
+          {!isInvite ? 'Phù hợp' : 'Mời ứng viên'}
         </MyButton>
       </div>
-      <BookInterviewModal
-        title={`Lưu lịch phỏng vấn`}
-        id={'1'}
+      <ConfirmModal
+        title={`Xác nhận ứng viên`}
+        open={openCancel}
+        onFinish={makeRejectCv}
+        setOpen={setOpenCancel}
+        onCancel={() => {
+          setOpenCancel(false);
+        }}>
+        <h1>Bạn xác nhận bỏ qua ứng viên này</h1>
+      </ConfirmModal>
+      <ConfirmModal
+        title={`${!isInvite ? 'Xác nhận ứng viên' : 'Mời ứng viên'} `}
         open={open}
+        onFinish={makeAprroCv}
         setOpen={setOpen}
         onCancel={() => {
           setOpen(false);
-        }}
-      />
+        }}>
+        {!isInvite ? (
+          <h1>Bạn xác nhận ứng viên này phù hợp với công việc</h1>
+        ) : (
+          <Form className="px-4" form={form}>
+            <MyFormItem name="job_id" label="Công việc" required>
+              <SingleSelectSearchCustom
+                options={dataJob}
+                placeholder="Vui lòng chọn công việc phù hợp với ứng viên"
+              />
+            </MyFormItem>
+            <p className="text-[12px] text-gray-500 py-4">
+              Lời mời sẽ được gửi đến ứng viên trong thời gian sớm nhất.
+            </p>
+          </Form>
+        )}
+      </ConfirmModal>
     </div>
   );
 };

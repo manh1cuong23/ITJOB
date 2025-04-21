@@ -16,24 +16,13 @@ const option: Option[] = [
   { label: 'Ha Noi3', value: '3' },
   { label: 'Ha Noi4', value: '4' },
 ];
-const FilterSearchDashBoard: React.FC = () => {
+
+interface Props {
+  clearFilter?: any;
+}
+const FilterSearchDashBoard: React.FC<Props> = ({ clearFilter }) => {
   const [fields, setFields] = useState([]);
 
-  // const fetchFields = async () => {
-  //   const res = await getListFields();
-  //   if (res && res.result) {
-  //     const fieldsOptions = res.result.map((item: any) => ({
-  //       label: item.name,
-  //       value: item.name,
-  //     }));
-  //     console.log('check ', fieldsOptions);
-  //     setFields(fieldsOptions);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchFields();
-  // }, []);
   return (
     <div>
       <div className="my-3 flex justify-between  gap-[16px] ">
@@ -68,6 +57,7 @@ const FilterSearchDashBoard: React.FC = () => {
           />
         </MyFormItem>
         <MyButton
+          onClick={clearFilter}
           buttonType="secondary"
           className="!h-[50px] !w-[140px] !text-8xl !bg-gray"
           icon={<FilterOutlined className="!text-[16px]" />}>

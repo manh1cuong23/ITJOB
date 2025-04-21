@@ -29,6 +29,10 @@ const RecruiterPage = lazy(
 const ProfilePage = lazy(
   () => import(/* webpackChunkName: "package-plan'"*/ '@/pages/profile')
 );
+const ProfileRecruiterPage = lazy(
+  () =>
+    import(/* webpackChunkName: "package-plan'"*/ '@/pages/profile-recruiter')
+);
 const ApplyJobPage = lazy(
   () => import(/* webpackChunkName: "package-plan'"*/ '@/pages/apply-job')
 );
@@ -196,6 +200,17 @@ const routeList: RouteObject[] = [
         ),
       },
       {
+        path: 'recruiter/profile',
+        element: (
+          <WrapperRouteComponent
+            role={TypeUser.Employer}
+            auth={true}
+            element={<ProfileRecruiterPage />}
+            title="Guest Profile"
+          />
+        ),
+      },
+      {
         path: 'recruiter/jobs/results/:id',
         element: (
           <WrapperRouteComponent
@@ -207,7 +222,7 @@ const routeList: RouteObject[] = [
         ),
       },
       {
-        path: 'recruiter/cv/:id/detail',
+        path: 'recruiter/cv/:id/detail/:applyId',
         element: (
           <WrapperRouteComponent
             role={TypeUser.Employer}

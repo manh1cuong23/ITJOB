@@ -22,8 +22,9 @@ import ApplyJobModal from '@/components/business/modal/apply-job';
 
 interface Props {
   data: any;
+  isApply?: boolean;
 }
-const JobSubDetail: React.FC<Props> = ({ data }) => {
+const JobSubDetail: React.FC<Props> = ({ data, isApply }) => {
   const [open, setOpen] = useState(false);
 
   console.log('data', data);
@@ -101,13 +102,15 @@ const JobSubDetail: React.FC<Props> = ({ data }) => {
                   `${data?.salary[0] + ' - ' + data?.salary[1]} d`}
               </p>
             </div>
-            <MyButton className="w-[200px] !h-[50px] mx-auto">
+            <MyButton
+              className="w-[200px] !h-[50px] mx-auto"
+              disabled={isApply}>
               <div
                 className="text-[18px]"
                 onClick={() => {
                   setOpen(true);
                 }}>
-                Ứng tuyển
+                {isApply ? 'Đã ứng tuyển' : 'Ứng tuyển'}
               </div>
             </MyButton>
           </div>

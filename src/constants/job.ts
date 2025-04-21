@@ -51,16 +51,6 @@ export const jobStatusOptions: Option[] = [
   { label: 'Dừng tuyển', value: 2 },
 ];
 
-export const applyStatusOptions: Option[] = [
-  { label: 'Chưa xem', value: 0 },
-  { label: 'Đã xem', value: 1 },
-  { label: 'Phỏng vấn', value: 2 },
-  { label: 'Từ chối', value: 3 },
-  { label: 'Đã hủy', value: 4 },
-  { label: 'Đã Đạt', value: 5 },
-  { label: 'Không đạt', value: 6 },
-];
-
 export const interviewsStatus: Option[] = [
   { label: 'Chưa xem', value: 0 },
   { label: 'Xác nhận', value: 1 },
@@ -80,4 +70,54 @@ export const JobStatusOptions = [
   { label: 'Khởi tạo', value: 0 },
   { label: 'Đang tuyển dụng', value: 1 },
   { label: 'Đã dừng', value: 2 },
+];
+
+export enum ApplyStatus {
+  Pending,
+  Approved,
+  Interview,
+  Rejected,
+  Canceled,
+  Passed,
+  Failed,
+  CandidateRejectInvite,
+  CandidateAcceptInvite,
+  WaitingCandidateAcceptSchedule,
+  WaitingEmployerAcceptSchedule,
+  WaitingCandidateAcceptInvite,
+}
+
+export const applyStatusOptions: { label: string; value: number }[] = [
+  { label: 'Mới', value: ApplyStatus.Pending },
+  { label: 'Phù hợp', value: ApplyStatus.Approved },
+  { label: 'Phỏng vấn', value: ApplyStatus.Interview },
+  { label: 'Từ chối', value: ApplyStatus.Rejected },
+  { label: 'Đã huỷ', value: ApplyStatus.Canceled },
+  { label: 'Đậu', value: ApplyStatus.Passed },
+  { label: 'Rớt', value: ApplyStatus.Failed },
+  {
+    label: 'Ứng viên từ chối lời mời',
+    value: ApplyStatus.CandidateRejectInvite,
+  },
+  {
+    label: 'Ứng viên chấp nhận lời mời',
+    value: ApplyStatus.CandidateAcceptInvite,
+  },
+  {
+    label: 'Chờ ứng viên xác nhận lịch',
+    value: ApplyStatus.WaitingCandidateAcceptSchedule,
+  },
+  {
+    label: 'Chờ nhà tuyển dụng xác nhận lịch',
+    value: ApplyStatus.WaitingEmployerAcceptSchedule,
+  },
+  {
+    label: 'Chờ ứng viên xác nhận lời mời',
+    value: ApplyStatus.WaitingCandidateAcceptInvite,
+  },
+];
+
+export const OtOption = [
+  { label: 'Có làm thêm ngoài giờ', value: 1 },
+  { label: 'Không làm thêm ngoài giờ', value: 0 },
 ];

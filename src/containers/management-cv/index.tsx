@@ -14,6 +14,7 @@ import { getListCandicate } from '@/api/features/recruite';
 import { getLableSingle } from '@/utils/helper';
 import { experienceLevels } from '@/constants/job';
 import MyTag from '@/components/basic/tags/tag';
+import { NavLink } from 'react-router-dom';
 const columns: any = [
   {
     title: 'Ứng viên',
@@ -64,7 +65,9 @@ const columns: any = [
     align: 'center',
     render: (_: any, record: any) => (
       <div className="flex items-center gap-[16px] justify-center">
-        <EyeOutlined className="text-blue-500 text-[16px] cursor-pointer p-1 rounded-md hover:bg-gray-200" />
+        <NavLink to={`/recruiter/cv/${record?._id}/detail/invite`}>
+          <EyeOutlined className="text-blue-500 text-[16px] cursor-pointer p-1 rounded-md hover:bg-gray-200" />
+        </NavLink>
         <EditOutlined className="text-green-500 cursor-pointer p-1 rounded-md hover:bg-gray-200" />
         <DeleteOutlined className="text-red-500 cursor-pointer p-1 rounded-md hover:bg-gray-200" />
       </div>

@@ -10,30 +10,45 @@ import { applyJob } from '@/api/features/job';
 import { SingleSelectSearchCustom } from '@/components/basic/select';
 import DatepickerBasic from '../../date-picker/DatepickerBasic';
 import dayjs from 'dayjs';
+import { acceptInterview, makeInterviewCV } from '@/api/features/recruite';
+import { getDetailInterview } from '@/api/features/apply';
+import { makeChangeInterviewCV } from '@/api/features/candicate';
 
 const BookInterviewModal: React.FC<{
   id?: string;
   open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   onFinish?: (value: any) => void;
   onCancel?: () => void;
   title: string;
+  isSeeEmploy?: boolean;
+  isEmployerCreate?: boolean;
+  isEmployChange?: boolean;
   setPageData?: (data: any) => void;
   onBack?: () => void;
+  setForceUpdate?: any;
   isViewMode?: boolean;
+  isCandicate?: boolean;
 }> = ({
   id,
   open,
   onFinish,
+  isEmployerCreate = false,
+  isSeeEmploy = false,
+  setForceUpdate,
+  isEmployChange = false,
+  isCandicate = false,
   onCancel,
   title,
   setPageData,
-  setOpen,
   isViewMode = false,
   onBack,
 }) => {
   const [form] = Form.useForm();
+  const [data, setData] = useState<any>({});
+  const [isView, setIsView] = useState<boolean>(true);
   const [selectedValue, setSelectedValue] = useState('');
+  const [isNewInterView, setIsNewInterview] =
+    useState<boolean>(isEmployerCreate);
 
   const resetForm = () => {
     form.resetFields();
@@ -44,89 +59,197 @@ const BookInterviewModal: React.FC<{
     setSelectedValue(e.target.value);
   };
 
-  const handleOk = async (force: boolean = false) => {
-    const data = await form.validateFields();
-    console.log('data', data);
-    if (id && data) {
-      const res = await applyJob(id, data);
-      if (res && res.message) {
-        message.success('Bạn đã ứng tuyển thành công!');
-        onCancel && onCancel();
+  useEffect(() => {
+    setIsView(isViewMode);
+  }, [isViewMode, open]);
+
+  const fetchDataInterview = async (id: string) => {
+    const res = await getDetailInterview(id);
+    if (res.result) {
+      if (!isSeeEmploy) {
+        setData(res.result?.interview_candidate_suggest_schedule);
+      } else {
+        setData(res.result?.interview_employee_suggest_schedule);
       }
-      console.log('res', res);
     }
   };
+  useEffect(() => {
+    if (open && id) {
+      fetchDataInterview(id);
+    }
+  }, [open]);
+  const handleNewInterview = () => {
+    form.resetFields();
+  };
 
+  const handleOk = async (force: boolean = false) => {
+    const dataForm = await form.validateFields();
+    if (id && dataForm) {
+      if (isNewInterView) {
+        if (!isCandicate) {
+          const res = await makeInterviewCV(id, dataForm);
+          if (res && res.message) {
+            message.success('Bạn đã gửi lời mời phỏng vấn thành công!');
+            onCancel && onCancel();
+            resetForm();
+          }
+        } else {
+          const res = await makeChangeInterviewCV(id, dataForm);
+          if (res && res.message) {
+            message.success(
+              'Bạn đã gửi yêu cầu thay đổi phỏng vấn thành công!'
+            );
+            onCancel && onCancel();
+            resetForm();
+          }
+        }
+      } else {
+        const res = await acceptInterview(id);
+        if (res && res.message) {
+          message.success('Bạn đã xác nhận phỏng vấn thành công!');
+          onCancel && onCancel();
+          resetForm();
+        }
+      }
+      setForceUpdate((a: number) => a + 1);
+    }
+    setIsNewInterview(false);
+  };
+  useEffect(() => {
+    if (data?.date) {
+      data.date = dayjs(data?.date);
+    }
+    console.log('check data', data);
+    form.setFieldsValue(data);
+  }, [data]);
   const handleCancel = () => {
     onCancel && onCancel();
-    form.resetFields();
+    setIsNewInterview(false);
   };
 
   return (
     <>
       <MyModal
         width={880}
-        title={title}
+        title={!isNewInterView ? title : 'Tạo lịch phỏng vấn mới'}
         open={open}
         onOk={handleOk}
+        onClose={(e: any) => {
+          e.stopPropagation();
+        }}
         onCancel={handleCancel}
         footer={
           <>
             <MyButton onClick={handleCancel} buttonType="outline">
               Hủy bỏ
             </MyButton>
-            <MyButton onClick={() => handleOk(false)}>Lưu</MyButton>
+
+            {isCandicate
+              ? Object.keys(data || {}).length > 0 &&
+                !isEmployChange && (
+                  <MyButton
+                    onClick={() => {
+                      handleNewInterview();
+                      setIsNewInterview(true);
+                      setIsView(false);
+                    }}
+                    buttonType="secondary">
+                    Đề xuất lịch mới
+                  </MyButton>
+                )
+              : Object.keys(data || {}).length > 0 &&
+                !isEmployChange && (
+                  <MyButton
+                    onClick={() => {
+                      setIsNewInterview(true);
+                      setIsView(false);
+                    }}
+                    buttonType="secondary">
+                    Thay đổi
+                  </MyButton>
+                )}
+            {/* {Object.keys(data || {}).length > 0 && !isEmployChange && (
+              <MyButton
+                onClick={() => {
+                  handleNewInterview();
+                  setIsNewInterview(true);
+                  setIsView(false);
+                }}
+                buttonType="secondary">
+                'Đề xuất lịch mới
+              </MyButton>
+            )} */}
+            {isNewInterView ? (
+              <MyButton
+                disabled={isEmployChange && isView}
+                onClick={() => handleOk(false)}>
+                {'Gửi'}
+              </MyButton>
+            ) : (
+              <MyButton
+                disabled={isEmployChange && isView}
+                onClick={() => handleOk(false)}>
+                {Object.keys(data || {}).length > 0 ? 'Chấp nhận' : 'Gửi'}
+              </MyButton>
+            )}
           </>
         }>
-        <Form form={form} layout="vertical" disabled={isViewMode}>
-          <div className="">
-            <div className="flex px-4">
-              <div className="w-[180px] mt-2 mr-3">
-                <h1 className="text-[20px] font-medium">Thông tin</h1>
-              </div>
-              <div className="w-2/3">
-                <Row>
-                  <Col span={24}>
-                    <SingleSelectSearchCustom
-                      options={[
-                        { label: 'Offline', value: 'Offline' },
-                        { label: 'Online', value: 'Online' },
-                      ]}
-                    />
-                  </Col>
-                  <Col span={24}>
-                    <InputBasic
-                      required
-                      isSpan
-                      label="Địa điểm (Offline)"
-                      name="phone_number"
-                    />
-                  </Col>
-                  <Col span={24}>
-                    <InputBasic
-                      required
-                      isSpan
-                      label="Link meet online"
-                      name="email"
-                    />
-                  </Col>
-                  <Col span={24}>
-                    <MyFormItem label="Thời gian" required name="time">
-                      <DatePicker
-                        className="w-full"
-                        format="YYYY-MM-DD HH:mm:ss"
-                        showTime={{
-                          defaultValue: dayjs('00:00:00', 'HH:mm:ss'),
-                        }}
-                        name="email"
+        {data ? (
+          <Form form={form} layout="vertical">
+            <div className="">
+              <div className="flex px-4">
+                <div className="w-[180px] mt-2 mr-3">
+                  <h1 className="text-[20px] font-medium">Thông tin</h1>
+                </div>
+                <div className="w-2/3">
+                  <Row>
+                    <Col span={24}>
+                      <InputBasic
+                        disabled={isView}
+                        required
+                        isSpan
+                        label="Địa điểm"
+                        name="address"
                       />
-                    </MyFormItem>
-                  </Col>
-                </Row>
+                    </Col>
+                    <Col span={24}>
+                      <MyFormItem
+                        label="Ngày giờ"
+                        disabled={isView}
+                        required
+                        name="date">
+                        <DatePicker
+                          className="w-full"
+                          format="YYYY-MM-DD HH:mm:ss"
+                          showTime={{
+                            defaultValue: dayjs('00:00:00', 'HH:mm:ss'),
+                          }}
+                        />
+                      </MyFormItem>
+                    </Col>
+                    <Col span={24}>
+                      <InputBasic
+                        required
+                        disabled={isView}
+                        isSpan
+                        label="Thời gian phỏng vấn ( số phút)"
+                        name="time"
+                      />
+                    </Col>
+
+                    <Col span={24}>
+                      <MyFormItem disabled={isView} name="note" label="Ghi chú">
+                        <MyTextArea disabled={isView} />
+                      </MyFormItem>
+                    </Col>
+                  </Row>
+                </div>
               </div>
             </div>
-          </div>
-        </Form>
+          </Form>
+        ) : (
+          'Không có thông tin'
+        )}
       </MyModal>
     </>
   );

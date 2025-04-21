@@ -108,9 +108,9 @@ export default function ProfilePageContainer() {
                 Kĩ Năng:{' '}
               </h1>
               <div className="flex gap-[16px]">
-                <MyTag className="bg-blue-300" title="HTML" />
-                <MyTag className="bg-blue-300" title="HTML" />
-                <MyTag className="bg-blue-300" title="HTML" />
+                <MyTag className="bg-red-400" title="HTML" />
+                <MyTag className="bg-red-400" title="HTML" />
+                <MyTag className="bg-red-400" title="HTML" />
               </div>
             </div>
 

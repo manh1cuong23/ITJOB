@@ -4,9 +4,13 @@ import DaskboardContentLeft from '../dashboard/component/daskboard-content/Daskb
 import DaskboardSearch from '../dashboard/component/daskboard-search/DaskboardSearch';
 import DaskboardContentRight from '../dashboard/component/daskboard-content/DaskboardContentRight';
 import { getListJobByCandicate } from '@/api/features/job';
+import { useLocation } from 'react-router-dom';
 
 const JobBoardContainer: React.FC = () => {
   const [listJob, setListJob] = useState([]);
+  const location = useLocation();
+  const formData = location.state?.formData;
+
   const handleSeach = async (data: any) => {
     const res = await getListJobByCandicate(data);
     if (res && res.result) {
@@ -15,8 +19,12 @@ const JobBoardContainer: React.FC = () => {
     console.log('res', res);
   };
   useEffect(() => {
-    handleSeach([]);
-  }, []);
+    if (formData && Object.keys(formData).length > 0) {
+      handleSeach(formData);
+    } else {
+      handleSeach([]);
+    }
+  }, [formData]);
   return (
     <div className="dashboard bg-white">
       <DaskboardSearch handleSeach={handleSeach} />

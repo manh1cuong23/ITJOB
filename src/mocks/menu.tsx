@@ -44,4 +44,9 @@ export const mockMenuList: MenuList = [
     label: 'Tìm kiếm ứng viên',
     icon: <DashboardSvg />,
   },
+  {
+    key: '/recruiter/profile',
+    label: 'Xem và chỉnh sửa trang công ty',
+    icon: <DashboardSvg />,
+  },
 ];

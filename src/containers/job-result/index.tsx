@@ -1,20 +1,23 @@
 import { TableBasic } from '@/components/basic/table';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import BackgroundCandidate from './components/BackgroundCandidate';
+import { debounce } from 'lodash';
 import { Button, Select, Tag } from 'antd';
 import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import { NavLink, useParams } from 'react-router-dom';
-import { getListCandicateByJob } from '@/api/features/recruite';
-import { MyButton } from '@/components/basic/button';
 import {
-  convertDateString,
-  formatDateToISO,
-  formatDateToYMD,
-} from '@/utils/formatDate';
-import { applyStatusOptions, interviewsStatus } from '@/constants/job';
+  getListCandicateByJob,
+  getListCandicateByJobWithStatus,
+} from '@/api/features/recruite';
+import { formatDateNew } from '@/utils/formatDate';
+import {
+  ApplyStatus,
+  applyStatusOptions,
+  interviewsStatus,
+} from '@/constants/job';
 import InterviewInfo from './components/InterviewInfo';
 import { Option } from '@/components/basic/select/SingleSelectSearchCustom';
-import { InputBasic } from '@/components/business/input';
+import StatusTag from './components/StatusCV';
 
 const statusColorMap: Record<number, string> = {
   0: '#888', // Chưa xem
@@ -29,74 +32,65 @@ const getLabelByValue = (applyStatusOptions: Option[], value: number) => {
   const found = applyStatusOptions.find(option => option.value === value);
   return found?.label || 'Không rõ';
 };
-const dataSource = [
-  {
-    key: '1',
-    code: 'DEV001',
-    service: 'Lập trình viên Frontend',
-    createdAt: '2025-04-01',
-    status: 'Đang tuyển',
-    applicants: 15,
-  },
-  {
-    key: '2',
-    code: 'DEV002',
-    service: 'Lập trình viên Backend',
-    createdAt: '2025-03-28',
-    status: 'Đã liên hệ',
-    applicants: 25,
-  },
-  {
-    key: '3',
-    code: 'DEV003',
-    service: 'Tester',
-    createdAt: '2025-03-30',
-    status: 'Chưa xem',
-    applicants: 10,
-  },
-  {
-    key: '4',
-    code: 'DEV004',
-    service: 'Quản lý dự án',
-    createdAt: '2025-03-25',
-    status: 'Từ chôi',
-    applicants: 5,
-  },
-];
+
 const JobResultContainer: React.FC = () => {
   const [data, setData] = useState([]);
-  const [status, setStatus] = useState<string[]>([]);
+  const [status, setStatus] = useState<any>('');
+  const [forceUpdate, setForceUpdate] = useState(0);
 
   const [selected, setSelected] = useState('all');
 
   const filters = [
-    { key: 'all', label: 'Tất cả' },
-    { key: 'unread', label: 'CV phù hợp' },
-    { key: 'interview', label: 'CV đã hẹn phỏng vấn' },
-    { key: 'skipped', label: 'CV đã bỏ qua' },
+    { key: 'all', label: 'Tất cả', status: '' },
+    { key: 'matched', label: 'CV phù hợp', status: ApplyStatus.Approved }, // từ 'unread' → 'matched'
+    {
+      key: 'interview',
+      label: 'CV đã hẹn phỏng vấn',
+      status: [
+        ApplyStatus.Interview,
+        ApplyStatus.WaitingCandidateAcceptSchedule,
+        ApplyStatus.WaitingEmployerAcceptSchedule,
+      ],
+    },
+    { key: 'passs', label: 'CV đã trúng tuyển', status: ApplyStatus.Passed },
+    { key: 'skipped', label: 'CV đã bỏ qua', status: ApplyStatus.Rejected },
   ];
 
   const { id } = useParams();
   const fetchListCandicates = async (id: string) => {
     const res = await getListCandicateByJob(id);
     if (res && res.result) {
+      const datam = res.result.map((item: any) => item.candidate_info);
       setData(res.result);
-      setStatus(res.result.map((item: any) => item.status));
-      // setStatus()
     }
   };
 
-  const handleStatusChange = (value: string, index: number) => {
-    const updatedStatus = [...status];
-    updatedStatus[index] = value;
-    setStatus(updatedStatus);
+  const fetListCVWithStatus = async (id: string, status: number) => {
+    const res = await getListCandicateByJobWithStatus(id, status);
+    if (res?.result) {
+      setData(res.result);
+    }
   };
 
   useEffect(() => {
     if (id) {
-      fetchListCandicates(id);
+      if (status && status != '') {
+        fetListCVWithStatus(id, status);
+      } else {
+        fetchListCandicates(id);
+      }
     }
-  }, []);
+  }, [status, forceUpdate]);
+
+  const handleSearch = (value: string) => {
+    // const res = getListCandicateByJob
+  };
+
+  const debouncedSearch = useCallback(
+    debounce(value => handleSearch(value), 200),
+    []
+  );
+  const handleOnChangeSeach = () => {};
 
   const columns: any = [
     {
@@ -113,8 +107,10 @@ const JobResultContainer: React.FC = () => {
       title: 'Ngày nộp CV',
       dataIndex: 'createdAt',
       key: 'createdAt',
-
-      render: (createdAt: any) => createdAt && formatDateToYMD(createdAt),
+      render: (createdAt: any) => {
+        console.log('check ', createdAt);
+        return createdAt && formatDateNew(createdAt);
+      },
     },
     {
       title: 'CV',
@@ -124,35 +120,10 @@ const JobResultContainer: React.FC = () => {
     },
     selected == 'interview' && {
       title: 'Thông tin phỏng vấn',
-      dataIndex: 'createdAt',
-      key: 'createdAt',
+      dataIndex: 'interview_employee_suggest_schedule',
+      key: 'interview_employee_suggest_schedule',
       width: 200,
-      render: (_: any, record: any) => <InterviewInfo />,
-    },
-    false && {
-      title: 'Trạng thái ứng viên',
-      dataIndex: 'createdAt',
-      key: 'createdAt',
-      width: 140,
-      render: (_: any, record: any) => {
-        const currentValue = record.status;
-        const color = statusColorMap[currentValue];
-        const label = getLabelByValue(interviewsStatus, currentValue);
-
-        return (
-          <Tag
-            style={{
-              color: color,
-              backgroundColor: `${color}20`, // tạo background nhạt
-              borderColor: color,
-              fontWeight: 500,
-              padding: '2px 8px',
-              borderRadius: '8px',
-            }}>
-            {label}
-          </Tag>
-        );
-      },
+      render: (_: any, record: any) => <InterviewInfo data={_} />,
     },
     {
       title: 'Trạng thái',
@@ -160,25 +131,17 @@ const JobResultContainer: React.FC = () => {
       key: 'status',
       align: 'center',
       width: 160,
-      render: (_: any, record: any) => {
-        const currentValue = record.status;
-        const color = statusColorMap[currentValue];
-        const label = getLabelByValue(applyStatusOptions, currentValue);
-
-        return (
-          <Tag
-            style={{
-              color: color,
-              backgroundColor: `${color}20`, // tạo background nhạt
-              borderColor: color,
-              fontWeight: 500,
-              padding: '2px 8px',
-              borderRadius: '8px',
-            }}>
-            {label}
-          </Tag>
-        );
-      },
+      render: (_: any, record: any) => (
+        <StatusTag
+          setForceUpdate={setForceUpdate}
+          name={record?.candidate_info.name}
+          id={record?._id}
+          dataSuggest={record?.interview_candidate_suggest_schedule}
+          value={record.status}
+          statusColorMap={statusColorMap}
+          statusOptions={applyStatusOptions}
+        />
+      ),
     },
     {
       title: 'Hành động',
@@ -189,7 +152,8 @@ const JobResultContainer: React.FC = () => {
       align: 'center',
       render: (_: any, record: any) => (
         <div className="flex items-center gap-[4px] justify-center">
-          <NavLink to={`/recruiter/cv/${record?._id}/detail`}>
+          <NavLink
+            to={`/recruiter/cv/${record?.candidate_account?.user_id}/detail/${record?._id}`}>
             <EyeOutlined className="text-blue-500 text-[16px] cursor-pointer p-1 rounded-md hover:bg-gray-200" />
           </NavLink>
           <DeleteOutlined className="text-red-500 cursor-pointer p-1 rounded-md hover:bg-gray-200" />
@@ -206,11 +170,11 @@ const JobResultContainer: React.FC = () => {
           <h1 className="text-[18px] mt-2">{data && data.length}</h1>
         </div>
         <div className="h-[80px] w-1/4 bg-white flex justify-center flex-col p-2 text-blue-500">
-          <h1>CV Chưa xem</h1>
+          <h1>CV trúng tuyển</h1>
           <h1 className="text-[18px] mt-2">10</h1>
         </div>
         <div className="h-[80px] w-1/4 bg-white flex justify-center flex-col p-2 text-yellow-500">
-          <h1>CV đã liên hệ</h1>
+          <h1>CV đã hẹn phỏng vấn</h1>
           <h1 className="text-[18px] mt-2">10</h1>
         </div>
         <div className="h-[80px] w-1/4 bg-white flex justify-center flex-col p-2 text-red-500">
@@ -231,16 +195,21 @@ const JobResultContainer: React.FC = () => {
                 ? 'bg-blue-500 hover:bg-blue-600 text-white'
                 : 'bg-gray-300 hover:bg-gray-400 text-black'
             }`}
-                onClick={() => setSelected(item.key)}>
+                onClick={() => {
+                  setSelected(item.key);
+                  setStatus(item.status);
+                }}>
                 <span>{item.label}</span>
               </div>
             ))}
           </div>
-          <InputBasic
-            label=""
-            name="name"
-            placeholder="Nhập để tìm cv theo tên.."
-          />
+          <div className="h-[40px] border rounded-xl py-2 px-4 w-[300px]">
+            <input
+              onChange={handleOnChangeSeach}
+              className="h-full w-full outline-none"
+              placeholder="Nhập tìm kiếm theo tên ứng viên"
+            />
+          </div>
         </div>
         <div></div>
         <div className="">

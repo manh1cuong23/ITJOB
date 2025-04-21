@@ -593,3 +593,68 @@ input:-webkit-autofill:focus {
 .border-primary {
   border-color: rgb(221 63 36);
 }
+
+// h1 {
+//   font-size: 2em; /* 32px nếu font-size gốc là 16px */
+//   font-weight: bold;
+// }
+
+h2 {
+  font-size: 1.5em; /* 24px */
+  font-weight: bold;
+}
+
+h3 {
+  font-size: 1.17em; /* ~18.72px */
+  font-weight: bold;
+}
+
+h4 {
+  font-size: 1em; /* 16px */
+  font-weight: bold;
+}
+
+h5 {
+  font-size: 0.83em; /* ~13.28px */
+  font-weight: bold;
+}
+
+h6 {
+  font-size: 0.67em; /* ~10.72px */
+  font-weight: bold;
+}
+ul {
+  list-style-type: disc; /* Dấu đầu dòng tròn */
+  margin: 1em 0; /* Lề trên và dưới */
+  padding-left: 40px; /* Lề trái để thụt đầu dòng */
+}
+
+li {
+  display: list-item; /* Đảm bảo hiển thị như mục danh sách */
+  margin-bottom: 0.5em; /* Khoảng cách giữa các mục */
+}
+.rate-header {
+  .ant-rate-star svg {
+    width: 20px !important; /* Tăng chiều rộng SVG */
+    height: 20px !important; /* Tăng chiều cao SVG */
+  }
+}
+.rate-content {
+  .ant-rate-star svg {
+    width: 16px !important; /* Tăng chiều rộng SVG */
+    height: 16px !important; /* Tăng chiều cao SVG */
+  }
+}
+.custom-progress .ant-progress-text {
+  font-size: 18px !important; /* Kích thước phần trăm */
+  font-weight: 600 !important; /* Độ đậm */
+  color: #000 !important; /* Màu đen */
+}
+
+/* Tùy chỉnh vòng tròn nếu cần */
+.custom-progress .ant-progress-inner {
+  background-color: #e8e8e8; /* Màu nền vòng tròn */
+}
+.custom-progress .ant-progress-circle-path {
+  transition: stroke-dasharray 0.5s ease-in-out; /* Hiệu ứng mượt mà */
+}

@@ -5,16 +5,31 @@ import { SearchOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import InputSelectPlace from './InputSelectPlace';
 import FilterSearchDashBoard from '../filterSearch-dashboard/FilterSearchDashBoard';
 import { MyFormItem } from '@/components/basic/form-item';
+import { useLocation, useNavigate } from 'react-router-dom';
 interface Props {
   handleSeach?: (data: any) => void;
 }
 const InputSearchDashBoard: React.FC<Props> = ({ handleSeach }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const formData = location.state?.formData;
   const [form] = Form.useForm();
   const handleClick = async () => {
     const data = await form.validateFields();
 
-    console.log('data', data);
     handleSeach && handleSeach(data);
+    if (location.pathname !== '/list-job') {
+      navigate('/list-job', { state: { formData: data } });
+    }
+  };
+  useEffect(() => {
+    if (formData && Object.keys(formData).length > 0) {
+      form.setFieldsValue(formData);
+      navigate(location.pathname, { state: {}, replace: true });
+    }
+  }, [formData]);
+  const clearFilter = () => {
+    form.resetFields();
   };
   return (
     <div className="mx-auto w-[1260px]">
@@ -43,7 +58,7 @@ const InputSearchDashBoard: React.FC<Props> = ({ handleSeach }) => {
             <p className="!text-[16px]">Tìm kiếm</p>
           </MyButton>
         </div>
-        <FilterSearchDashBoard />
+        <FilterSearchDashBoard clearFilter={clearFilter} />
       </Form>
     </div>
   );

@@ -82,3 +82,10 @@ export const checkAndformatDate = (date: string) => {
 
   return ''; // Trả về chuỗi rỗng nếu định dạng không hợp lệ
 };
+
+export function formatDateNew(isoString: string) {
+  return dayjs(isoString).format('DD/MM/YYYY');
+}
+export function formatDateTime(isoDate: string): string {
+  return dayjs(isoDate).format('DD/MM/YYYY HH:mm:ss');
+}
