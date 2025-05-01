@@ -43,11 +43,13 @@ const JobCruModal: React.FC<{
   isViewMode?: boolean;
   switchEditmode?: any;
   isCreate?: boolean;
+  isInAdmin?: boolean;
 }> = ({
   id,
   open,
   onFinish,
   onCancel,
+  isInAdmin,
   switchEditmode,
   setForceUpdate,
   title,
@@ -171,19 +173,25 @@ const JobCruModal: React.FC<{
         onCancel={handleCancel}
         footer={
           <>
-            <MyButton onClick={handleCancel} buttonType="outline">
-              Hủy bỏ
-            </MyButton>
-            <MyButton onClick={() => handleOk(false)}>
-              {isViewMode ? 'Chỉnh sửa' : 'Cập nhật'}
-            </MyButton>
+            {!isInAdmin && (
+              <>
+                {' '}
+                <MyButton onClick={handleCancel} buttonType="outline">
+                  Hủy bỏ
+                </MyButton>
+                <MyButton onClick={() => handleOk(false)}>
+                  {isViewMode ? 'Chỉnh sửa' : 'Đăng tin'}
+                </MyButton>
+              </>
+            )}
           </>
         }>
         <div className="ml-[8px] bg-white px-4">
           <div className="  py-4">
             <p className="text-[16px] text-[#9d9d9d]">
-              Tin tuyển dụng của bạn sẽ được kiểm duyệt trước khi đến với những
-              ứng viên tiềm năng
+              {!isInAdmin
+                ? 'Tin tuyển dụng của bạn sẽ được kiểm duyệt trước khi đến với những ứng viên tiềm năng'
+                : 'Hãy kiểm tra nội dung tuyển dụng trước khi duyệt tin.'}
             </p>
           </div>
           <div className="">
@@ -232,9 +240,8 @@ const JobCruModal: React.FC<{
                         required
                         labelCol={{ span: 24 }}
                         wrapperCol={{ span: 24 }}>
-                        <MultiSelectWithSearch
+                        <SingleSelectSearchCustom
                           className="change-field"
-                          maxTagCount={3}
                           options={cities}
                         />
                       </MyFormItem>
@@ -471,6 +478,7 @@ const JobCruModal: React.FC<{
                         wrapperCol={{ span: 24 }}>
                         <div>
                           <ReactQuill
+                            readOnly={isViewMode}
                             theme="snow"
                             value={content}
                             onChange={setContent}

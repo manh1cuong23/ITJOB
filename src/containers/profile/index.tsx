@@ -13,6 +13,7 @@ import { getMe } from '@/api/features/user';
 import { getLableSingle } from '@/utils/helper';
 import { educationLevels, englishSkillOptions, levels } from '@/constants/job';
 import { formatDate } from '@/utils/formatDate';
+import { Button } from 'antd';
 
 export default function ProfilePageContainer() {
   const [open, setOpen] = useState(false);
@@ -77,7 +78,7 @@ export default function ProfilePageContainer() {
               <div className="">
                 <div className="flex justify-end cursor-pointer ">
                   <div
-                    className=" flex items-center text-black hover:bg-red-500 bg-red-400 py-2 px-4 rounded-lg border"
+                    className=" flex items-center text-white hover:bg-red-500 bg-[#d92d20] py-2 px-4 rounded-lg border"
                     onClick={() => {
                       setOpen(true);
                     }}>
@@ -108,9 +109,9 @@ export default function ProfilePageContainer() {
                 Kĩ Năng:{' '}
               </h1>
               <div className="flex gap-[16px]">
-                <MyTag className="bg-red-400" title="HTML" />
-                <MyTag className="bg-red-400" title="HTML" />
-                <MyTag className="bg-red-400" title="HTML" />
+                <MyTag className="bg-[#d92d20] text-white" title="HTML" />
+                <MyTag className="bg-[#d92d20] text-white" title="HTML" />
+                <MyTag className="bg-[#d92d20] text-white" title="HTML" />
               </div>
             </div>
 

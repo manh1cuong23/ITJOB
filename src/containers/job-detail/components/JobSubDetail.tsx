@@ -23,8 +23,9 @@ import ApplyJobModal from '@/components/business/modal/apply-job';
 interface Props {
   data: any;
   isApply?: boolean;
+  setForceUpdate: any;
 }
-const JobSubDetail: React.FC<Props> = ({ data, isApply }) => {
+const JobSubDetail: React.FC<Props> = ({ data, isApply, setForceUpdate }) => {
   const [open, setOpen] = useState(false);
 
   console.log('data', data);
@@ -157,6 +158,7 @@ const JobSubDetail: React.FC<Props> = ({ data, isApply }) => {
       </div>
       <ApplyJobModal
         title={`Ứng tuyển vị trí ${data?.name}`}
+        setForceUpdate={setForceUpdate}
         id={data?._id}
         open={open}
         setOpen={setOpen}

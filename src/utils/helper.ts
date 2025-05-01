@@ -19,3 +19,8 @@ export function getLableSingle(level: number, levels: Option[]): string {
 export function mapFieldsToOptions(fields: any[]) {
   return fields.map(item => item?.name);
 }
+
+export function getCountByStatus(data: any, statusValue: any) {
+  const item = data.find((item: any) => item.status === statusValue);
+  return item ? item.count : 0;
+}

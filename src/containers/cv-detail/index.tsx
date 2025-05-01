@@ -83,9 +83,11 @@ const CVDetailContainer: React.FC = () => {
       if (id) {
         console.log('data?.idUser', data?.idUser, data);
         const res = await inviteCandicate(data?.idUser, data1);
-        if (res && res?.message) {
+        if (res && res?.message != 'Ứng viên đã được mời') {
           message.success('Mời ứng viên thành công');
           setOpen(false);
+        } else {
+          message.error('Ứng viên này đã ứng tuyển công việc này rồi!');
         }
       }
     }
@@ -146,7 +148,7 @@ const CVDetailContainer: React.FC = () => {
       value: data?.current_job_position,
     },
     {
-      name: 'Mức lương mong muống',
+      name: 'Mức lương mong muốn',
       value: data?.salary_expected,
     },
     {

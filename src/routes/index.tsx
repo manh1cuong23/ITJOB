@@ -6,6 +6,7 @@ import LayoutPage from '@/components/core/layout';
 import { useSelector } from 'react-redux';
 import LoginForm from '@/pages/login';
 import { TypeUser } from '@/interface/common/type';
+import RedirectByRole from './redirectRoute';
 
 const NotFound = lazy(
   () => import(/* webpackChunkName: "404'"*/ '@/pages/404')
@@ -16,8 +17,14 @@ const BookingPage = lazy(
 const DashboardPage = lazy(
   () => import(/* webpackChunkName: "dashboard'"*/ '@/pages/dashboard')
 );
+const DashboardRecruiterPage = lazy(
+  () => import(/* webpackChunkName: "dashboard'"*/ '@/pages/dashboard-admin')
+);
 const JobboardPage = lazy(
   () => import(/* webpackChunkName: "dashboard'"*/ '@/pages/jobBoard')
+);
+const CreateCVPage = lazy(
+  () => import(/* webpackChunkName: "dashboard'"*/ '@/pages/create-cv')
 );
 const JobDetailPage = lazy(
   () => import(/* webpackChunkName: "dashboard'"*/ '@/pages/job-detail')
@@ -51,6 +58,16 @@ const JobResultPage = lazy(
 const CVDetailPage = lazy(
   () => import(/* webpackChunkName: "package-plan'"*/ '@/pages/cv-detail')
 );
+const AdminUsersPage = lazy(
+  () => import(/* webpackChunkName: "package-plan'"*/ '@/pages/admin/users')
+);
+const AdminJobsPage = lazy(
+  () => import(/* webpackChunkName: "package-plan'"*/ '@/pages/admin/jobs')
+);
+const AdminEnvalutionPage = lazy(
+  () =>
+    import(/* webpackChunkName: "package-plan'"*/ '@/pages/admin/envalution')
+);
 const CreateRecruiterPage = lazy(
   () =>
     import(
@@ -75,20 +92,28 @@ const routeList: RouteObject[] = [
     children: [
       {
         path: '',
-        element: <Navigate to="dashboard" />,
+        element: <RedirectByRole />,
       },
       {
         path: 'dashboard',
         element: (
           <WrapperRouteComponent
             element={<DashboardPage />}
-            role={TypeUser.Employer}
+            role={TypeUser.User}
             auth={false}
             title="Dashboard"
           />
         ),
       },
-
+      {
+        path: 'dashboard/recruiter',
+        element: (
+          <WrapperRouteComponent
+            element={<DashboardRecruiterPage />}
+            title="Dashboard"
+          />
+        ),
+      },
       {
         path: 'list-job',
         element: (
@@ -116,6 +141,17 @@ const routeList: RouteObject[] = [
         element: (
           <WrapperRouteComponent
             element={<ApplyJobPage />}
+            title="Profile"
+            role={TypeUser.User}
+            auth={true}
+          />
+        ),
+      },
+      {
+        path: 'create-cv',
+        element: (
+          <WrapperRouteComponent
+            element={<CreateCVPage />}
             title="Profile"
             role={TypeUser.User}
             auth={true}
@@ -228,6 +264,39 @@ const routeList: RouteObject[] = [
             role={TypeUser.Employer}
             auth={true}
             element={<CVDetailPage />}
+            title="Guest Profile"
+          />
+        ),
+      },
+      {
+        path: 'admin/users',
+        element: (
+          <WrapperRouteComponent
+            role={TypeUser.Admin}
+            auth={true}
+            element={<AdminUsersPage />}
+            title="Guest Profile"
+          />
+        ),
+      },
+      {
+        path: 'admin/jobs',
+        element: (
+          <WrapperRouteComponent
+            role={TypeUser.Admin}
+            auth={true}
+            element={<AdminJobsPage />}
+            title="Guest Profile"
+          />
+        ),
+      },
+      {
+        path: 'admin/envalutions',
+        element: (
+          <WrapperRouteComponent
+            role={TypeUser.Admin}
+            auth={true}
+            element={<AdminEnvalutionPage />}
             title="Guest Profile"
           />
         ),

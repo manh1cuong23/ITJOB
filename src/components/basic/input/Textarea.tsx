@@ -11,6 +11,7 @@ interface MyTextAreaProps extends TextAreaProps {
   loading?: boolean;
   className?: string;
   onKeyDown?: (e: any) => void;
+  disabled?: boolean;
 }
 
 const MyTextArea: FC<MyTextAreaProps> = ({
@@ -20,6 +21,7 @@ const MyTextArea: FC<MyTextAreaProps> = ({
   loading = false,
   className,
   onBlur,
+  disabled,
   onKeyDown,
 }) => {
   const [showSkeleton, setShowSkeleton] = useState(loading);
@@ -53,6 +55,7 @@ const MyTextArea: FC<MyTextAreaProps> = ({
       <Input.TextArea
         className={`my-textarea ${className}`}
         allowClear
+        disabled={disabled}
         value={value}
         autoSize={false}
         rows={4}

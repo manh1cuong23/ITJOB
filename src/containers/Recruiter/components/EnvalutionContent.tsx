@@ -6,6 +6,7 @@ interface Props {
   title: string;
   content: string;
   created: any;
+  isInAdmin?: boolean;
 }
 const title = 'Môi trường tốt, rất phù hợp cho Fresher để học hỏi';
 export default function EnvalutionContent({
@@ -13,10 +14,11 @@ export default function EnvalutionContent({
   title,
   content,
   created,
+  isInAdmin,
 }: Props) {
   return (
-    <div className="bg-white  py-[20px] ">
-      <div className="border-t mx-[20px] pt-6">
+    <div className={`bg-white  ${!isInAdmin && 'py-[20px]'}`}>
+      <div className={`mx-[20px] ${!isInAdmin && 'pt-6 border-t '}`}>
         <p className="text-[#ccc]">{formatDateNew(created)}</p>
         <h1 className="text-[16px] font-bold">{title}</h1>
         <div className="flex gap-4 items-center my-1">

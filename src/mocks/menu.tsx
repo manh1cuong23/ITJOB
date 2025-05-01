@@ -50,3 +50,20 @@ export const mockMenuList: MenuList = [
     icon: <DashboardSvg />,
   },
 ];
+export const adminMenuList: MenuList = [
+  {
+    key: '/admin/users',
+    label: 'Quản lý tài khoản',
+    icon: <DashboardSvg />,
+  },
+  {
+    key: '/admin/jobs',
+    label: 'Quản lý tin tuyển dụng',
+    icon: <DashboardSvg />,
+  },
+  {
+    key: '/admin/envalutions',
+    label: 'Quản lý đánh giá',
+    icon: <DashboardSvg />,
+  },
+];

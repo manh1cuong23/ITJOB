@@ -1,18 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { MyButton } from '@/components/basic/button';
 import { SingleSelectSearchCustom } from '@/components/basic/select';
-import { Button, Col, Form, Input, message, Row, Space } from 'antd';
 import {
+  Button,
+  Col,
+  Dropdown,
+  Form,
+  Input,
+  Menu,
+  message,
+  Row,
+  Space,
+} from 'antd';
+import {
+  CheckOutlined,
   DeleteOutlined,
+  DownOutlined,
   EditOutlined,
   EyeOutlined,
+  PoweroffOutlined,
   SearchOutlined,
 } from '@ant-design/icons';
 import { TableBasic } from '@/components/basic/table';
 import { InputBasic } from '@/components/business/input';
 import DatepickerBasic from '@/components/business/date-picker/DatepickerBasic';
 import { MyFormItem } from '@/components/basic/form-item';
-import { changeStatus, getListJob } from '@/api/features/recruite';
+import { changeStatus } from '@/api/features/recruite';
 import { Navigate, NavLink, useNavigate } from 'react-router-dom';
 import { JobStatus, JobStatusOptions, jobStatusOptions } from '@/constants/job';
 import { DatePickerFromTo } from '@/components/business/date-picker';
@@ -20,6 +33,7 @@ import { create } from 'lodash';
 import { formatDateToYMD } from '@/utils/formatDate';
 import JobCruModal from '@/components/business/modal/job-cru';
 import ConfirmModal from '@/components/business/modal/ConfirmModal/BookInterviewModal';
+import { getListJob } from '@/api/features/admin';
 
 const getStatusStyles = (status: number) => {
   switch (status) {
@@ -69,12 +83,13 @@ const dataSource = [
   },
 ];
 
-const ManagementJobContainer: React.FC = () => {
+const AdminJobsContainer: React.FC = () => {
   const [data, setData] = useState([]);
   const [idSelect, setIdSelect] = useState('');
-  const [openCreate, setOpenCreate] = useState<boolean>(false);
+  const [isStop, setIsStop] = useState<boolean>(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [resume, setResumne] = useState(false);
+  const [accept, setAccept] = useState(false);
   const [stop, setStop] = useState(false);
   const [isViewMode, setIsViewMode] = useState(false);
   const [idSelected, setIdSelected] = useState('');
@@ -142,6 +157,17 @@ const ManagementJobContainer: React.FC = () => {
                 Tiếp tục
               </span>
             )}
+            {status == JobStatus.Created && (
+              <span
+                className="text-green-500 hover:underline cursor-pointer"
+                onClick={e => {
+                  e.stopPropagation();
+                  setIdSelect(recod._id);
+                  setAccept(true);
+                }}>
+                Duyệt tin
+              </span>
+            )}
           </div>
         );
       },
@@ -176,6 +202,26 @@ const ManagementJobContainer: React.FC = () => {
       setResumne(false);
     }
   };
+  const handleAccept = async () => {
+    if (!isStop) {
+      const res = await changeStatus(idSelect, {
+        status: JobStatus.Recuriting,
+      });
+      if (res?.message) {
+        message.success('Tin tuyển dụng đã được duyệt thành công');
+        fetchListJob([]);
+        setAccept(false);
+      }
+    } else {
+      const res = await changeStatus(idSelect, { status: JobStatus.Created });
+      if (res?.message) {
+        message.success('Tin tuyển dụng đã được bỏ duyệt thành công');
+        fetchListJob([]);
+        setAccept(false);
+        setIsStop(false);
+      }
+    }
+  };
 
   const handleStop = async () => {
     const res = await changeStatus(idSelect, { status: JobStatus.Stopped });
@@ -185,7 +231,6 @@ const ManagementJobContainer: React.FC = () => {
       setStop(false);
     }
   };
-
   const columnAdd = [
     ...columns,
     {
@@ -194,29 +239,60 @@ const ManagementJobContainer: React.FC = () => {
       key: 'service',
       width: 160,
       align: 'center',
-      render: (_: any, record: any) => (
-        <div className="flex items-center gap-[16px] justify-center">
-          <EyeOutlined
-            onClick={e => {
-              e.stopPropagation();
-              setIdSelected(record?._id);
-              setIsViewMode(true);
-              setOpenEdit(true);
-            }}
-            className="text-blue-500 text-[16px] cursor-pointer p-1 rounded-md hover:bg-gray-200"
-          />
-          <EditOutlined
-            onClick={e => {
-              e.stopPropagation();
-              setIdSelected(record?._id);
-              setIsViewMode(false);
-              setOpenEdit(true);
-            }}
-            className="text-green-500 cursor-pointer p-1 rounded-md hover:bg-gray-200"
-          />
-          <DeleteOutlined className="text-red-500 cursor-pointer p-1 rounded-md hover:bg-gray-200" />
-        </div>
-      ),
+      render: (_: any, record: any) => {
+        const items = [
+          {
+            key: 'see',
+            icon: <EyeOutlined className="text-red-500" />,
+            label: 'Xem tin tuyển dụng',
+            className: 'min-w-[180px] py-1 my-1 hover:!bg-red-100 left-[0]', // Tăng chiều rộng
+          },
+          {
+            key: 'stop',
+            icon: <PoweroffOutlined className="text-red-500" />,
+            label: 'Bỏ duyệt tin tuyển dụng',
+            className: 'min-w-[180px] py-1 my-1 hover:!bg-red-100 left-[0]', // Tăng chiều rộng
+          },
+        ];
+
+        const handleMenuClick = ({ key }: any) => {
+          if (key === 'see') {
+            setIdSelect(record?._id);
+            console.log('vao day');
+            setIdSelected(record?._id);
+            setIsViewMode(true);
+            setOpenEdit(true);
+          }
+          // Xử lý các mục khác nếu cần, ví dụ:
+          if (key === 'stop') {
+            setIdSelect(record?._id);
+            setIdSelected(record?._id);
+            console.log('Xử lý bỏ duyệt');
+            setIsStop(true);
+            setAccept(true);
+          }
+        };
+        return (
+          <>
+            <style>
+              {`
+                .ant-dropdown-menu-item:hover {
+                  background-color: #f0f0f0; // Màu nền khi hover
+                  transition: background-color 0.3s ease; // Hiệu ứng mượt
+                }
+              `}
+            </style>
+            <Dropdown menu={{ items, onClick: handleMenuClick }}>
+              <a onClick={e => e.preventDefault()}>
+                <Space>
+                  Thao tác
+                  <DownOutlined />
+                </Space>
+              </a>
+            </Dropdown>
+          </>
+        );
+      },
     },
   ];
 
@@ -243,7 +319,7 @@ const ManagementJobContainer: React.FC = () => {
                   wrapperCol={{ span: 24 }}>
                   <SingleSelectSearchCustom
                     className="change-field"
-                    options={JobStatusOptions}
+                    options={[...JobStatusOptions, { label: 'All', value: '' }]}
                   />
                 </MyFormItem>
               </Col>
@@ -275,13 +351,6 @@ const ManagementJobContainer: React.FC = () => {
             </Row>
 
             <div className="flex gap-[16px]  items-center justify-end bg-white w-full">
-              <MyButton
-                className="h-[40px] my-3"
-                onClick={() => {
-                  setOpenCreate(true);
-                }}>
-                <p>Thêm tin tuyển dụng</p>
-              </MyButton>
               <Button
                 className="!bg-blue-500 text-white h-[40px] rounded-lg px-4"
                 onClick={handleSearch}>
@@ -295,31 +364,11 @@ const ManagementJobContainer: React.FC = () => {
             dataSource={data}
             columns={columnAdd}
             isPaginationClient
-            onRow={(record, rowIndex) => {
-              return {
-                onClick: () => {
-                  navigate(`/recruiter/jobs/results/${record?._id}`);
-                },
-              };
-            }}
           />
         </div>
       </div>
       <JobCruModal
-        title={`Thêm mới tin tuyển dụng`}
-        // id={data?._id}
-        open={openCreate}
-        isCreate={true}
-        setForceUpdate={setForceUpdate}
-        onFinish={() => {
-          setOpenCreate(false);
-        }}
-        setOpen={setOpenCreate}
-        onCancel={() => {
-          setOpenCreate(false);
-        }}
-      />
-      <JobCruModal
+        isInAdmin
         title={`${
           isViewMode ? 'Xem  tin tuyển dụng' : 'Chỉnh sửa tin tuyển dụng'
         }`}
@@ -343,7 +392,26 @@ const ManagementJobContainer: React.FC = () => {
         onCancel={() => {
           setResumne(false);
         }}>
-        <h1>Bạn xác nhận tiếp tục tuyển thêm ứng viên cho công việc</h1>
+        <h1>Xác nhận tiếp tục tuyển thêm ứng viên cho công việc</h1>
+      </ConfirmModal>
+      <ConfirmModal
+        title={!isStop ? `Xác nhận duyệt` : 'Xác nhận bỏ duyệt tin'}
+        open={accept}
+        onFinish={handleAccept}
+        onCancel={() => {
+          setAccept(false);
+        }}>
+        {!isStop ? (
+          <h1>
+            Xác nhận duyệt tin tuyển dụng này. Tin tuyển dụng sẽ được hiện thị
+            lên trang web!
+          </h1>
+        ) : (
+          <h1>
+            Xác nhận bỏ duyệt tin tuyển dụng này. Tin tuyển dụng sẽ quay về
+            trạng thái chưa được duyệt!
+          </h1>
+        )}
       </ConfirmModal>
       <ConfirmModal
         title={`Xác nhận dừng tuyển`}
@@ -352,10 +420,10 @@ const ManagementJobContainer: React.FC = () => {
         onCancel={() => {
           setStop(false);
         }}>
-        <h1>Bạn xác nhận dừng việc tuyển thêm ứng viên cho công việc</h1>
+        <h1>Xác nhận dừng việc tuyển thêm ứng viên cho công việc</h1>
       </ConfirmModal>
     </div>
   );
 };
 
-export default ManagementJobContainer;
+export default AdminJobsContainer;

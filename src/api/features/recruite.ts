@@ -29,10 +29,28 @@ export async function getListJob(data: any, options?: RequestOptions) {
 
 export async function getListCandicateByJob(
   id: string,
+  params: any,
   options?: RequestOptions
 ) {
   try {
     const response = await request(`/jobs/candidates/${id}`, {
+      method: 'GET',
+      params: params,
+      ...(options || {}),
+    });
+    return response;
+  } catch (error) {
+    console.error('Error during update guest info:', error);
+    throw error;
+  }
+}
+
+export async function getListCountCandicateByJob(
+  id: string,
+  options?: RequestOptions
+) {
+  try {
+    const response = await request(`/jobs/count/${id}`, {
       method: 'GET',
       ...(options || {}),
     });
@@ -178,6 +196,24 @@ export async function inviteCandicate(
     const response = await request(`/jobs/invite/${id}`, {
       method: 'POST',
       data: data,
+      ...(options || {}),
+    });
+    return response;
+  } catch (error) {
+    console.error('Error during update guest info:', error);
+    throw error;
+  }
+}
+
+export async function changeStatus(
+  id: string,
+  params: any,
+  options?: RequestOptions
+) {
+  try {
+    const response = await request(`/jobs/change-status/${id}`, {
+      method: 'PUT',
+      params: params,
       ...(options || {}),
     });
     return response;

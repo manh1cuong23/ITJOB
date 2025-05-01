@@ -13,7 +13,7 @@ import dayjs from 'dayjs';
 
 const ConfirmModal: React.FC<{
   open: boolean;
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpen?: React.Dispatch<React.SetStateAction<boolean>>;
   onFinish?: () => void;
   onCancel?: () => void;
   title: string;

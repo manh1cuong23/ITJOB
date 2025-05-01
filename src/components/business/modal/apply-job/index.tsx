@@ -7,6 +7,7 @@ import { MyFormItem } from '@/components/basic/form-item';
 import { InputBasic } from '../../input';
 import { MyTextArea } from '@/components/basic/input';
 import { applyJob } from '@/api/features/job';
+import { getMe } from '@/api/features/user';
 
 const ApplyJobModal: React.FC<{
   id?: string;
@@ -17,6 +18,7 @@ const ApplyJobModal: React.FC<{
   title: string;
   setPageData?: (data: any) => void;
   onBack?: () => void;
+  setForceUpdate: any;
   isViewMode?: boolean;
 }> = ({
   id,
@@ -26,6 +28,7 @@ const ApplyJobModal: React.FC<{
   title,
   setPageData,
   setOpen,
+  setForceUpdate,
   isViewMode = false,
   onBack,
 }) => {
@@ -41,6 +44,23 @@ const ApplyJobModal: React.FC<{
     setSelectedValue(e.target.value);
   };
 
+  const fetchMe = async () => {
+    const data = await getMe();
+    if (data?.result) {
+      const newData = {
+        email: data?.result.email,
+        ...data?.result?.candidate_info,
+      };
+      form.setFieldsValue(newData);
+    }
+    console.log('data', data);
+  };
+  useEffect(() => {
+    if (open) {
+      fetchMe();
+      setForceUpdate((prev: number) => prev + 1);
+    }
+  }, [open]);
   const handleOk = async (force: boolean = false) => {
     const data = await form.validateFields();
     console.log('data', data);
@@ -52,6 +72,7 @@ const ApplyJobModal: React.FC<{
       }
       console.log('res', res);
     }
+    setForceUpdate((prev: number) => prev + 1);
   };
 
   const handleCancel = () => {

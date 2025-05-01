@@ -1,5 +1,5 @@
 import { TableBasic } from '@/components/basic/table';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import BackgroundCandidate from './components/BackgroundCandidate';
 import { debounce } from 'lodash';
 import { Button, Select, Tag } from 'antd';
@@ -8,6 +8,7 @@ import { NavLink, useParams } from 'react-router-dom';
 import {
   getListCandicateByJob,
   getListCandicateByJobWithStatus,
+  getListCountCandicateByJob,
 } from '@/api/features/recruite';
 import { formatDateNew } from '@/utils/formatDate';
 import {
@@ -18,6 +19,7 @@ import {
 import InterviewInfo from './components/InterviewInfo';
 import { Option } from '@/components/basic/select/SingleSelectSearchCustom';
 import StatusTag from './components/StatusCV';
+import { getCountByStatus } from '@/utils/helper';
 
 const statusColorMap: Record<number, string> = {
   0: '#888', // Chưa xem
@@ -28,6 +30,7 @@ const statusColorMap: Record<number, string> = {
   5: '#52c41a', // Đã Đạt
   6: '#d4380d', // Không đạt
 };
+
 const getLabelByValue = (applyStatusOptions: Option[], value: number) => {
   const found = applyStatusOptions.find(option => option.value === value);
   return found?.label || 'Không rõ';
@@ -35,6 +38,7 @@ const getLabelByValue = (applyStatusOptions: Option[], value: number) => {
 
 const JobResultContainer: React.FC = () => {
   const [data, setData] = useState([]);
+  const [dataCount, setDataCount] = useState([]);
   const [status, setStatus] = useState<any>('');
   const [forceUpdate, setForceUpdate] = useState(0);
 
@@ -57,11 +61,19 @@ const JobResultContainer: React.FC = () => {
   ];
 
   const { id } = useParams();
-  const fetchListCandicates = async (id: string) => {
-    const res = await getListCandicateByJob(id);
+  const fetchListCandicates = async (id: string, params: any = '') => {
+    const res = await getListCandicateByJob(id, params);
     if (res && res.result) {
       const datam = res.result.map((item: any) => item.candidate_info);
       setData(res.result);
+    }
+  };
+  const fetchListCountCandicates = async (id: string) => {
+    const res = await getListCountCandicateByJob(id);
+    console.log('check res', res);
+
+    if (res && res.result) {
+      setDataCount(res.result);
     }
   };
 
@@ -74,6 +86,7 @@ const JobResultContainer: React.FC = () => {
 
   useEffect(() => {
     if (id) {
+      fetchListCountCandicates(id);
       if (status && status != '') {
         fetListCVWithStatus(id, status);
       } else {
@@ -83,14 +96,16 @@ const JobResultContainer: React.FC = () => {
   }, [status, forceUpdate]);
 
   const handleSearch = (value: string) => {
-    // const res = getListCandicateByJob
+    if (id) {
+      fetchListCandicates(id, { name: value });
+    }
   };
 
-  const debouncedSearch = useCallback(
-    debounce(value => handleSearch(value), 200),
-    []
-  );
-  const handleOnChangeSeach = () => {};
+  const debouncedSearch = useMemo(() => debounce(handleSearch, 300), [id]);
+
+  const handleOnChangeSearch = (e: any) => {
+    debouncedSearch(e.target.value);
+  };
 
   const columns: any = [
     {
@@ -134,7 +149,7 @@ const JobResultContainer: React.FC = () => {
       render: (_: any, record: any) => (
         <StatusTag
           setForceUpdate={setForceUpdate}
-          name={record?.candidate_info.name}
+          name={record?.candidate_info?.name}
           id={record?._id}
           dataSuggest={record?.interview_candidate_suggest_schedule}
           value={record.status}
@@ -161,25 +176,41 @@ const JobResultContainer: React.FC = () => {
       ),
     },
   ].filter(Boolean);
-
+  console.log('Check dataCount', dataCount);
   return (
     <div className="my-[20px] mx-[40px] ">
       <div className="flex items-center gap-[20px]">
         <div className="h-[80px] w-1/4 bg-white flex justify-center flex-col p-2">
           <h1>Tổng lượng CV ứng tuyển</h1>
-          <h1 className="text-[18px] mt-2">{data && data.length}</h1>
+          <h1 className="text-[18px] mt-2">
+            {data?.length ? data?.length : 0}
+          </h1>
+        </div>
+        <div className="h-[80px] w-1/4 bg-white flex justify-center flex-col p-2 text-[#52c41a]">
+          <h1>CV trúng tuyển</h1>
+          <h1 className="text-[18px] mt-2">
+            {getCountByStatus(dataCount, ApplyStatus.Passed)}
+          </h1>
+        </div>
+        <div className="h-[80px] w-1/4 bg-white flex justify-center flex-col p-2 text-[#722ed1]">
+          <h1>CV đã hẹn phỏng vấn</h1>
+          <h1 className="text-[18px] mt-2">
+            {getCountByStatus(dataCount, ApplyStatus.Interview) +
+              getCountByStatus(
+                dataCount,
+                ApplyStatus.WaitingCandidateAcceptSchedule
+              ) +
+              getCountByStatus(
+                dataCount,
+                ApplyStatus.WaitingEmployerAcceptSchedule
+              )}
+          </h1>
         </div>
         <div className="h-[80px] w-1/4 bg-white flex justify-center flex-col p-2 text-blue-500">
-          <h1>CV trúng tuyển</h1>
-          <h1 className="text-[18px] mt-2">10</h1>
-        </div>
-        <div className="h-[80px] w-1/4 bg-white flex justify-center flex-col p-2 text-yellow-500">
-          <h1>CV đã hẹn phỏng vấn</h1>
-          <h1 className="text-[18px] mt-2">10</h1>
-        </div>
-        <div className="h-[80px] w-1/4 bg-white flex justify-center flex-col p-2 text-red-500">
-          <h1 className="">CV đã từ chối</h1>
-          <h1 className="text-[18px] mt-2">10</h1>
+          <h1 className="">CV phù hợp</h1>
+          <h1 className="text-[18px] mt-2">
+            {getCountByStatus(dataCount, ApplyStatus.Approved)}
+          </h1>
         </div>{' '}
       </div>
 
@@ -205,7 +236,7 @@ const JobResultContainer: React.FC = () => {
           </div>
           <div className="h-[40px] border rounded-xl py-2 px-4 w-[300px]">
             <input
-              onChange={handleOnChangeSeach}
+              onChange={handleOnChangeSearch}
               className="h-full w-full outline-none"
               placeholder="Nhập tìm kiếm theo tên ứng viên"
             />

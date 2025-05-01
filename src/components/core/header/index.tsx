@@ -72,6 +72,7 @@ const HeaderComponent: FC<HeaderProps> = ({ collapsed, toggle }) => {
 
     return ''; // Nếu không tìm thấy tiêu đề nào phù hợp
   };
+  const currentPage = getPageTitleFromUrl(location.pathname);
 
   const onActionClick = async (action: Action) => {
     switch (action) {
@@ -248,7 +249,10 @@ const HeaderComponent: FC<HeaderProps> = ({ collapsed, toggle }) => {
           </div>
         </div>
       ) : (
-        <div></div>
+        <h3 style={{ fontSize: '18px', margin: 0 }}>
+          {currentPage}
+          {lastName !== '' ? ':' : ''}
+        </h3>
       )}
       <div style={rightSectionStyle}>
         <SettingOutlined

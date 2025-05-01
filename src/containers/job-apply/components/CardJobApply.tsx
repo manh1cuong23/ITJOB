@@ -1,5 +1,5 @@
 import { DownOutlined, EditOutlined, RightOutlined } from '@ant-design/icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ReactComponent as DolasSvg } from '@/assets/icons/ic_dollar.svg';
 import { formatDateNew } from '@/utils/formatDate';
 import { MyButton } from '@/components/basic/button';
@@ -9,9 +9,10 @@ import { ApplyStatus } from '@/constants/job';
 import { NavLink } from 'react-router-dom';
 interface Props {
   data: any;
+  setForceUpdate?: any;
 }
 
-export default function CardJobApply({ data }: Props) {
+export default function CardJobApply({ data, setForceUpdate }: Props) {
   const [open, setOpen] = useState(false);
   const [openSeeMe, setOpenSeeme] = useState(false);
   const [openInfor, setOpenInfor] = useState(false);
@@ -23,6 +24,11 @@ export default function CardJobApply({ data }: Props) {
   );
 
   console.log('check ddata', data);
+  useEffect(() => {
+    if (!open || !openSeeMe || !openInfor) {
+      setForceUpdate((prv: number) => prv + 1);
+    }
+  }, [open, openSeeMe, openInfor]);
   const getStatusText = () => {
     switch (data?.status) {
       case ApplyStatus.Interview:
@@ -162,6 +168,7 @@ export default function CardJobApply({ data }: Props) {
         id={data?._id}
         isCandicate
         isEmployChange
+        isInfo
         open={openInfor}
         title={'Thông tin thời gian phỏng vấn'}
         isViewMode={true}

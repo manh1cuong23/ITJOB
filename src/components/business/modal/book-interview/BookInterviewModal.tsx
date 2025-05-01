@@ -28,6 +28,7 @@ const BookInterviewModal: React.FC<{
   setForceUpdate?: any;
   isViewMode?: boolean;
   isCandicate?: boolean;
+  isInfo?: boolean;
 }> = ({
   id,
   open,
@@ -39,6 +40,7 @@ const BookInterviewModal: React.FC<{
   isCandicate = false,
   onCancel,
   title,
+  isInfo,
   setPageData,
   isViewMode = false,
   onBack,
@@ -66,8 +68,10 @@ const BookInterviewModal: React.FC<{
   const fetchDataInterview = async (id: string) => {
     const res = await getDetailInterview(id);
     if (res.result) {
+      if (isInfo) {
+        setData(res.result?.interview_final_schedule);
+      }
       if (!isSeeEmploy) {
-        setData(res.result?.interview_candidate_suggest_schedule);
       } else {
         setData(res.result?.interview_employee_suggest_schedule);
       }

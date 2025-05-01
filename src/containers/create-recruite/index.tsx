@@ -176,9 +176,8 @@ const CreateRecruiterContainer: React.FC<Props> = ({ isCreate = true }) => {
                     required
                     labelCol={{ span: 24 }}
                     wrapperCol={{ span: 24 }}>
-                    <MultiSelectWithSearch
+                    <SingleSelectSearchCustom
                       className="change-field"
-                      maxTagCount={3}
                       options={cities}
                     />
                   </MyFormItem>

@@ -7,12 +7,13 @@ import { useLocation } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFirstPathCode } from '@/utils/getFirstPathCode';
 import { MenuList } from '@/interface/layout/menu.interface';
-import { mockMenuList } from '@/mocks/menu';
+import { adminMenuList, mockMenuList } from '@/mocks/menu';
 import { setUserItem } from '@/stores/slices/auth.slice';
 import { Link } from 'react-router-dom';
 import Union from '/logo.png';
 import Union2 from '/logoSmall.png';
 import MenuComponent from './menu';
+import { TypeUser } from '@/interface/common/type';
 const { Sider, Content } = Layout;
 const WIDTH = 992;
 
@@ -20,7 +21,7 @@ const SideBar = () => {
   const location = useLocation();
   const [openKey, setOpenkey] = useState<string>();
   const [selectedKey, setSelectedKey] = useState<string>(location.pathname);
-  const { device, collapsed } = useSelector(state => state.auth);
+  const { device, collapsed, role } = useSelector(state => state.auth);
   const [menuList, setMenuList] = useState<MenuList>([]);
   const isMobile = device === 'MOBILE';
   const dispatch = useDispatch();
@@ -80,7 +81,9 @@ const SideBar = () => {
   // }, [location.pathname]);
 
   const fetchMenuList = useCallback(async () => {
-    setMenuList(mockMenuList);
+    role == TypeUser.Admin
+      ? setMenuList(adminMenuList)
+      : setMenuList(mockMenuList);
     // }
   }, [dispatch]);
 

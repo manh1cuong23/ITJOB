@@ -11,6 +11,7 @@ export default function JobApplyContainer() {
   const [data, setData] = useState<any>([]);
   const [status, setStatus] = useState<any>('');
   const [activeTab, setActiveTab] = useState('applied');
+  const [forceUpdate, setForceUpdate] = useState(0);
 
   const fetchJobApply = async (status: any) => {
     const res = await getListApplyJob(status);
@@ -27,7 +28,7 @@ export default function JobApplyContainer() {
     } else {
       fetchJobApply('');
     }
-  }, [status]);
+  }, [status, forceUpdate]);
   useEffect(() => {
     fetchJobApply('');
   }, []);
@@ -81,7 +82,9 @@ export default function JobApplyContainer() {
         </div>
         {data &&
           data.length > 0 &&
-          data.map((item: any, index: number) => <CardJobApply data={item} />)}
+          data.map((item: any, index: number) => (
+            <CardJobApply setForceUpdate={setForceUpdate} data={item} />
+          ))}
       </div>
     </div>
   );

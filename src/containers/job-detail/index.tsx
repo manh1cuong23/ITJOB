@@ -9,6 +9,7 @@ const JobDetailContainer: React.FC = () => {
   const [dataJob, setDataJob] = useState({});
   const [dataEmployer, setDataEmployer] = useState({});
   const [isApply, setIsApply] = useState<boolean>(false);
+  const [forceUpdate, setForceUpdate] = useState(0);
   const { id } = useParams();
   const fetchJobById = async (id: string) => {
     const res = await getDetailJob(id);
@@ -30,10 +31,14 @@ const JobDetailContainer: React.FC = () => {
       fetchJobById(id);
       fetchCheckIsApply();
     }
-  }, [id]);
+  }, [id, forceUpdate]);
   return (
     <div className="mx-auto w-[1260px] pt-[20px] flex">
-      <JobSubDetail data={dataJob} isApply={isApply} />
+      <JobSubDetail
+        data={dataJob}
+        isApply={isApply}
+        setForceUpdate={setForceUpdate}
+      />
       <div className="w-1/3">
         <CardReduceCompany data={dataEmployer} />
       </div>
