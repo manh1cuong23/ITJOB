@@ -4,6 +4,8 @@ import {
   DoubleRightOutlined,
   SettingOutlined,
   BellOutlined,
+  MessageOutlined,
+  CloseOutlined,
 } from '@ant-design/icons';
 import { Layout, Dropdown, Divider, Tooltip } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -26,6 +28,8 @@ import {
 import { Profile } from '@/components/business/modal/forgot-password';
 import MenuList from '@/containers/menu/MenuList';
 import { TypeUser } from '@/interface/common/type';
+import ChatBox from './ChatBox';
+import CustomMessagesDropdown from './CustomDropdown';
 
 const { Header } = Layout;
 
@@ -37,30 +41,30 @@ interface HeaderProps {
 type Action = 'userInfo' | 'userSetting' | 'logout';
 
 const HeaderComponent: FC<HeaderProps> = ({ collapsed, toggle }) => {
-  const { lastName } = useSelector(state => state.tagsView);
-  const { role } = useSelector(state => state.auth);
+  const { lastName } = useSelector((state: any) => state.tagsView);
+  const { role } = useSelector((state: any) => state.auth);
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
   const isMounted = useRef(true);
   const [isSettingHovered, setIsSettingHovered] = useState(false);
   const [isBellHovered, setIsBellHovered] = useState(false);
+  const [isMessageHovered, setIsMessageHovered] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMessageDropdownOpen, setIsMessageDropdownOpen] = useState(false);
+  const [force, setForce] = useState(0);
+  const [selectedChatId, setSelectedChatId] = useState<any>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [isOpenProfile, setIsOpenProfile] = useState(false);
-
   useEffect(() => {
     dispatch(setLastName(''));
-  }, [location.pathname]);
-
+  }, [location.pathname, dispatch]);
   const getPageTitleFromUrl = (pathname: string): string => {
-    // Tìm tiêu đề theo URL cụ thể
     const exactMatch = pageTitles.find(page => pathname === page.url);
     if (exactMatch) {
       return exactMatch.title;
     }
 
-    // Kiểm tra cho các URL động sử dụng regex
     for (const page of pageTitles) {
       if (page.regex && page.regex.test(pathname)) {
         const match = page.regex.exec(pathname);
@@ -70,7 +74,7 @@ const HeaderComponent: FC<HeaderProps> = ({ collapsed, toggle }) => {
       }
     }
 
-    return ''; // Nếu không tìm thấy tiêu đề nào phù hợp
+    return '';
   };
   const currentPage = getPageTitleFromUrl(location.pathname);
 
@@ -79,7 +83,6 @@ const HeaderComponent: FC<HeaderProps> = ({ collapsed, toggle }) => {
       case 'userInfo':
         return;
       case 'userSetting':
-        // navigate('/account-settings');
         setIsOpenProfile(true);
         return;
       case 'logout':
@@ -104,9 +107,7 @@ const HeaderComponent: FC<HeaderProps> = ({ collapsed, toggle }) => {
     };
   }, []);
 
-  const pathSegments = location.pathname.split('/');
-
-  const dropdownItems = [
+  const dropdownItems: ItemType[] = [
     {
       key: 'user-info',
       label: (
@@ -173,6 +174,15 @@ const HeaderComponent: FC<HeaderProps> = ({ collapsed, toggle }) => {
     setIsDropdownOpen(visible);
   };
 
+  const handleMessageDropdownVisibleChange = (visible: boolean) => {
+    setIsMessageDropdownOpen(visible);
+  };
+
+  const handleSelectChat = (id: string) => {
+    setSelectedChatId(id);
+    setIsMessageDropdownOpen(false); // Đóng dropdown
+  };
+
   const isButtonHighlighted = isDropdownOpen;
 
   const dropdownStyle: CSSProperties = {
@@ -214,110 +224,141 @@ const HeaderComponent: FC<HeaderProps> = ({ collapsed, toggle }) => {
     padding: '0 20px',
   };
 
-  const leftSectionStyle: CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-  };
-
   const rightSectionStyle: CSSProperties = {
     display: 'flex',
     alignItems: 'center',
     gap: '20px',
   };
 
-  const titleStyle: CSSProperties = {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '12px',
-  };
-
   return (
-    <Header
-      className="layout-page-header bg-2"
-      style={headerStyle}
-      data-theme="light">
-      {role == TypeUser.User ? (
-        <div className="flex gap-[10px]">
-          <div className="bg-gray-500">
-            <img
-              className="h-[50px] object-contain"
-              src="https://itviec.com/assets/logo-itviec-4492a2f2577a15a0a1d55444c21c0fa55810822b3b189fc689b450fb62ce0b5b.png"
-            />
+    <>
+      <Header
+        className="layout-page-header bg-2"
+        style={headerStyle}
+        data-theme="light">
+        {role === TypeUser.User ? (
+          <div className="flex gap-[10px]">
+            <div className="bg-gray-500">
+              <img
+                className="h-[50px] object-contain"
+                src="https://itviec.com/assets/logo-itviec-4492a2f2577a15a0a1d55444c21c0fa55810822b3b189fc689b450fb62ce0b5b.png"
+                alt="Logo"
+              />
+            </div>
+            <div className="mx-4">
+              <MenuList />
+            </div>
           </div>
-          <div className="mx-4">
-            <MenuList />
-          </div>
-        </div>
-      ) : (
-        <h3 style={{ fontSize: '18px', margin: 0 }}>
-          {currentPage}
-          {lastName !== '' ? ':' : ''}
-        </h3>
-      )}
-      <div style={rightSectionStyle}>
-        <SettingOutlined
-          className="svg-icon"
-          style={{
-            fontSize: '18px',
-            cursor: 'pointer',
-            color: isSettingHovered ? '#EF4444' : undefined,
-          }}
-          onClick={() => navigate('/settings')}
-          onMouseEnter={() => setIsSettingHovered(true)}
-          onMouseLeave={() => setIsSettingHovered(false)}
-        />
-        <BellOutlined
-          className="svg-icon"
-          style={{
-            fontSize: '18px',
-            cursor: 'pointer',
-            color: isBellHovered ? '#EF4444' : undefined,
-          }}
-          onClick={() => navigate('/notifications')}
-          onMouseEnter={() => setIsBellHovered(true)}
-          onMouseLeave={() => setIsBellHovered(false)}
-        />
-        {/* {logged ? ( */}
-        <div ref={dropdownRef}>
+        ) : (
+          <h3 style={{ fontSize: '18px', margin: 0 }}>
+            {currentPage}
+            {lastName !== '' ? ':' : ''}
+          </h3>
+        )}
+        <div style={rightSectionStyle}>
+          <SettingOutlined
+            className="svg-icon"
+            style={{
+              fontSize: '18px',
+              cursor: 'pointer',
+              color: isSettingHovered ? '#EF4444' : undefined,
+            }}
+            onClick={() => navigate('/settings')}
+            onMouseEnter={() => setIsSettingHovered(true)}
+            onMouseLeave={() => setIsSettingHovered(false)}
+          />
+          <BellOutlined
+            className="svg-icon"
+            style={{
+              fontSize: '18px',
+              cursor: 'pointer',
+              color: isBellHovered ? '#EF4444' : undefined,
+            }}
+            onClick={() => navigate('/notifications')}
+            onMouseEnter={() => setIsBellHovered(true)}
+            onMouseLeave={() => setIsBellHovered(false)}
+          />
           <Dropdown
-            menu={{ items: dropdownItems as ItemType[] }}
-            trigger={['hover', 'click']}
-            onOpenChange={handleDropdownVisibleChange}
-            open={isDropdownOpen}
-            overlayStyle={dropdownStyle}>
-            <MyButton
-              buttonType="outline"
+            overlay={
+              <CustomMessagesDropdown
+                role={role}
+                open={isMessageDropdownOpen}
+                force={force}
+                onSelectChat={handleSelectChat}
+              />
+            }
+            trigger={['click']}
+            placement="bottom"
+            onOpenChange={handleMessageDropdownVisibleChange}
+            open={isMessageDropdownOpen}
+            overlayStyle={{
+              ...dropdownStyle,
+              maxHeight: '400px',
+              overflowY: 'hidden',
+            }}>
+            <MessageOutlined
+              className="svg-icon"
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                padding: '4px 8px 4px 2px',
-                height: '36px',
-                borderColor: isButtonHighlighted ? '#E3173C' : undefined,
-                backgroundColor: isButtonHighlighted ? '#FDECF0' : undefined,
-                gap: '8px',
+                fontSize: '18px',
+                cursor: 'pointer',
+                color: isMessageHovered ? '#EF4444' : undefined,
               }}
-              onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-              <HeaderAvatar className="header-avatar" />
-              <span style={{ color: '#000000' }}>
-                {(localStorage.getItem('username') || 'Nguyen Van A')
-                  .split(' ')
-                  .map(
-                    word =>
-                      word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-                  )
-                  .join(' ')}
-              </span>
-              <HeaderArrowDown style={{ width: '12px', height: '12px' }} />
-            </MyButton>
+              onClick={() => {
+                setIsMessageDropdownOpen(!isMessageDropdownOpen);
+                setForce(prev => prev + 1);
+              }}
+              onMouseEnter={() => setIsMessageHovered(true)}
+              onMouseLeave={() => setIsMessageHovered(false)}
+            />
           </Dropdown>
+          <div ref={dropdownRef}>
+            <Dropdown
+              menu={{ items: dropdownItems }}
+              trigger={['hover', 'click']}
+              onOpenChange={handleDropdownVisibleChange}
+              open={isDropdownOpen}
+              overlayStyle={dropdownStyle}>
+              <MyButton
+                buttonType="outline"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '4px 8px 4px 2px',
+                  height: '36px',
+                  borderColor: isButtonHighlighted ? '#E3173C' : undefined,
+                  backgroundColor: isButtonHighlighted ? '#FDECF0' : undefined,
+                  gap: '8px',
+                }}
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
+                <HeaderAvatar className="header-avatar" />
+                <span style={{ color: '#000000' }}>
+                  {(localStorage.getItem('username') || 'Nguyen Van A')
+                    .split(' ')
+                    .map(
+                      word =>
+                        word.charAt(0).toUpperCase() +
+                        word.slice(1).toLowerCase()
+                    )
+                    .join(' ')}
+                </span>
+                <HeaderArrowDown style={{ width: '12px', height: '12px' }} />
+              </MyButton>
+            </Dropdown>
+          </div>
         </div>
-      </div>
-      <Profile
-        isOpen={isOpenProfile}
-        onClose={() => setIsOpenProfile(false)}
-        onSubmit={() => setIsOpenProfile(false)}
-      />
-    </Header>
+        <Profile
+          isOpen={isOpenProfile}
+          onClose={() => setIsOpenProfile(false)}
+          onSubmit={() => setIsOpenProfile(false)}
+        />
+      </Header>
+      {selectedChatId && (
+        <ChatBox
+          chatId={selectedChatId}
+          onClose={() => setSelectedChatId(null)}
+        />
+      )}
+    </>
   );
 };
 

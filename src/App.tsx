@@ -12,6 +12,7 @@ import useNProgress from './hooks/useNProgress';
 import { ReactKeycloakProvider } from '@react-keycloak/web';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { SocketProvider } from './api/socket/SocketContext';
 // import { apiUserSearch } from './api/features/systemUser';
 
 const App: React.FC = () => {
@@ -38,6 +39,7 @@ const App: React.FC = () => {
       return viVN;
     }
   };
+  const accessToken = localStorage.getItem('token'); // hoặc từ redux/context
   const eventLogger = (event: unknown, error: unknown) => {
     console.log('onKeycloakEvent', event, error);
   };
@@ -46,13 +48,15 @@ const App: React.FC = () => {
     tokens: { token: string; idToken: string; refreshToken: string } | any
   ) => {};
   return (
-    <ConfigProvider locale={getAntdLocale()} componentSize="middle">
-      <IntlProvider locale={locale.split('_')[0]}>
-        <HistoryRouter history={history}>
-          <RenderRouter />
-        </HistoryRouter>
-      </IntlProvider>
-    </ConfigProvider>
+    <SocketProvider accessToken={accessToken || ''}>
+      <ConfigProvider locale={getAntdLocale()} componentSize="middle">
+        <IntlProvider locale={locale.split('_')[0]}>
+          <HistoryRouter history={history}>
+            <RenderRouter />
+          </HistoryRouter>
+        </IntlProvider>
+      </ConfigProvider>
+    </SocketProvider>
   );
 };
 

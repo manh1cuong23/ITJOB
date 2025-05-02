@@ -29,6 +29,7 @@ import {
 import MultiSelectWithSearchAdd from '@/components/basic/select/MultiSelectWithSearchAdd';
 import DatepickerBasic from '../../date-picker/DatepickerBasic';
 import ReactQuill from 'react-quill';
+import dayjs from 'dayjs';
 
 const JobCruModal: React.FC<{
   id?: string;
@@ -162,7 +163,9 @@ const JobCruModal: React.FC<{
     onCancel && onCancel();
     form.resetFields();
   };
-
+  const disabledPastDates = (currentDate: dayjs.Dayjs) => {
+    return currentDate && currentDate.isBefore(dayjs(), 'day');
+  };
   return (
     <>
       <MyModal
@@ -455,6 +458,7 @@ const JobCruModal: React.FC<{
                     >
                       <DatepickerBasic
                         required
+                        disabledDate={disabledPastDates}
                         isSpan
                         label="Hạn Nộp"
                         disabled={isViewMode}
