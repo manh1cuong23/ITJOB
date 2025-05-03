@@ -79,6 +79,7 @@ export default function EnvalutionRecruiter({ data }: any) {
         data?.result?.map((item: any, index: number) => (
           <EnvalutionContent
             title={item?.title}
+            isKK={item?.isEncouragedToWorkHere}
             content={item?.content}
             created={item?.createdAt}
             key={index}

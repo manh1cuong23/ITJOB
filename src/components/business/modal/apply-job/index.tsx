@@ -8,6 +8,7 @@ import { InputBasic } from '../../input';
 import { MyTextArea } from '@/components/basic/input';
 import { applyJob } from '@/api/features/job';
 import { getMe } from '@/api/features/user';
+import { uploadPdf } from '@/api/features/media';
 
 const ApplyJobModal: React.FC<{
   id?: string;
@@ -34,6 +35,9 @@ const ApplyJobModal: React.FC<{
 }) => {
   const [form] = Form.useForm();
   const [selectedValue, setSelectedValue] = useState('');
+  const [file, setFile] = useState<any>(null);
+  const [pdfUrl, setPdfUrl] = useState<any>(null);
+  const [fileURL, setFileURL] = useState<string | null>(null);
 
   const resetForm = () => {
     form.resetFields();
@@ -42,6 +46,20 @@ const ApplyJobModal: React.FC<{
   console.log('check open', open);
   const handleChange = (e: any) => {
     setSelectedValue(e.target.value);
+  };
+
+  const handleUpload = async (e: any) => {
+    const uploadedFile = e.target.files[0];
+    const formData = new FormData();
+    formData.append('pdf', uploadedFile);
+
+    // Giả sử uploadImage là hàm API trả về URL của ảnh
+    const res = await uploadPdf(formData);
+
+    setPdfUrl(res.result?.[0]?.url);
+    message.success('Upload file pdf thành công');
+    setFile(uploadedFile);
+    setFileURL(URL.createObjectURL(uploadedFile)); // tạo URL để tải về
   };
 
   const fetchMe = async () => {
@@ -59,13 +77,15 @@ const ApplyJobModal: React.FC<{
     if (open) {
       fetchMe();
       setForceUpdate((prev: number) => prev + 1);
+    } else {
+      form.resetFields();
     }
   }, [open]);
   const handleOk = async (force: boolean = false) => {
     const data = await form.validateFields();
     console.log('data', data);
     if (id && data) {
-      const res = await applyJob(id, data);
+      const res = await applyJob(id, { ...data, cv: pdfUrl });
       if (res && res.message) {
         message.success('Bạn đã ứng tuyển thành công!');
         onCancel && onCancel();
@@ -127,12 +147,26 @@ const ApplyJobModal: React.FC<{
               </div>
             </div>
             <div className="flex px-4 mt-4">
-              <div className="w-[180px] mt-2 mr-3">
+              <div className="w-[180px] mr-3">
                 <h1 className='text-[20px] font-medium"'>Chọn CV</h1>
               </div>
-              <div className="w-2/3">
-                <div className="h-[40px] w-full border mb-2"></div>
-                <MyButton>Tải CV của bạn</MyButton>
+              <div className="w-2/3 flex items-center gap-[10px]">
+                <input
+                  type="file"
+                  id="file"
+                  className="hidden"
+                  onChange={handleUpload}
+                />
+                {file && fileURL && (
+                  <div className="">
+                    <a
+                      href={fileURL}
+                      download={file.name}
+                      className="text-blue-600 underline hover:text-blue-800 !mt-1">
+                      Tải thành công: {file.name}
+                    </a>
+                  </div>
+                )}
               </div>
             </div>
             <div className="flex px-4 mt-4">

@@ -11,10 +11,11 @@ import { Col, Form, Row, Tag } from 'antd';
 import React, { useEffect, useState } from 'react';
 import BackgroundCandidate from '../job-result/components/BackgroundCandidate';
 import { getListCandicate } from '@/api/features/recruite';
-import { getLableSingle } from '@/utils/helper';
+import { formatCurrency, getLableSingle } from '@/utils/helper';
 import { experienceLevels } from '@/constants/job';
 import MyTag from '@/components/basic/tags/tag';
 import { NavLink } from 'react-router-dom';
+import { getListFields, getListSkill } from '@/api/features/other';
 const columns: any = [
   {
     title: 'Ứng viên',
@@ -36,6 +37,7 @@ const columns: any = [
     title: 'Mức Lương mong muốn',
     dataIndex: 'salary_expected',
     key: 'salary_expected',
+    render: (salary_expected: any) => formatCurrency(salary_expected),
   },
   {
     title: 'Kỹ năng',
@@ -68,8 +70,6 @@ const columns: any = [
         <NavLink to={`/recruiter/cv/${record?._id}/detail/invite`}>
           <EyeOutlined className="text-blue-500 text-[16px] cursor-pointer p-1 rounded-md hover:bg-gray-200" />
         </NavLink>
-        <EditOutlined className="text-green-500 cursor-pointer p-1 rounded-md hover:bg-gray-200" />
-        <DeleteOutlined className="text-red-500 cursor-pointer p-1 rounded-md hover:bg-gray-200" />
       </div>
     ),
   },
@@ -108,6 +108,8 @@ const dataSource = [
 ];
 const ManagementCandicateContainer: React.FC = () => {
   const [data, setData] = useState([]);
+  const [skills, setSkill] = useState([]);
+  const [fields, setFields] = useState([]);
   const [form] = Form.useForm();
 
   const handleClickSeach = async () => {
@@ -116,6 +118,27 @@ const ManagementCandicateContainer: React.FC = () => {
     await fetchAllCV(data);
   };
 
+  const fetchSkillAndFields = async () => {
+    const resSkills = await getListSkill();
+    const resFields = await getListFields();
+    if (resSkills && resSkills.result) {
+      const skillOptions = resSkills.result.map((item: any) => ({
+        label: item.name,
+        value: item._id,
+      }));
+      setSkill(skillOptions);
+    }
+
+    if (resFields && resFields.result) {
+      const fieldOptions = resFields.result.map((item: any) => ({
+        label: item.name,
+        value: item._id,
+      }));
+      setFields(fieldOptions);
+    }
+  };
+  console.log('skills', skills);
+  console.log('fields', fields);
   const fetchAllCV = async (data?: any) => {
     const res = await getListCandicate(data);
     if (res.result) {
@@ -129,12 +152,14 @@ const ManagementCandicateContainer: React.FC = () => {
   };
 
   useEffect(() => {
+    fetchSkillAndFields();
+
     fetchAllCV();
   }, []);
 
   return (
     <div className="w-full">
-      <div className="bg-white mt-4 mx-[40px]">
+      <div className="bg-white m-[20px]">
         <div className="w-[1200px] mx-auto py-4">
           <div className="">
             <Form form={form}>
@@ -163,13 +188,13 @@ const ManagementCandicateContainer: React.FC = () => {
                   xl={8} // Chiếm 19/24 phần màn hình cực lớn (xl)
                 >
                   <MyFormItem
-                    name="changeFields"
-                    label="Ngành nghề"
+                    name="fields"
+                    label="Lĩnh Vực"
                     labelCol={{ span: 24 }}
                     wrapperCol={{ span: 24 }}>
-                    <SingleSelectSearchCustom
+                    <MultiSelectWithSearch
                       className="change-field"
-                      options={[]}
+                      options={fields}
                     />
                   </MyFormItem>
                 </Col>
@@ -181,13 +206,13 @@ const ManagementCandicateContainer: React.FC = () => {
                   xl={8} // Chiếm 19/24 phần màn hình cực lớn (xl)
                 >
                   <MyFormItem
-                    name="changeFields"
+                    name="skills"
                     label="Kỹ năng"
                     labelCol={{ span: 24 }}
                     wrapperCol={{ span: 24 }}>
                     <MultiSelectWithSearch
                       className="change-field"
-                      options={[]}
+                      options={skills}
                     />
                   </MyFormItem>
                 </Col>
@@ -201,7 +226,7 @@ const ManagementCandicateContainer: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="bg white px-[40px] mt-[20px]">
+      <div className="bg white  m-[20px]">
         <div className=" w-full h-[800px]">
           <TableBasic dataSource={data} columns={columns} isPaginationClient />
         </div>

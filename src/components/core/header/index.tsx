@@ -119,8 +119,9 @@ const HeaderComponent: FC<HeaderProps> = ({ collapsed, toggle }) => {
           }}>
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <HeaderAvatar
-              style={{ width: '50px', height: '50px', margin: '5px 5px 0 0' }}
+              style={{ width: '40px', height: '40px', margin: '5px 5px 0 0' }}
             />
+
             <div>
               <div style={{ color: 'black', fontWeight: 'bold' }}>
                 {localStorage.getItem('username') || 'Nguyen Van A'}
@@ -330,7 +331,7 @@ const HeaderComponent: FC<HeaderProps> = ({ collapsed, toggle }) => {
                   gap: '8px',
                 }}
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-                <HeaderAvatar className="header-avatar" />
+                <HeaderAvatar className="w-[30px] h-[30px]" />
                 <span style={{ color: '#000000' }}>
                   {(localStorage.getItem('username') || 'Nguyen Van A')
                     .split(' ')

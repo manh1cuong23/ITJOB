@@ -24,3 +24,12 @@ export function getCountByStatus(data: any, statusValue: any) {
   const item = data.find((item: any) => item.status === statusValue);
   return item ? item.count : 0;
 }
+
+export function formatCurrency(value: any) {
+  let valueNumber = Number(value as string);
+
+  return new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND',
+  }).format(valueNumber);
+}

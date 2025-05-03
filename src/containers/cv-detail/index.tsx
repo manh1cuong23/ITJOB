@@ -19,7 +19,7 @@ import {
 } from '@/constants/job';
 import { checkAndformatDate, formatDateNew } from '@/utils/formatDate';
 import { getLableSingle } from '@/utils/helper';
-import { Form, message } from 'antd';
+import { Button, Form, message, Modal } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Label } from 'recharts';
@@ -31,6 +31,7 @@ const CVDetailContainer: React.FC = () => {
   const [open, setOpen] = useState(false);
   const [openCancel, setOpenCancel] = useState(false);
   const [isInvite, setIsInvite] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [form] = Form.useForm();
 
@@ -113,7 +114,7 @@ const CVDetailContainer: React.FC = () => {
     },
     {
       name: 'Ngày sinh',
-      value: checkAndformatDate(data?.checkAndformatDate),
+      value: formatDateNew(data?.checkAndformatDate),
     },
     {
       name: 'Quê quán',
@@ -166,7 +167,7 @@ const CVDetailContainer: React.FC = () => {
     },
   ];
   return (
-    <div className="mx-auto w-[1260px] pt-[20px] bg-white h-[500px] mt-[20px] px-4">
+    <div className=" w-[1260px] pt-[20px] bg-white  m-[20px] px-4">
       <div>
         <div className="flex gap-[16px] items-center mb-4">
           <h1 className="text-[22px] font-medium ">Chức danh/ Vị trí</h1>
@@ -225,10 +226,35 @@ const CVDetailContainer: React.FC = () => {
               ))}
           </div>
         </div>
+        <div className="bg-white">
+          <h1 className="text-[22px] font-medium py-4">CV</h1>
+          <div>
+            {data?.cv && data?.cv != '' && data?.cv?.length != 0 ? (
+              <Button type="primary" onClick={() => setIsModalOpen(true)}>
+                Xem CV
+              </Button>
+            ) : (
+              'Vui lòng tải cv của bạn lên'
+            )}
 
-        <h1 className="text-[22px] font-medium my-4 h-[200px]">
-          Nội dung Hồ Sơ
-        </h1>
+            <Modal
+              title="Xem file PDF"
+              open={isModalOpen}
+              onCancel={() => setIsModalOpen(false)}
+              footer={null}
+              width="80%"
+              style={{ top: 10 }}
+              bodyStyle={{ height: 'calc(100vh - 100px)', padding: 0 }}>
+              <iframe
+                src={data?.cv}
+                width="100%"
+                height="600px"
+                className="border"
+                title="PDF Viewer"
+              />
+            </Modal>
+          </div>
+        </div>
       </div>
       <div className="py-4 flex justify-end gap-[16px]">
         {!isInvite && (

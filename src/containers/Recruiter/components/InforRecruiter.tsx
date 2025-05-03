@@ -6,6 +6,7 @@ import { FacebookOutlined } from '@ant-design/icons';
 import { NavLink, useLocation } from 'react-router-dom';
 
 export default function InforRecruiter({ data }: any) {
+  console.log('data', data);
   const gioithie = [
     {
       title: 'Mô hình công ty',
@@ -77,7 +78,16 @@ export default function InforRecruiter({ data }: any) {
       </div>
 
       <div className="mt-4 bg-white px-4  py-4">
-        <h1 className="font-bold text-[24px] pb-4 border-b">Địa điểm</h1>
+        <h1 className="font-bold text-[24px] pb-4 border-b">
+          Hình ảnh công ty
+        </h1>
+        <div className="flex flex-wrap">
+          {data?.images?.map((item: any) => (
+            <div className="p-2 w-1/4">
+              <img src={item} className=" min-h-[100px] max-h-[200px]" />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );

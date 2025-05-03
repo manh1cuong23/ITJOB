@@ -22,6 +22,7 @@ import InforRecruiter from './components/InforRecruiter';
 import EnvalutionRecruiter from './components/EnvalutionRecruiter';
 import ProfileModal from '@/components/business/modal/profile';
 import EnvalutionRecruiterModal from '@/components/business/modal/envalution';
+
 interface Props {}
 
 const tabs = [
@@ -69,7 +70,7 @@ const RecruiterContainer: React.FC<Props> = ({}) => {
       fetchEnvalution(id);
     }
   }, [activeTab]);
-
+  console.log('Data', data);
   return (
     <div className="">
       <div className=" mt-[20px] mx-auto w-[1260px]">
@@ -77,7 +78,10 @@ const RecruiterContainer: React.FC<Props> = ({}) => {
           <div className="flex items-center p-4 gap-[20px] flex-1 ">
             <img
               className="w-[160px] h-[160px] object-contain rounded-sm border"
-              src="https://itviec.com/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBMGdvREE9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--49f107dff1850ed1ff3ede3c7e0a1b99659f1d83/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBPZ2wzWldKd09oSnlaWE5wZW1WZmRHOWZabWwwV3dkcEFhb3ciLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--bb0ebae071595ab1791dc0ad640ef70a76504047/elca-logo.jpg "
+              src={
+                data?.avatar ||
+                'https://img.freepik.com/free-vector/contact-icon-3d-vector-illustration-blue-button-with-user-profile-symbol-networking-sites-apps-cartoon-style-isolated-white-background-online-communication-digital-marketing-concept_778687-1715.jpg'
+              }
             />
             <div className="flex flex-col gap-[10px]">
               <h1 className="text-[28px]">{data?.name}</h1>

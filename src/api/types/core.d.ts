@@ -44,3 +44,5 @@ declare namespace CORE {
 
   type MenuList = MenuItem[];
 }
+
+declare module 'html2pdf.js';

@@ -290,7 +290,7 @@ const ManagementJobContainer: React.FC = () => {
             </div>
           </Form>
         </div>
-        <div className="bg-white mt-[20px] w-full h-[800px]">
+        <div className="bg-white mt-[20px] w-full">
           <TableBasic
             dataSource={data}
             columns={columnAdd}

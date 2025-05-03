@@ -13,7 +13,7 @@ interface MyCardProps {
   data?: any;
 }
 
-const MyCardjob: React.FC<MyCardProps> = ({
+const MyCardRecruiter: React.FC<MyCardProps> = ({
   title,
   children,
   className = '',
@@ -23,13 +23,13 @@ const MyCardjob: React.FC<MyCardProps> = ({
   console.log('cdata', data);
   // const level =
   return (
-    <NavLink to={`/${data?._id}/job-detail`}>
+    <NavLink to={`/recruiter/${data?._id}`}>
       <div className=" mb-6 flex rounded border border-solid transition-all hover:shadow-md border-primary p-[16px] bg-[rgb(254,238,235)] p-[16px]">
         <div className="w-[140px] h-[120px] flex items-center justify-center bg-white">
           <img
             className="w-[80px] h-[80px]"
             src={
-              data?.employer_info?.avatar ||
+              data?.avatar ||
               'https://img.freepik.com/free-vector/contact-icon-3d-vector-illustration-blue-button-with-user-profile-symbol-networking-sites-apps-cartoon-style-isolated-white-background-online-communication-digital-marketing-concept_778687-1715.jpg'
             }
           />
@@ -37,36 +37,30 @@ const MyCardjob: React.FC<MyCardProps> = ({
         <div className="px-4 flex-1">
           <div className=" border-b-2 pb-4 ">
             <h2 className="text-lg font-bold text-primary">{data?.name}</h2>
-            <h2 className="text-gray-600 text-base my-1">
-              {data?.employer_info.name}
-            </h2>
-            <div className="flex gap-[12px]  mt-1">
-              <p className="text-sm text-primary">{`Mức lương từ ${formatCurrency(
-                data?.salary[0]
-              )} đến ${formatCurrency(data?.salary[1])}`}</p>
-              <p className="text-sm text-gray-500">-</p>
-              <p className="text-sm text-gray-500">{`    ${levels
-                .filter((item: any) => item.value == data.level)
-                .map((item: any) => item.label)}`}</p>
-            </div>
-            <p className="text-gray-500 text-base py-2">
+            <p className="text-gray-500 text-base py-1">
               {cities.find((item: any) => item.value == data.city)?.label}
             </p>
-            <ul className="text-base text-gray-600  pl-[10px] mt-2">
+            <ul className="text-base text-gray-600 list-none  pl-[10px] mt-2">
               <li className="">
-                Số lượng tuyển dụng:{' '}
+                Lĩnh vực kinh doanh:{' '}
                 <span className="text-black text-[14px] ml-2">
-                  {data?.num_of_employees}
+                  {data?.fields_info?.map((item: any) => (
+                    <span className="text-black text-[14px] mr-2">
+                      {item?.name}
+                    </span>
+                  ))}
                 </span>
               </li>
-              <li>
-                Kinh nghiệm:
+              <li className="">
+                Quy mô công ty:{' '}
                 <span className="text-black text-[14px] ml-2">
-                  {
-                    experienceLevels.find(
-                      (item: any) => item.value == data.level
-                    )?.label
-                  }
+                  {data?.employer_size}
+                </span>
+              </li>
+              <li className="">
+                Thời gian làm việc:{' '}
+                <span className="text-black text-[14px] ml-2">
+                  {data?.date_working}
                 </span>
               </li>
             </ul>
@@ -78,9 +72,6 @@ const MyCardjob: React.FC<MyCardProps> = ({
                   <MyTag title={item?.name} className="mr-2" />
                 ))}
             </div>
-            <span className="text-sm text-gray-400 whitespace-nowrap py-2">
-              {formatDateNew(data?.createdAt)}
-            </span>
           </div>
         </div>
       </div>
@@ -88,4 +79,4 @@ const MyCardjob: React.FC<MyCardProps> = ({
   );
 };
 
-export default MyCardjob;
+export default MyCardRecruiter;

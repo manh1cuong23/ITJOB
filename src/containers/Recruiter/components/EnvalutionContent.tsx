@@ -7,6 +7,7 @@ interface Props {
   content: string;
   created: any;
   isInAdmin?: boolean;
+  isKK?: boolean;
 }
 const title = 'Môi trường tốt, rất phù hợp cho Fresher để học hỏi';
 export default function EnvalutionContent({
@@ -15,6 +16,7 @@ export default function EnvalutionContent({
   content,
   created,
   isInAdmin,
+  isKK,
 }: Props) {
   return (
     <div className={`bg-white  ${!isInAdmin && 'py-[20px]'}`}>
@@ -25,7 +27,11 @@ export default function EnvalutionContent({
           <div className="text-[16px] rate-content">
             <Rate allowHalf defaultValue={rate} />
           </div>
-          <h1 className="text-blue-500 text-[16px]">Khuyến khích</h1>
+          {isKK ? (
+            <h1 className="text-blue-500 text-[16px]">Khuyến khích</h1>
+          ) : (
+            <h1 className="text-red-500 text-[16px]">Không khuyến khích</h1>
+          )}
         </div>
         <div className="my-2">
           <div dangerouslySetInnerHTML={{ __html: content }} />

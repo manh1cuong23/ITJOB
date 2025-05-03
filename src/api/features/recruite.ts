@@ -63,23 +63,11 @@ export async function getListCountCandicateByJob(
 
 export async function getListCandicate(data?: any, options?: RequestOptions) {
   const params: any = {};
+  console.log('data', data);
   try {
-    if (data) {
-      ['name', 'level', 'type_work', 'year_experience', 'user_id'].forEach(
-        field => {
-          if (data[field] && data[field].length > 0) {
-            params[field] = data[field]; // chuyển mảng thành chuỗi JSON
-          }
-        }
-      );
-      if (data.key) {
-        params.key = data.key;
-      }
-    }
-    console.log('key params', params);
     const response = await request(`/employers/get-candicate`, {
       method: 'GET',
-      params: params,
+      params: data,
       ...(options || {}),
     });
     return response;

@@ -59,7 +59,7 @@ export default function JobInviteContainer() {
             Lời mời công việc
           </h1>
           <h1 className="text-[18px] font-medium mb-4">
-            ITviec cung cấp dịch vụ kết nối ứng viên ẩn danh với các cơ hội việc
+            JobHub cung cấp dịch vụ kết nối ứng viên ẩn danh với các cơ hội việc
             làm phù hợp.
           </h1>
           <div className="flex gap-[16px] itens-center">

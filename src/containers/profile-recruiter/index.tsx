@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Dropdown, Form, Input, message, Row, Space } from 'antd';
+import {
+  Button,
+  Col,
+  Dropdown,
+  Form,
+  Input,
+  message,
+  Row,
+  Space,
+  Upload,
+} from 'antd';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
@@ -27,16 +37,45 @@ import { useParams } from 'react-router-dom';
 import { getListFields, getListSkill } from '@/api/features/other';
 import { getMe, updateMe } from '@/api/features/user';
 import { mapFieldsToOptions } from '@/utils/helper';
+import { uploadImage } from '@/api/features/media';
+import { UploadOutlined } from '@ant-design/icons';
 interface Props {
   isCreate?: boolean;
 }
 
 const ProfileRecruiterPage: React.FC<Props> = ({ isCreate = true }) => {
   const [content, setContent] = useState('');
+  const [dataImg, setDataImg] = useState<any>({});
   const [skill, setSkill] = useState([]);
   const [fields, setFields] = useState([]);
   const { id } = useParams();
   const [form] = Form.useForm();
+  const [imageUrls, setImageUrls] = useState<any>([]);
+
+  // Hàm xử lý upload ảnh
+  const handleUpload = async ({ file }: any) => {
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+      // Giả sử uploadImage là hàm API trả về URL của ảnh
+      const res = await uploadImage(formData);
+      console.log('check res', res);
+      const newImageUrl = res.result?.[0]?.url; // Điều chỉnh theo response của API
+
+      // Thêm URL mới vào state
+      setImageUrls((prevUrls: any) => [...prevUrls, newImageUrl]);
+    } catch (error) {
+      console.error('Upload failed:', error);
+    }
+  };
+  console.log('check', imageUrls);
+  // Hàm xóa ảnh khỏi state
+  const handleRemove = (url: any) => {
+    setImageUrls((prevUrls: any) =>
+      prevUrls.filter((item: any) => item !== url)
+    );
+  };
 
   const fetchSkillAndFields = async () => {
     const resSkills = await getListSkill();
@@ -67,11 +106,15 @@ const ProfileRecruiterPage: React.FC<Props> = ({ isCreate = true }) => {
     if (response.result) {
       const { employer_info, fields_info, skills_info } = response.result;
       console.log('check', response.result);
-
+      setDataImg({
+        avatar: { url: employer_info?.avatar },
+        background: { url: employer_info?.cover_photo },
+      });
       employer_info.fields = mapFieldsToOptions(fields_info);
       employer_info.skills = mapFieldsToOptions(skills_info);
       employer_info.isOt = employer_info.isOt ? 1 : 0;
       setContent(employer_info.description);
+      setImageUrls(employer_info?.images);
       form.setFieldsValue(employer_info);
     }
   };
@@ -84,10 +127,12 @@ const ProfileRecruiterPage: React.FC<Props> = ({ isCreate = true }) => {
     let dataForm = await form.validateFields();
     dataForm.description = content;
     dataForm.isOt = dataForm.isOt ? true : false;
-
+    dataForm.avatar = dataImg?.avatar?.url;
+    dataForm.cover_photo = dataImg?.background?.url;
+    console.log(dataForm);
     // Xóa salaryFrom và salaryTo nếu không cần nữa
     const response = await updateMe({
-      employer_body: dataForm,
+      employer_body: { ...dataForm, images: imageUrls },
     });
     if (response && response.message) {
       message.success('Cập nhật thông tin thành công');
@@ -97,6 +142,31 @@ const ProfileRecruiterPage: React.FC<Props> = ({ isCreate = true }) => {
     }
 
     // form.resetFields();
+  };
+
+  const handleChaneAvatar = async (event: any) => {
+    const formData = new FormData();
+    formData.append('image', event.target.files[0]);
+    const res = await uploadImage(formData);
+    if (res?.result) {
+      console.log('res?.re', res?.result);
+      setDataImg((prev: any) => ({
+        ...prev,
+        avatar: res?.result[0], // nên dùng optional chaining đầy đủ
+      }));
+    }
+  };
+
+  const handleChangeBackground = async (event: any) => {
+    const formData = new FormData();
+    formData.append('image', event.target.files[0]);
+    const res = await uploadImage(formData);
+    if (res?.result) {
+      setDataImg((prev: any) => ({
+        ...prev,
+        background: res?.result?.[0], // nên dùng optional chaining đầy đủ
+      }));
+    }
   };
 
   return (
@@ -274,11 +344,10 @@ const ProfileRecruiterPage: React.FC<Props> = ({ isCreate = true }) => {
                   xl={12} // Chiếm 19/24 phần màn hình cực lớn (xl)
                 >
                   <MyFormItem
-                    name="avatar"
                     label="Logo"
                     labelCol={{ span: 24 }}
                     wrapperCol={{ span: 24 }}>
-                    <Input type="file" />
+                    <Input type="file" onChange={handleChaneAvatar} />
                   </MyFormItem>
                 </Col>
                 <Col
@@ -289,14 +358,101 @@ const ProfileRecruiterPage: React.FC<Props> = ({ isCreate = true }) => {
                   xl={12} // Chiếm 19/24 phần màn hình cực lớn (xl)
                 >
                   <MyFormItem
-                    name="cover_photo"
                     label="Hình nền"
                     labelCol={{ span: 24 }}
                     wrapperCol={{ span: 24 }}>
-                    <Input type="file" />
+                    <Input type="file" onChange={handleChangeBackground} />
                   </MyFormItem>
                 </Col>
               </Row>
+              <Row gutter={16}>
+                <Col
+                  xs={24} // Chiếm 100% chiều rộng màn hình nhỏ (xs)
+                  sm={24} // Chiếm 19/24 phần chiều rộng màn hình nhỏ hơn sm (80% chiều rộng)
+                  md={12} // Chiếm 19/24 phần màn hình cỡ trung bình (md)
+                  lg={12} // Chiếm 19/24 phần màn hình cỡ lớn (lg)
+                  xl={12} // Chiếm 19/24 phần màn hình cực lớn (xl)
+                >
+                  <div>
+                    {dataImg?.avatar?.url && (
+                      <img
+                        src={dataImg?.avatar?.url}
+                        className="max-h-[300px]"
+                      />
+                    )}
+                  </div>
+                </Col>
+                <Col
+                  xs={24} // Chiếm 100% chiều rộng màn hình nhỏ (xs)
+                  sm={24} // Chiếm 19/24 phần chiều rộng màn hình nhỏ hơn sm (80% chiều rộng)
+                  md={12} // Chiếm 19/24 phần màn hình cỡ trung bình (md)
+                  lg={12} // Chiếm 19/24 phần màn hình cỡ lớn (lg)
+                  xl={12} // Chiếm 19/24 phần màn hình cực lớn (xl)
+                >
+                  <div>
+                    {dataImg?.background?.url && (
+                      <img
+                        src={dataImg?.background?.url}
+                        className="max-h-[300px]"
+                      />
+                    )}
+                  </div>
+                </Col>
+              </Row>
+              <Col
+                xs={24} // Chiếm 100% chiều rộng màn hình nhỏ (xs)
+                sm={24} // Chiếm 19/24 phần chiều rộng màn hình nhỏ hơn sm (80% chiều rộng)
+                md={12} // Chiếm 19/24 phần màn hình cỡ trung bình (md)
+                lg={12} // Chiếm 19/24 phần màn hình cỡ lớn (lg)
+                xl={12} // Chiếm 19/24 phần màn hình cực lớn (xl)
+              >
+                <MyFormItem
+                  label="Hình ảnh công ty"
+                  labelCol={{ span: 24 }}
+                  wrapperCol={{ span: 24 }}>
+                  <div>
+                    {/* Component Upload của Ant Design */}
+                    <Upload
+                      customRequest={handleUpload}
+                      accept="image/*"
+                      multiple
+                      showUploadList={false} // Tắt danh sách upload mặc định của antd
+                    >
+                      <Button icon={<UploadOutlined />}>Tải ảnh lên</Button>
+                    </Upload>
+
+                    {/* Hiển thị preview ảnh */}
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        marginTop: 16,
+                      }}>
+                      {imageUrls.map((url: any, index: any) => (
+                        <div
+                          key={index}
+                          style={{ position: 'relative', margin: 8 }}>
+                          <img
+                            src={url}
+                            alt={`preview-${index}`}
+                            style={{
+                              width: 100,
+                              height: 100,
+                              objectFit: 'cover',
+                            }}
+                          />
+                          <Button
+                            size="small"
+                            style={{ position: 'absolute', top: 0, right: 0 }}
+                            onClick={() => handleRemove(url)}>
+                            X
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </MyFormItem>
+              </Col>
               <Row gutter={16}>
                 <Col
                   xs={24} // Chiếm 100% chiều rộng màn hình nhỏ (xs)

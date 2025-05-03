@@ -26,7 +26,7 @@ export default function ContentLeftProfile() {
   const location = useLocation();
 
   return (
-    <div className="w-[300px] h-[600px] bg-white px-2">
+    <div className="w-[300px] h-[600px] bg-white px-2 sticky top-[20px]">
       <h1 className="pt-4 px-6">Xin chào</h1>
       <h1 className="px-6 text-[22px] font-medium text-[#414042]">
         Võ Mạnh Cường

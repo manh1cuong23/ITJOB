@@ -143,6 +143,7 @@ const AdminEnvalutionContainer: React.FC = () => {
         <EnvalutionContent
           isInAdmin
           title={record?.title}
+          isKK={record?.isEncouragedToWorkHere}
           content={record?.content}
           created={record?.createdAt}
           rate={record?.rate}
@@ -192,7 +193,7 @@ const AdminEnvalutionContainer: React.FC = () => {
     const res = await makeInActiveAccount(idSelected);
     if (res?.message) {
       fetchListUser([]);
-      message.success('Bạn đã đổi trạng thái của tài khoản thành công!');
+      message.success('Bạn đã duyệt tin đánh giá!');
       setStop(false);
     }
   };
@@ -222,12 +223,12 @@ const AdminEnvalutionContainer: React.FC = () => {
             label: 'Duyệt đánh giá',
             className: 'min-w-[180px] py-1 my-1 hover:!bg-green-100 left-[0]', // Tăng chiều rộng
           },
-          {
-            key: 'stop',
-            icon: <PoweroffOutlined className="text-red-500" />,
-            label: 'Bỏ duyệt tin tuyển dụng',
-            className: 'min-w-[180px] py-1 my-1 hover:!bg-red-100 left-[0]', // Tăng chiều rộng
-          },
+          // {
+          //   key: 'stop',
+          //   icon: <PoweroffOutlined className="text-red-500" />,
+          //   label: 'Bỏ duyệt tin tuyển dụng',
+          //   className: 'min-w-[180px] py-1 my-1 hover:!bg-red-100 left-[0]', // Tăng chiều rộng
+          // },
         ];
 
         const handleMenuClick = ({ key }: any) => {

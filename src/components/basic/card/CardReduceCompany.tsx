@@ -21,19 +21,30 @@ const CardReduceCompany: React.FC<Props> = ({ data }) => {
         <div className="flex gap-[16px] items-center">
           <img
             className="w-[50px] h-[50px] object-cover"
-            src="https://salt.topdev.vn/Ino2MeJAunov7Yvy_iMPCsjMsSmP51sFxzFzfrFusPI/fit/384/1000/ce/1/aHR0cHM6Ly9hc3NldHMudG9wZGV2LnZuL2ltYWdlcy8yMDIzLzA5LzEyL1RvcERldi1RcG1ZTWFYTmJEMGlXU29kLTE2OTQ1MzM1NTQucG5n"
+            src={
+              data?.avatar ||
+              'https://salt.topdev.vn/75VadizXM8hmNkdG26qUXYwIAVX3KcVcqvehkraKrMQ/fit/828/1000/ce/1/aHR0cHM6Ly9hc3NldHMudG9wZGV2LnZuL2ltYWdlcy8yMDI1LzAyLzIwL1RvcERldi1hN2UyZmMyZmE5Y2IyOGQzZDMyM2Y2ODgyNDIxNDU3OS0xNzQwMDQ0NzQyLnBuZw'
+            }
           />
           <h1 className="text-[22px] font-medium">{data?.name}</h1>
         </div>
 
         <div>
-          <InforJob title="Quy mô" description={data?.employer_size} Icon={UserSvg} />
+          <InforJob
+            title="Quy mô"
+            description={data?.employer_size}
+            Icon={ChildSvg}
+          />
           <InforJob
             title="Thời gian làm việc"
+            Icon={DateSvg}
             description={data?.date_working}
           />
-          <InforJob title="Địa chỉ" description={data?.address} />
-          <InforJob />
+          <InforJob
+            title="Địa chỉ"
+            Icon={PlaceSvg}
+            description={data?.address}
+          />
         </div>
         <h1 className="text-[16px] font-medium my-4">Chia sẻ công ty</h1>
         <div className="flex justify-center my-4">

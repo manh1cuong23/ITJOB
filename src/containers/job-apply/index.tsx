@@ -35,7 +35,7 @@ export default function JobApplyContainer() {
 
   const tabs = [
     { key: 'applied', label: 'Đã ứng tuyển', status: '' },
-    { key: 'saved', label: 'Đã Lưu', status: '' },
+    // { key: 'saved', label: 'Đã Lưu', status: '' },
     {
       key: 'interview',
       label: 'Đã được liên hệ phỏng vấn',

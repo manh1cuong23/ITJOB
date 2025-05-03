@@ -134,3 +134,17 @@ export async function getlistEnvalution(id: string, options?: RequestOptions) {
     throw error;
   }
 }
+
+export async function getListEmployer(data: any, options?: RequestOptions) {
+  try {
+    const response = await request(`/candidates/list-employer`, {
+      method: 'GET',
+      data: data,
+      ...(options || {}),
+    });
+    return response;
+  } catch (error) {
+    console.error('Error during update guest info:', error);
+    throw error;
+  }
+}

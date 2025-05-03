@@ -8,7 +8,7 @@ interface Props {
 const InforJob: React.FC<Props> = ({ title, description, Icon }) => {
   return (
     <div className="flex items-center m-4 gap-[16px]">
-      <div className="w-[20px] h-[20px] border bg-gray-100 flex rounded-full items-center justify-center">
+      <div className="w-[20px] h-[20px]  flex rounded-full items-center justify-center">
         {Icon && <Icon className="w-[16px] h-[16px] text-primary" />}
       </div>
       <div>

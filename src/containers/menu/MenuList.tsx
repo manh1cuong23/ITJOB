@@ -1,25 +1,14 @@
 import { DownOutlined, RightOutlined } from '@ant-design/icons';
 import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
-const menuItems = [
+const menuItems: any = [
   {
-    title: 'Việc làm IT theo kỹ năng',
-    subItems: [
-      {
-        title: 'Việc làm IT theo kỹ năng',
-        subItems: [
-          { title: 'Việc làm IT theo cấp bậc' },
-          { title: 'Việc làm IT theo công ty' },
-          { title: 'Việc làm IT theo thành phố' },
-        ],
-      },
-      { title: 'Việc làm IT theo kỹ năng' },
-      { title: 'Việc làm IT theo kỹ năng' },
-    ],
+    title: 'Tìm kiếm việc làm',
+    to: '/list-job',
   },
-  { title: 'Việc làm IT theo cấp bậc' },
-  { title: 'Việc làm IT theo công ty' },
-  { title: 'Việc làm IT theo thành phố' },
+  { title: 'Việc làm của bạn', to: '/apply-jobs' },
+  { title: 'Việc làm được mời', to: '/invite-jobs' },
 ];
 
 export default function HeaderMenu() {
@@ -28,7 +17,7 @@ export default function HeaderMenu() {
 
   return (
     <div className="relative text-black flex space-x-6">
-      {menuItems.map((item, index: number) => (
+      {menuItems.map((item: any, index: number) => (
         <div
           key={index}
           className="relative group cursor-pointer"
@@ -41,12 +30,22 @@ export default function HeaderMenu() {
             className={`h-[60px] text-[16px] flex items-center gap-2 pr-4 py-2 ${
               openMenu === index && 'text-primary'
             }`}>
-            <span className="text-[16px]  font-bold">{item.title}</span>
-            {item.subItems && <DownOutlined />}
+            <NavLink
+              to={item?.to}
+              className={({ isActive }) =>
+                `text-[16px] font-bold ${
+                  isActive
+                    ? 'text-primary no-underline'
+                    : 'text-black no-underline'
+                }`
+              }>
+              {item.title}
+            </NavLink>
+            {/* {item?.subItems && <DownOutlined />} */}
           </div>
           {openMenu === index && item.subItems && (
             <div className="absolute top-full left-0 w-80 border bg-white shadow-lg">
-              {item.subItems.map((col, colIndex) => (
+              {item?.subItems.map((col: any, colIndex: any) => (
                 <div
                   key={colIndex}
                   className="relative"
@@ -60,7 +59,7 @@ export default function HeaderMenu() {
                   </a>
                   {openSubMenu === colIndex && col.subItems && (
                     <div className="absolute top-0 left-full w-64 border bg-white shadow-lg">
-                      {col.subItems.map((subItem, subIndex) => (
+                      {col.subItems.map((subItem: any, subIndex: any) => (
                         <a
                           key={subIndex}
                           href="#"

@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   page: {
     padding: 30,
     fontSize: 12,
-    fontFamily: 'Roboto', // Sử dụng font Roboto
+    fontFamily: 'Roboto',
   },
   header: {
     fontSize: 24,
@@ -64,6 +64,7 @@ const CvDocument = ({ userData }) => (
 // Component chính
 const CreateCvContainer = () => {
   const [isClient, setIsClient] = useState(false);
+  const [fontError, setFontError] = useState(null); // Thêm state để theo dõi lỗi font
   const [userData, setUserData] = useState({
     name: 'Nguyễn Văn A',
     email: 'nguyen.van.a@example.com',
@@ -72,7 +73,7 @@ const CreateCvContainer = () => {
     experience: '2022 - Hiện tại: Lập trình viên, Công ty Phần mềm XYZ',
   });
 
-  // Đăng ký font Roboto từ Google Fonts
+  // Đăng ký font Roboto
   useEffect(() => {
     setIsClient(true);
     try {
@@ -80,11 +81,11 @@ const CreateCvContainer = () => {
         family: 'Roboto',
         fonts: [
           {
-            src: 'https://fonts.gstatic.com/s/roboto/v30/KFOmCnqEu92Fr1Mu4mxM.woff',
+            src: `/font/Roboto-Regular.ttf`, // Sử dụng PUBLIC_URL
             fontWeight: 'normal',
           },
           {
-            src: 'https://fonts.gstatic.com/s/roboto/v30/KFOlCnqEu92Fr1MmEU9fBBc4.woff',
+            src: `/font/Roboto-Bold.ttf`,
             fontWeight: 'bold',
           },
         ],
@@ -103,7 +104,10 @@ const CreateCvContainer = () => {
 
   return (
     <div className="dashboard bg-white m-[20px] pl-[20px]">
-      {/* <h1 className="text-2xl font-bold mb-4">Tạo CV</h1>
+      <h1 className="text-2xl font-bold mb-4">Tạo CV</h1>
+
+      {/* Hiển thị thông báo lỗi font nếu có */}
+      {fontError && <div className="text-red-500 mb-4">{fontError}</div>}
 
       {/* Form nhập liệu */}
       <div className="form mb-6 p-4 border rounded">

@@ -10,28 +10,44 @@ import MyTag from '@/components/basic/tags/tag';
 import ProfileModal from '@/components/business/modal/profile';
 import ContentLeftProfile from './components/ContentLeftProfile';
 import { getMe } from '@/api/features/user';
-import { getLableSingle } from '@/utils/helper';
+import { formatCurrency, getLableSingle } from '@/utils/helper';
 import { educationLevels, englishSkillOptions, levels } from '@/constants/job';
-import { formatDate } from '@/utils/formatDate';
-import { Button } from 'antd';
+import { formatDate, formatDateNew } from '@/utils/formatDate';
+import { Button, Modal } from 'antd';
+import { uploadPdf } from '@/api/features/media';
 
 export default function ProfilePageContainer() {
   const [open, setOpen] = useState(false);
+  const [force, setForce] = useState(0);
   const [dataMe, setDataMe] = useState<any>([]);
+  const [cv, setCV] = useState<any>('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const fetMe = async () => {
     const resMe = await getMe();
     if (resMe.result) {
-      const { candidate_info } = resMe.result;
+      const { candidate_info, skills_info, fields_info } = resMe.result;
       candidate_info.email = resMe.result.email;
-      setDataMe(candidate_info);
+      setDataMe({ ...candidate_info, skills_info, fields_info });
     }
   };
-
+  console.log('data ,e ', dataMe);
   useEffect(() => {
     fetMe();
-  }, []);
+  }, [force]);
+  // const handleUpload = async (e: any) => {
+  //   const uploadedFile = e.target.files[0];
+  //   const formData = new FormData();
+  //   formData.append('pdf', uploadedFile);
 
+  //   // Giả sử uploadImage là hàm API trả về URL của ảnh
+  //   const res = await uploadPdf(formData);
+
+  //   setPdfUrl(res.result?.[0]?.url);
+  //   message.success('Upload file pdf thành công');
+  //   setFile(uploadedFile);
+  //   setFileURL(URL.createObjectURL(uploadedFile)); // tạo URL để tải về
+  // };
   return (
     <div className="mt-[20px] mx-auto w-[1260px] flex gap-[20px]">
       <ContentLeftProfile />
@@ -71,7 +87,7 @@ export default function ProfilePageContainer() {
                 <div className="flex gap-[10px] items-center my-2">
                   <CalendearSvg className="text-[18px]" />
                   <p className="text-[16px]">
-                    {/* {checkAndformatDate(dataMe?.date_of_birth)} */}
+                    {formatDateNew(dataMe?.date_of_birth)}
                   </p>
                 </div>
               </div>
@@ -102,16 +118,23 @@ export default function ProfilePageContainer() {
               <h1 className="text-[14px] text-[#888888] font-medium">
                 Lĩnh vực
               </h1>
-              <h1 className="text-[14px]">IT</h1>
+              <h1 className="text-[14px]">
+                {dataMe?.fields_info?.map((item: any) => (
+                  <div className="mr-2">{item?.name}</div>
+                ))}
+              </h1>
             </div>
             <div className="flex gap-[16px] pb-2 items-center">
               <h1 className="text-[14px] text-[#888888] font-medium">
                 Kĩ Năng:{' '}
               </h1>
               <div className="flex gap-[16px]">
-                <MyTag className="bg-[#d92d20] text-white" title="HTML" />
-                <MyTag className="bg-[#d92d20] text-white" title="HTML" />
-                <MyTag className="bg-[#d92d20] text-white" title="HTML" />
+                {dataMe?.skills_info?.map((item: any) => (
+                  <MyTag
+                    className="bg-[#d92d20]  text-white"
+                    title={item?.name}
+                  />
+                ))}
               </div>
             </div>
 
@@ -141,7 +164,9 @@ export default function ProfilePageContainer() {
               <h1 className="text-[14px] text-[#888888] font-medium">
                 Mức lương mong muốn
               </h1>
-              <h1 className="text-[14px]">{dataMe?.salary_expected}</h1>
+              <h1 className="text-[14px]">
+                {formatCurrency(dataMe?.salary_expected)}
+              </h1>
             </div>
             <div className="flex gap-[16px] items-center my-2 pb-2">
               <h1 className="text-[14px] text-[#888888] font-medium">
@@ -153,6 +178,43 @@ export default function ProfilePageContainer() {
             </div>
           </div>
         </div>
+        <div className="bg-white p-4 mt-4 pb-[500px]">
+          <h1 className="text-[22px] font-bold text-[#333] mb-2 ">
+            CV của bạn
+          </h1>
+          {/* <input
+                  type="file"
+                  id="file"
+                  className="hidden"
+                  onChange={handleUpload}
+                /> */}
+          <div>
+            {dataMe?.cv ? (
+              <Button type="primary" onClick={() => setIsModalOpen(true)}>
+                Xem CV
+              </Button>
+            ) : (
+              'Vui lòng tải cv của bạn lên'
+            )}
+
+            <Modal
+              title="Xem file PDF"
+              open={isModalOpen}
+              onCancel={() => setIsModalOpen(false)}
+              footer={null}
+              width="80%"
+              style={{ top: 10 }}
+              bodyStyle={{ height: 'calc(100vh - 100px)', padding: 0 }}>
+              <iframe
+                src={dataMe?.cv}
+                width="100%"
+                height="600px"
+                className="border"
+                title="PDF Viewer"
+              />
+            </Modal>
+          </div>
+        </div>
         <ProfileModal
           title={`Cập nhật thông tin`}
           id={'2'}
@@ -161,6 +223,7 @@ export default function ProfilePageContainer() {
           onCancel={() => {
             setOpen(false);
           }}
+          setForce={setForce}
         />
       </div>
     </div>

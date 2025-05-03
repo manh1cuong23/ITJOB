@@ -17,18 +17,27 @@ import { ReactComponent as BagSvg } from '@/assets/icons/material-symbols--exper
 import { ReactComponent as EducatiponSvg } from '@/assets/icons/mdi--education-outline.svg';
 import { ReactComponent as PlaceSvg } from '@/assets/icons/ic--outline-place.svg';
 import { ReactComponent as GenderSvg } from '@/assets/icons/mdi-light--gender-male.svg';
-import { getLabelsFromOptions } from '@/utils/helper';
+import { formatCurrency, getLabelsFromOptions } from '@/utils/helper';
 import ApplyJobModal from '@/components/business/modal/apply-job';
+import { formatDateNew } from '@/utils/formatDate';
+import { MyCardjob } from '@/components/basic/card';
 
 interface Props {
   data: any;
   isApply?: boolean;
   setForceUpdate: any;
+  listJob?: any;
 }
-const JobSubDetail: React.FC<Props> = ({ data, isApply, setForceUpdate }) => {
+const JobSubDetail: React.FC<Props> = ({
+  data,
+  listJob,
+  isApply,
+  setForceUpdate,
+}) => {
   const [open, setOpen] = useState(false);
 
   console.log('data', data);
+  console.log('cover_photo', data.cover_photo);
   let datak: any = [];
   if (data && data) {
     datak = [
@@ -40,7 +49,7 @@ const JobSubDetail: React.FC<Props> = ({ data, isApply, setForceUpdate }) => {
       },
       {
         title: 'Hạn nộp',
-        description: data?.deadline,
+        description: formatDateNew(data?.deadline),
         Icon: DateSvg,
       },
       {
@@ -87,20 +96,30 @@ const JobSubDetail: React.FC<Props> = ({ data, isApply, setForceUpdate }) => {
       <div className="mr-4 bg-white">
         <img
           className="w-full h-[200px] object-cover"
-          src="https://salt.topdev.vn/75VadizXM8hmNkdG26qUXYwIAVX3KcVcqvehkraKrMQ/fit/828/1000/ce/1/aHR0cHM6Ly9hc3NldHMudG9wZGV2LnZuL2ltYWdlcy8yMDI1LzAyLzIwL1RvcERldi1hN2UyZmMyZmE5Y2IyOGQzZDMyM2Y2ODgyNDIxNDU3OS0xNzQwMDQ0NzQyLnBuZw"
+          src={
+            data?.employer_info?.cover_photo ||
+            'https://salt.topdev.vn/75VadizXM8hmNkdG26qUXYwIAVX3KcVcqvehkraKrMQ/fit/828/1000/ce/1/aHR0cHM6Ly9hc3NldHMudG9wZGV2LnZuL2ltYWdlcy8yMDI1LzAyLzIwL1RvcERldi1hN2UyZmMyZmE5Y2IyOGQzZDMyM2Y2ODgyNDIxNDU3OS0xNzQwMDQ0NzQyLnBuZw'
+          }
         />
 
         <div>
           <div className="flex items-center gap-[16px] p-[16px] border-b">
             <img
               className="w-[50px] h-[50px] object-contain border"
-              src="https://salt.topdev.vn/Ino2MeJAunov7Yvy_iMPCsjMsSmP51sFxzFzfrFusPI/fit/384/1000/ce/1/aHR0cHM6Ly9hc3NldHMudG9wZGV2LnZuL2ltYWdlcy8yMDIzLzA5LzEyL1RvcERldi1RcG1ZTWFYTmJEMGlXU29kLTE2OTQ1MzM1NTQucG5n"
+              src={
+                data?.employer_info?.avatar ||
+                'https://vawr.vn/images/logo-google.png'
+              }
             />
             <div>
               <h1 className="text-[22px] font-medium">{data?.name}</h1>
               <p className="!mt-2 text-[18px]">
                 {data?.salary &&
-                  `${data?.salary[0] + ' - ' + data?.salary[1]} d`}
+                  `${
+                    formatCurrency(data?.salary[0]) +
+                    ' - ' +
+                    formatCurrency(data?.salary[1])
+                  }`}
               </p>
             </div>
             <MyButton
@@ -140,21 +159,17 @@ const JobSubDetail: React.FC<Props> = ({ data, isApply, setForceUpdate }) => {
             <div className="my-4">
               {data?.skills_info &&
                 data?.skills_info.map((item: any) => (
-                  <MyTag title={item.name} />
+                  <MyTag title={item.name} className="mr-2" />
                 ))}
             </div>
           </div>
         </div>
       </div>
-      <div>
+      <div className="mr-4">
         <h1 className="text-[22px] font-medium mt-4 mb-2">Việc làm tương tự</h1>
-        <div className="flex flex-wrap mr-4">
-          <MyCardjobBasic />
-          <MyCardjobBasic />
-          <MyCardjobBasic />
-          <MyCardjobBasic />
-          <MyCardjobBasic />
-        </div>
+        {listJob?.map((item: any, index: number) => (
+          <MyCardjob key={index} data={item} />
+        ))}
       </div>
       <ApplyJobModal
         title={`Ứng tuyển vị trí ${data?.name}`}

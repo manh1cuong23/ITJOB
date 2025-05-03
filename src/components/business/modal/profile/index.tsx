@@ -23,6 +23,7 @@ import MultiSelectWithSearchAdd from '@/components/basic/select/MultiSelectWithS
 import { getListFields, getListSkill } from '@/api/features/other';
 import { getMe, updateMe } from '@/api/features/user';
 import { mapFieldsToOptions } from '@/utils/helper';
+import { uploadPdf } from '@/api/features/media';
 
 const ProfileModal: React.FC<{
   id?: string;
@@ -34,11 +35,13 @@ const ProfileModal: React.FC<{
   setPageData?: (data: any) => void;
   onBack?: () => void;
   isViewMode?: boolean;
+  setForce?: any;
 }> = ({
   id,
   open,
   onFinish,
   onCancel,
+  setForce,
   title,
   setPageData,
   setOpen,
@@ -48,6 +51,7 @@ const ProfileModal: React.FC<{
   const [form] = Form.useForm();
   const [selectedValue, setSelectedValue] = useState('');
   const [skill, setSkill] = useState([]);
+  const [cvUrl, setCvUrl] = useState('');
   const [fields, setFields] = useState([]);
 
   const resetForm = () => {
@@ -85,7 +89,14 @@ const ProfileModal: React.FC<{
       setFields(fieldOptions);
     }
   };
-
+  const handleUpload = async (e: any) => {
+    const uploadedFile = e.target.files[0];
+    const formData = new FormData();
+    formData.append('pdf', uploadedFile);
+    const res = await uploadPdf(formData);
+    setCvUrl(res.result?.[0]?.url);
+    message.success('Upload file pdf thành công');
+  };
   useEffect(() => {
     if (open) {
       fetchSkillAndFields();
@@ -101,10 +112,11 @@ const ProfileModal: React.FC<{
     const data = await form.validateFields();
     if (id && data) {
       const res = await updateMe({
-        candidate_body: data,
+        candidate_body: { ...data, cv: cvUrl },
       });
       if (res && res.message) {
         message.success('Bạn đã cập nhật thông tin thành công!');
+        setForce((prev: number) => prev + 1);
         onCancel && onCancel();
       }
     }
@@ -327,11 +339,11 @@ const ProfileModal: React.FC<{
                 </Row>
                 <Row gutter={16}>
                   <Col
-                    xs={24} // Chiếm 100% chiều rộng màn hình nhỏ (xs)
-                    sm={24} // Chiếm 19/24 phần chiều rộng màn hình nhỏ hơn sm (80% chiều rộng)
-                    md={24} // Chiếm 19/24 phần màn hình cỡ trung bình (md)
-                    lg={24} // Chiếm 19/24 phần màn hình cỡ lớn (lg)
-                    xl={24} // Chiếm 19/24 phần màn hình cực lớn (xl)
+                    xs={12} // Chiếm 100% chiều rộng màn hình nhỏ (xs)
+                    sm={12} // Chiếm 19/12 phần chiều rộng màn hình nhỏ hơn sm (80% chiều rộng)
+                    md={12} // Chiếm 19/12 phần màn hình cỡ trung bình (md)
+                    lg={12} // Chiếm 19/12 phần màn hình cỡ lớn (lg)
+                    xl={12} // Chiếm 19/24 phần màn hình cực lớn (xl)
                   >
                     <MyFormItem
                       name="skills"
@@ -343,6 +355,26 @@ const ProfileModal: React.FC<{
                         className="change-field"
                         maxTagCount={3}
                         options={skill}
+                      />
+                    </MyFormItem>
+                  </Col>
+                  <Col
+                    xs={12} // Chiếm 100% chiều rộng màn hình nhỏ (xs)
+                    sm={12} // Chiếm 19/12 phần chiều rộng màn hình nhỏ hơn sm (80% chiều rộng)
+                    md={12} // Chiếm 19/12 phần màn hình cỡ trung bình (md)
+                    lg={12} // Chiếm 19/12 phần màn hình cỡ lớn (lg)
+                    xl={12} // Chiếm 19/24 phần màn hình cực lớn (xl)
+                  >
+                    <MyFormItem
+                      name=""
+                      label="CV"
+                      labelCol={{ span: 24 }}
+                      wrapperCol={{ span: 24 }}>
+                      <input
+                        type="file"
+                        id="file"
+                        className="hidden"
+                        onChange={handleUpload}
                       />
                     </MyFormItem>
                   </Col>

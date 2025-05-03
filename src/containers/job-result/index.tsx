@@ -129,9 +129,20 @@ const JobResultContainer: React.FC = () => {
     },
     {
       title: 'CV',
-      dataIndex: 'createdAt',
-      key: 'createdAt',
-      width: 140,
+      dataIndex: 'cv',
+      key: 'cv',
+      width: 150,
+      render: (cv: any, record: any) => {
+        console.log('cv', cv);
+        return (
+          cv && (
+            <NavLink to={cv} target="_blank" className="text-primary">
+              <EyeOutlined className="mr-2" />
+              Xem
+            </NavLink>
+          )
+        );
+      },
     },
     selected == 'interview' && {
       title: 'Thông tin phỏng vấn',
@@ -178,7 +189,7 @@ const JobResultContainer: React.FC = () => {
   ].filter(Boolean);
   console.log('Check dataCount', dataCount);
   return (
-    <div className="my-[20px] mx-[40px] ">
+    <div className="m-[20px] ">
       <div className="flex items-center gap-[20px]">
         <div className="h-[80px] w-1/4 bg-white flex justify-center flex-col p-2">
           <h1>Tổng lượng CV ứng tuyển</h1>

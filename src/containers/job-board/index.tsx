@@ -8,6 +8,9 @@ import { useLocation } from 'react-router-dom';
 
 const JobBoardContainer: React.FC = () => {
   const [listJob, setListJob] = useState([]);
+  const [listRecruiter, setListRecruiter] = useState([]);
+  const [activeTab, setActiveTab] = useState('Việc làm');
+  const tabs = ['Việc làm', 'Công ty'];
   const location = useLocation();
   const formData = location.state?.formData;
 
@@ -15,6 +18,7 @@ const JobBoardContainer: React.FC = () => {
     const res = await getListJobByCandicate(data);
     if (res && res.result) {
       setListJob(res.result.jobs);
+      setListRecruiter(res.result.employers);
     }
     console.log('res', res);
   };
@@ -28,21 +32,28 @@ const JobBoardContainer: React.FC = () => {
   return (
     <div className="dashboard bg-white">
       <DaskboardSearch handleSeach={handleSeach} />
-      <div className=" h-[50px] mx-auto w-[1260px] mt-1  ">
+      <div className="h-[50px] mx-auto w-[1260px] mt-1">
         <div className="flex items-center">
-          <span className="cursor-pointer border-b border-black py-4 px-6 text-[18px] hover:text-[#dd3f24]">
-            Tất cả
-          </span>
-          <span className="cursor-pointer border-b border-black py-4 px-6 text-[18px] hover:text-[#dd3f24]">
-            Việc làm
-          </span>
-          <span className="cursor-pointer border-b border-black py-4 px-6 text-[18px] hover:text-[#dd3f24]">
-            Công ty
-          </span>
+          {tabs.map(tab => (
+            <span
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`cursor-pointer py-4 px-6 text-[18px] hover:text-[#dd3f24] ${
+                activeTab === tab
+                  ? 'border-b-2 border-[#dd3f24] text-[#dd3f24] font-medium'
+                  : ' text-black'
+              }`}>
+              {tab}
+            </span>
+          ))}
         </div>
       </div>
       <div className="mx-auto w-[1260px] pt-[20px] flex ">
-        <DaskboardContentLeft listJob={listJob} />
+        <DaskboardContentLeft
+          isJob={activeTab == 'Việc làm'}
+          listJob={listJob}
+          listRecruiter={listRecruiter}
+        />
         <DaskboardContentRight />
       </div>
     </div>
