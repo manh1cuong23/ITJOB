@@ -10,6 +10,7 @@ import { MenuList } from '@/interface/layout/menu.interface';
 import { adminMenuList, mockMenuList } from '@/mocks/menu';
 import { setUserItem } from '@/stores/slices/auth.slice';
 import { Link } from 'react-router-dom';
+import logo from '../../../assets/logo/logo.png';
 import Union from '/logo.png';
 import Union2 from '/logoSmall.png';
 import MenuComponent from './menu';
@@ -111,7 +112,7 @@ const SideBar = () => {
             {collapsed ? (
               <Link to={'/'}>
                 <img
-                  src={Union2}
+                  src={logo}
                   alt=""
                   style={{
                     marginRight: collapsed ? '2px' : '20px',
@@ -121,7 +122,7 @@ const SideBar = () => {
               </Link>
             ) : (
               <Link to={'/'}>
-                <img src={Union} alt="" />
+                <img src={logo} alt="" className="object-contain !h-[40px]" />
               </Link>
             )}
           </div>

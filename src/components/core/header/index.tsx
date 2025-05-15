@@ -20,7 +20,7 @@ import { ReactComponent as HeaderAccountSettings } from '@/assets/header/header_
 import { ReactComponent as HeaderLogout } from '@/assets/header/header_Logout.svg';
 import { ItemType } from 'antd/es/menu/interface';
 import { setLastName } from '@/stores/slices/tags-view.slice';
-import logo from '../../../assets/logo/logo.jpg';
+import logo from '../../../assets/logo/logo.png';
 
 import {
   setGeneralInfoData,
@@ -239,7 +239,7 @@ const HeaderComponent: FC<HeaderProps> = ({ collapsed, toggle }) => {
         {role === TypeUser.User ? (
           <div className="flex gap-[10px] items-center">
             <div className="">
-              <img className="h-[50px] object-contain" src={logo} alt="Logo" />
+              <img className="h-[40px] object-contain" src={logo} alt="Logo" />
             </div>
             <div className="mx-4">
               <MenuList />
