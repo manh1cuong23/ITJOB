@@ -85,17 +85,19 @@ export default function JobInviteContainer() {
             </div>
           </div>
         </div>
-        {data &&
-          data?.length > 0 &&
-          data?.map((item: any, index: number) => (
-            <NavLink to={`/${item?.job_id}/job-detail`}>
-              <CardJobApply
-                setForceUpdate={setForceUpdate}
-                key={index}
-                data={item}
-              />
-            </NavLink>
-          ))}
+        <div className="max-h-800px overflow-auto">
+          {data &&
+            data?.length > 0 &&
+            data?.map((item: any, index: number) => (
+              <NavLink to={`/${item?.job_id}/job-detail`}>
+                <CardJobApply
+                  setForceUpdate={setForceUpdate}
+                  key={index}
+                  data={item}
+                />
+              </NavLink>
+            ))}
+        </div>
       </div>
     </div>
   );

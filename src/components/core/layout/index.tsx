@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setUserItem } from '@/stores/slices/auth.slice';
 import SideBar from '../sidebar';
 import { TypeUser } from '@/interface/common/type';
+import Footer from '../footer';
 const { Content } = Layout;
 
 const LayoutPage: FC = () => {
@@ -22,7 +23,7 @@ const LayoutPage: FC = () => {
     );
   };
   return (
-    <Layout className="layout-page">
+    <Layout className="layout-page min-h-screen">
       {role != TypeUser.User && <SideBar />}
       <Layout>
         <HeaderComponent collapsed={collapsed} toggle={toggle} />
@@ -30,6 +31,7 @@ const LayoutPage: FC = () => {
           <Suspense fallback={null}>
             <Outlet />
           </Suspense>
+          <div className="mt-auto">{role == TypeUser.User && <Footer />}</div>
         </Content>
       </Layout>
     </Layout>

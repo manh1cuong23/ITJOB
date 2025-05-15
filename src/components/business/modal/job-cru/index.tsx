@@ -321,7 +321,6 @@ const JobCruModal: React.FC<{
                         name="num_of_employees"
                         disabled={isViewMode}
                         isSpan
-                        isCode
                         required
                       />
                     </Col>

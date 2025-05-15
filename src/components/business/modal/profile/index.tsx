@@ -23,7 +23,7 @@ import MultiSelectWithSearchAdd from '@/components/basic/select/MultiSelectWithS
 import { getListFields, getListSkill } from '@/api/features/other';
 import { getMe, updateMe } from '@/api/features/user';
 import { mapFieldsToOptions } from '@/utils/helper';
-import { uploadPdf } from '@/api/features/media';
+import { uploadImage, uploadPdf } from '@/api/features/media';
 
 const ProfileModal: React.FC<{
   id?: string;
@@ -52,6 +52,7 @@ const ProfileModal: React.FC<{
   const [selectedValue, setSelectedValue] = useState('');
   const [skill, setSkill] = useState([]);
   const [cvUrl, setCvUrl] = useState('');
+  const [imgUrl, setImgUrl] = useState('');
   const [fields, setFields] = useState([]);
 
   const resetForm = () => {
@@ -61,11 +62,12 @@ const ProfileModal: React.FC<{
   const fetMe = async () => {
     const resMe = await getMe();
     if (resMe.result) {
+      console.log('check resMe.result', resMe.result);
       const { candidate_info, fields_info, skills_info } = resMe.result;
       candidate_info.fields = mapFieldsToOptions(fields_info);
       candidate_info.skills = mapFieldsToOptions(skills_info);
       candidate_info.email = resMe.result.email;
-
+      setImgUrl(candidate_info?.avatar);
       form.setFieldsValue(candidate_info);
     }
   };
@@ -97,6 +99,14 @@ const ProfileModal: React.FC<{
     setCvUrl(res.result?.[0]?.url);
     message.success('Upload file pdf thành công');
   };
+  const handleUploadAvatar = async (e: any) => {
+    const uploadedFile = e.target.files[0];
+    const formData = new FormData();
+    formData.append('image', uploadedFile);
+    const res = await uploadImage(formData);
+    setImgUrl(res.result?.[0]?.url);
+    message.success('Upload ảnh thành công');
+  };
   useEffect(() => {
     if (open) {
       fetchSkillAndFields();
@@ -112,7 +122,7 @@ const ProfileModal: React.FC<{
     const data = await form.validateFields();
     if (id && data) {
       const res = await updateMe({
-        candidate_body: { ...data, cv: cvUrl },
+        candidate_body: { ...data, cv: cvUrl, avatar: imgUrl },
       });
       if (res && res.message) {
         message.success('Bạn đã cập nhật thông tin thành công!');
@@ -162,6 +172,7 @@ const ProfileModal: React.FC<{
                       name="phone_number"
                     />
                   </Col>
+
                   <Col span={24}>
                     <InputBasic
                       disabled
@@ -186,6 +197,33 @@ const ProfileModal: React.FC<{
                       label="Ngày sinh"
                       name="date_of_birth"
                     />
+                  </Col>
+                  <Col
+                    xs={12} // Chiếm 100% chiều rộng màn hình nhỏ (xs)
+                    sm={12} // Chiếm 19/12 phần chiều rộng màn hình nhỏ hơn sm (80% chiều rộng)
+                    md={12} // Chiếm 19/12 phần màn hình cỡ trung bình (md)
+                    lg={12} // Chiếm 19/12 phần màn hình cỡ lớn (lg)
+                    xl={12} // Chiếm 19/24 phần màn hình cực lớn (xl)
+                  >
+                    <MyFormItem
+                      name="2"
+                      label="Avatar"
+                      labelCol={{ span: 24 }}
+                      wrapperCol={{ span: 24 }}>
+                      <div className="flex gap-[20px]">
+                        <input
+                          type="file"
+                          id="file1"
+                          className="hidden"
+                          onChange={handleUploadAvatar}
+                        />
+                        <img
+                          className="h-[100px] w-[100px] rounded-full object-cover"
+                          src={imgUrl}
+                          alt="Không có"
+                        />
+                      </div>
+                    </MyFormItem>
                   </Col>
                 </Row>
               </div>
@@ -372,7 +410,7 @@ const ProfileModal: React.FC<{
                       wrapperCol={{ span: 24 }}>
                       <input
                         type="file"
-                        id="file"
+                        id="fil3e"
                         className="hidden"
                         onChange={handleUpload}
                       />

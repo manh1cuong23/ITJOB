@@ -164,7 +164,11 @@ const CustomMessagesDropdown: FC<{
                   (e.currentTarget.style.backgroundColor = '#fff')
                 }>
                 <img
-                  src={conversation?.employer_info?.avatar}
+                  src={
+                    conversation?.employer_info?.avatar != ''
+                      ? conversation?.employer_info?.avatar
+                      : 'https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740'
+                  }
                   alt={conversation?.employer_info?.name}
                   style={{
                     width: '40px',
@@ -233,7 +237,11 @@ const CustomMessagesDropdown: FC<{
                   (e.currentTarget.style.backgroundColor = '#fff')
                 }>
                 <img
-                  src={employer?.avatar}
+                  src={
+                    employer?.candidate_info?.avatar != ''
+                      ? employer?.candidate_info?.avatar
+                      : 'https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740'
+                  }
                   alt={employer?.name}
                   style={{
                     width: '40px',
@@ -283,7 +291,11 @@ const CustomMessagesDropdown: FC<{
                     (e.currentTarget.style.backgroundColor = '#fff')
                   }>
                   <img
-                    src={candicate?.candidate_info?.avatar}
+                    src={
+                      candicate?.candidate_info?.avatar != ''
+                        ? candicate?.candidate_info?.avatar
+                        : 'https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740'
+                    }
                     alt={candicate?.candidate_info?.name}
                     style={{
                       width: '40px',

@@ -1,4 +1,3 @@
-import { ISpecialServiceList } from '@/components/business/special-service/type';
 import { TableProps } from 'antd';
 import { ColumnsType } from 'antd/es/table';
 export interface DataType<T> {
@@ -12,10 +11,10 @@ export interface PaginationType {
 }
 
 export interface PageData {
-	pageNumber: number;
-	pageSize: number;
-	total: number;
-	data: any;
+  pageNumber: number;
+  pageSize: number;
+  total: number;
+  data: any;
 }
 
 export interface TableFooterProps {
@@ -26,40 +25,29 @@ export interface TableFooterProps {
   isShowNote?: boolean;
 }
 
-export interface MyTableProps extends TableProps{
+export interface MyTableProps extends TableProps {
   dataSource: DataType<any>[];
   tableScrollY?: string;
-	tableScrollX?: boolean;
-	total?: number;
-	filteredData?: any;
-	paginationDetails?: PaginationType;
-	onPaginationChange?: (page: number, pageSize: number) => void;
+  tableScrollX?: boolean;
+  total?: number;
+  filteredData?: any;
+  paginationDetails?: PaginationType;
+  onPaginationChange?: (page: number, pageSize: number) => void;
   rowSelection?: TableProps<any>['rowSelection'];
-	isPaginationClient?: boolean;
+  isPaginationClient?: boolean;
+  defaultScroolY?: number;
 }
 
-export interface TableWithAddButtonProps extends TableProps {
-	dataSource: DataType<any>[];
-  tableScrollY?: string;
-	total?: number;
-	filteredData?: any;
-	setSpecialServiceData: React.Dispatch<
-    React.SetStateAction<ISpecialServiceList[]>
-  >;
-	specialServiceList: any;
-	hotelId?: string | null;
-}
-
-export interface MyTableSumProps extends TableProps{
+export interface MyTableSumProps extends TableProps {
   dataSource: DataType<any>[];
   columns: ColumnsType<any>;
   tableScrollY?: string;
-	tableScrollX?: boolean;
-	total?: Totals;
-	filteredData?: any;
-	paginationDetails?: PaginationType;
-	onPaginationChange?: (page: number, pageSize: number) => void;
-	isEdit?: boolean;
+  tableScrollX?: boolean;
+  total?: Totals;
+  filteredData?: any;
+  paginationDetails?: PaginationType;
+  onPaginationChange?: (page: number, pageSize: number) => void;
+  isEdit?: boolean;
 }
 
 interface Totals {

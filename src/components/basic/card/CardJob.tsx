@@ -64,7 +64,7 @@ const MyCardjob: React.FC<MyCardProps> = ({
                 <span className="text-black text-[14px] ml-2">
                   {
                     experienceLevels.find(
-                      (item: any) => item.value == data.level
+                      (item: any) => item.value == data.year_experience
                     )?.label
                   }
                 </span>

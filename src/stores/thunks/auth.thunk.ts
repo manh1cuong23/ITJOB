@@ -22,7 +22,10 @@ export const loginAsync = createAsyncThunk(
         // Lưu token vào localStorage
         localStorage.setItem('token', response.result.accessToken);
         localStorage.setItem('refreshToken', response.result.refreshToken);
-        localStorage.setItem('username', decoded.payload.userId);
+        localStorage.setItem(
+          'username',
+          decoded.payload?.username || decoded.payload?.userId
+        );
         return response;
       } else {
         onError?.(response.message);

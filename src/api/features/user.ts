@@ -131,3 +131,17 @@ export async function updateMe(data: any, options?: RequestOptions) {
     throw error;
   }
 }
+
+export async function updateAccount(data: any, options?: RequestOptions) {
+  try {
+    const response = await request(`/users/update-account`, {
+      method: 'PUT',
+      data: data,
+      ...(options || {}),
+    });
+    return response;
+  } catch (error) {
+    console.error('Error during update guest info:', error);
+    throw error;
+  }
+}

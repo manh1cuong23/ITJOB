@@ -20,7 +20,7 @@ const DaskboardContentRight: React.FC = () => {
     <div className="w-1/3">
       <div className="ml-4">
         <h1 className="text-lg font-bold text-black">Tiêu điểm</h1>
-        <div className="h-[1400px]">
+        <div className="max-h-[1400px] overflow-auto">
           {data?.length > 0 &&
             data?.map((item: any, index: number) => (
               <MyCardjobCompany key={index} data={item} />

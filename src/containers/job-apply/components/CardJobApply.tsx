@@ -23,7 +23,6 @@ export default function CardJobApply({ data, setForceUpdate }: Props) {
       data?.status == ApplyStatus.Failed
   );
 
-  console.log('check ddata', data);
   useEffect(() => {
     if (!open || !openSeeMe || !openInfor) {
       setForceUpdate((prv: number) => prv + 1);
@@ -54,7 +53,7 @@ export default function CardJobApply({ data, setForceUpdate }: Props) {
         return 'bg-primary text-white hover:bg-primary/90';
     }
   };
-
+  console.log('data', data);
   return (
     <div className="bg-white px-4 py-6 flex justify-between mt-[10px]">
       <NavLink to={`/${data?.job_id}/job-detail`}>

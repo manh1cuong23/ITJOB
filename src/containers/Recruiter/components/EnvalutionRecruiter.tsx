@@ -73,19 +73,21 @@ export default function EnvalutionRecruiter({ data }: any) {
           {data?.result?.length} đánh giá
         </h1>
       </div>
-      {data &&
-        data?.result &&
-        data?.result?.length > 0 &&
-        data?.result?.map((item: any, index: number) => (
-          <EnvalutionContent
-            title={item?.title}
-            isKK={item?.isEncouragedToWorkHere}
-            content={item?.content}
-            created={item?.createdAt}
-            key={index}
-            rate={item?.rate}
-          />
-        ))}
+      <div className=" overflow-auto max-h-[400px]">
+        {data &&
+          data?.result &&
+          data?.result?.length > 0 &&
+          data?.result?.map((item: any, index: number) => (
+            <EnvalutionContent
+              title={item?.title}
+              isKK={item?.isEncouragedToWorkHere}
+              content={item?.content}
+              created={item?.createdAt}
+              key={index}
+              rate={item?.rate}
+            />
+          ))}
+      </div>
     </div>
   );
 }

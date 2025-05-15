@@ -1,5 +1,11 @@
 import { TableBasic } from '@/components/basic/table';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import BackgroundCandidate from './components/BackgroundCandidate';
 import { debounce } from 'lodash';
 import { Button, Select, Tag } from 'antd';
@@ -38,12 +44,13 @@ const getLabelByValue = (applyStatusOptions: Option[], value: number) => {
 
 const JobResultContainer: React.FC = () => {
   const [data, setData] = useState([]);
+  const [countJob, setCountJob] = useState(0);
   const [dataCount, setDataCount] = useState([]);
   const [status, setStatus] = useState<any>('');
   const [forceUpdate, setForceUpdate] = useState(0);
 
   const [selected, setSelected] = useState('all');
-
+  const aRef = useRef(true);
   const filters = [
     { key: 'all', label: 'Tất cả', status: '' },
     { key: 'matched', label: 'CV phù hợp', status: ApplyStatus.Approved }, // từ 'unread' → 'matched'
@@ -66,6 +73,10 @@ const JobResultContainer: React.FC = () => {
     if (res && res.result) {
       const datam = res.result.map((item: any) => item.candidate_info);
       setData(res.result);
+      if (aRef.current) {
+        setCountJob(res.result.length);
+        aRef.current = false;
+      }
     }
   };
   const fetchListCountCandicates = async (id: string) => {
@@ -193,9 +204,7 @@ const JobResultContainer: React.FC = () => {
       <div className="flex items-center gap-[20px]">
         <div className="h-[80px] w-1/4 bg-white flex justify-center flex-col p-2">
           <h1>Tổng lượng CV ứng tuyển</h1>
-          <h1 className="text-[18px] mt-2">
-            {data?.length ? data?.length : 0}
-          </h1>
+          <h1 className="text-[18px] mt-2">{countJob}</h1>
         </div>
         <div className="h-[80px] w-1/4 bg-white flex justify-center flex-col p-2 text-[#52c41a]">
           <h1>CV trúng tuyển</h1>
@@ -255,9 +264,10 @@ const JobResultContainer: React.FC = () => {
         </div>
         <div></div>
         <div className="">
-          <div className=" w-full h-[800px]">
+          <div className=" w-full ">
             <TableBasic
               dataSource={data}
+              defaultScroolY={4}
               columns={columns}
               isPaginationClient
               scroll={{ x: 'max-content' }}

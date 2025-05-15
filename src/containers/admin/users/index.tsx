@@ -59,41 +59,6 @@ const getStatusStyles = (status: number) => {
   }
 };
 
-const dataSource = [
-  {
-    key: '1',
-    code: 'DEV001',
-    service: 'Lập trình viên Frontend',
-    createdAt: '2025-04-01',
-    status: 'Đang tuyển',
-    applicants: 15,
-  },
-  {
-    key: '2',
-    code: 'DEV002',
-    service: 'Lập trình viên Backend',
-    createdAt: '2025-03-28',
-    status: 'Hết hạn',
-    applicants: 25,
-  },
-  {
-    key: '3',
-    code: 'DEV003',
-    service: 'Tester',
-    createdAt: '2025-03-30',
-    status: 'Đang tuyển',
-    applicants: 10,
-  },
-  {
-    key: '4',
-    code: 'DEV004',
-    service: 'Quản lý dự án',
-    createdAt: '2025-03-25',
-    status: 'Đóng',
-    applicants: 5,
-  },
-];
-
 const AdminUsersContainer: React.FC = () => {
   const [data, setData] = useState([]);
   const [idSelect, setIdSelect] = useState('');
@@ -126,14 +91,15 @@ const AdminUsersContainer: React.FC = () => {
       title: 'Ảnh đại diện',
       dataIndex: 'avatar',
       key: 'avatar',
-      render: (avatar: any) => <img src={avatar} alt="img" />,
+      render: (avatar: any) => (
+        <img
+          src={avatar}
+          className="h-[50px] w-[50px] rounded-full"
+          alt="img"
+        />
+      ),
     },
-    {
-      title: 'Ảnh nền',
-      dataIndex: 'cover_photo',
-      key: 'cover_photo',
-      render: (cover_photo: any) => <img src={cover_photo} alt="img" />,
-    },
+
     {
       title: 'Vai trò người dùng',
       dataIndex: 'role',
@@ -324,7 +290,7 @@ const AdminUsersContainer: React.FC = () => {
             </div>
           </Form>
         </div>
-        <div className="bg-white mt-[20px] w-full h-[800px]">
+        <div className="bg-white mt-[20px] w-full">
           <TableBasic
             dataSource={data}
             columns={columnAdd}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Form, Col, Row, Avatar } from 'antd';
+import { Modal, Form, Col, Row, Avatar, message } from 'antd';
 import { MyButton } from '@/components/basic/button';
 import './ForgotPassword.less';
 import { CheckCircleFilled } from '@ant-design/icons';
@@ -10,10 +10,10 @@ import { MyModal } from '@/components/basic/modal';
 import ChangePassword from './ChangePassword';
 import { selectPassWord } from '@/stores/slices/auth.slice';
 import { useSelector } from 'react-redux';
-import { apiUserSearch } from '@/api/features/user';
 import Password from 'antd/es/input/Password';
 import { decryptData } from '@/utils/crypto';
-
+import { getMe, updateAccount } from '@/api/features/user';
+import { ReactComponent as HeaderAvatar } from '@/assets/header/header_avatar.svg';
 interface IProps {
   isOpen: boolean;
   onClose: () => void;
@@ -25,41 +25,26 @@ const Profile: React.FC<IProps> = ({ isOpen, onClose, onSubmit }) => {
   const [email, setEmail] = useState('');
   const [showForgotModal, setShowForgotModal] = useState(isOpen);
   const [showChangePassword, setShowChangePassword] = useState(false);
-	const [userName, setUserName] = useState('');
-	const [currentPass, setCurrentPass] = useState('');
+  const [userName, setUserName] = useState('');
+  const [currentPass, setCurrentPass] = useState('');
   const [initialValues, setInitialValues] = useState<any>();
 
-  const featData = async (SearchField: any) => {
-		let decryptedPassword = '';
-		const pass = JSON.parse(localStorage.getItem('json') || '');
-    if (pass !== '') {
-      decryptedPassword = decryptData(pass).replace('CMS', '');
-      setCurrentPass(decryptedPassword);
-    }
-    const res = await apiUserSearch(SearchField);
-    if (res && res.status) {
-      form.setFieldsValue({
-        username: res.result.data?.[0]?.userName,
-        email: res.result.data?.[0]?.email,
-        phone: res.result.data?.[0]?.phone,
-        password: decryptedPassword,
-      });
-			setEmail(res.result.data?.[0]?.email);
-      setUserName(res.result.data?.[0]?.userName);
-    }
+  const featData = async () => {
+    const res = await getMe();
+    console.log('res', res);
+    console.log('check', res.result?.username);
+    console.log('res.result?.email', res.result?.email);
+    form.setFieldsValue({
+      username: res.result?.username,
+      email: res.result?.email,
+      password: res.result?.password,
+    });
+    setEmail(res.result?.email);
+    setUserName(res.result?.username);
   };
 
   React.useEffect(() => {
-    setShowForgotModal(isOpen);
-    if (isOpen) {
-      const initialSearchField: API.searchObj[] = [
-        {
-          key: 'userName',
-          value: localStorage.getItem('username') || '',
-        },
-      ];
-      featData({ searchFields: initialSearchField });
-    }
+    featData();
   }, [isOpen]);
 
   const handleCloseChangePassword = () => {
@@ -70,7 +55,15 @@ const Profile: React.FC<IProps> = ({ isOpen, onClose, onSubmit }) => {
   const handleBackToOtp = () => {
     setShowChangePassword(false);
   };
-
+  const handleSubMit = async () => {
+    const formData = await form.validateFields();
+    if (formData?.username) {
+      await updateAccount({ username: formData.username });
+      message.success('cập nhật username thành công');
+      localStorage.setItem('username', formData.username);
+    }
+    onSubmit && onSubmit();
+  };
   return (
     <>
       <MyModal
@@ -82,7 +75,7 @@ const Profile: React.FC<IProps> = ({ isOpen, onClose, onSubmit }) => {
             <MyButton onClick={onClose} buttonType="outline">
               Close
             </MyButton>
-            <MyButton type="primary" onClick={onSubmit}>
+            <MyButton type="primary" onClick={handleSubMit}>
               Save
             </MyButton>
           </>
@@ -99,12 +92,12 @@ const Profile: React.FC<IProps> = ({ isOpen, onClose, onSubmit }) => {
             <Col xs={24} sm={24} md={24} lg={24} xl={24}>
               <Avatar
                 size={100}
+                src={<HeaderAvatar className="h-full w-full object-cover" />}
                 style={{
                   backgroundColor: '#fff',
                   border: '1px solid #ddd',
-                  fontSize: '40px',
-                  color: '#000',
-                }}></Avatar>
+                }}
+              />
               <CheckCircleFilled
                 style={{
                   position: 'absolute',
@@ -119,13 +112,10 @@ const Profile: React.FC<IProps> = ({ isOpen, onClose, onSubmit }) => {
               />
             </Col>
             <Col xs={24} sm={24} md={12} lg={12} xl={12}>
-              <InputBasic label="Username" name="username" disabled />
+              <InputBasic label="Username" name="username" />
             </Col>
             <Col xs={24} sm={24} md={12} lg={12} xl={12}>
               <InputBasic disabled name="email" label="Email" />
-            </Col>
-            <Col xs={24} sm={24} md={24} lg={24} xl={24}>
-              <InputBasic label="Phone" name="phone" disabled />
             </Col>
           </Row>
 
@@ -141,6 +131,7 @@ const Profile: React.FC<IProps> = ({ isOpen, onClose, onSubmit }) => {
               <MyFormItem
                 label="Password"
                 name="password"
+                disabled
                 extra={
                   <a
                     href="#"

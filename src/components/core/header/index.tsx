@@ -20,6 +20,8 @@ import { ReactComponent as HeaderAccountSettings } from '@/assets/header/header_
 import { ReactComponent as HeaderLogout } from '@/assets/header/header_Logout.svg';
 import { ItemType } from 'antd/es/menu/interface';
 import { setLastName } from '@/stores/slices/tags-view.slice';
+import logo from '../../../assets/logo/logo.jpg';
+
 import {
   setGeneralInfoData,
   setGuestSelected,
@@ -125,9 +127,6 @@ const HeaderComponent: FC<HeaderProps> = ({ collapsed, toggle }) => {
             <div>
               <div style={{ color: 'black', fontWeight: 'bold' }}>
                 {localStorage.getItem('username') || 'Nguyen Van A'}
-              </div>
-              <div style={{ color: 'gray', fontSize: '12px' }}>
-                anhnv@apec.com.vn
               </div>
             </div>
           </div>
@@ -238,13 +237,9 @@ const HeaderComponent: FC<HeaderProps> = ({ collapsed, toggle }) => {
         style={headerStyle}
         data-theme="light">
         {role === TypeUser.User ? (
-          <div className="flex gap-[10px]">
-            <div className="bg-gray-500">
-              <img
-                className="h-[50px] object-contain"
-                src="https://itviec.com/assets/logo-itviec-4492a2f2577a15a0a1d55444c21c0fa55810822b3b189fc689b450fb62ce0b5b.png"
-                alt="Logo"
-              />
+          <div className="flex gap-[10px] items-center">
+            <div className="">
+              <img className="h-[50px] object-contain" src={logo} alt="Logo" />
             </div>
             <div className="mx-4">
               <MenuList />

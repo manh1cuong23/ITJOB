@@ -35,8 +35,8 @@ export default function InforRecruiter({ data }: any) {
     },
   ];
   return (
-    <div className="">
-      <div className="mt-4 bg-white px-4  py-4">
+    <div className="overflow-auto max-h-[700px] mt-4">
+      <div className=" bg-white px-4  py-4 ">
         <h1 className="font-bold text-[24px] pb-4 border-b">Thông tin chung</h1>
         <div className="mt-4 flex flex-wrap">
           {gioithie.map((item, index) => (
@@ -82,11 +82,12 @@ export default function InforRecruiter({ data }: any) {
           Hình ảnh công ty
         </h1>
         <div className="flex flex-wrap">
-          {data?.images?.map((item: any) => (
-            <div className="p-2 w-1/4">
-              <img src={item} className=" min-h-[100px] max-h-[200px]" />
-            </div>
-          ))}
+          {data?.images?.length > 0 &&
+            data?.images?.map((item: any) => (
+              <div className="p-2 w-1/4">
+                <img src={item} className=" min-h-[100px] max-h-[200px]" />
+              </div>
+            ))}
         </div>
       </div>
     </div>

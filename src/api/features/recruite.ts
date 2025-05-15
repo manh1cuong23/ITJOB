@@ -3,7 +3,15 @@ import { request, RequestOptions } from '@/utils/request';
 export async function getListJob(data: any, options?: RequestOptions) {
   const params: any = {};
   // Duyệt qua từng field lọc để gán vào params nếu tồn tại
-  ['key', 'level', 'status', 'type_work', 'year_experience'].forEach(field => {
+  [
+    'key',
+    'level',
+    'status',
+    'deadline',
+    'createdAt',
+    'type_work',
+    'year_experience',
+  ].forEach(field => {
     if (data[field] != undefined && data[field] != null && data[field] != '') {
       params[field] = data[field];
     }

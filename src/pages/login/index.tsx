@@ -103,7 +103,7 @@ const LoginForm = () => {
             dispatch(
               setUserItem({
                 logged: true,
-                username: data?.userId,
+                username: data?.username || data?.userId,
                 role: data?.role,
                 token: data?.token,
               })

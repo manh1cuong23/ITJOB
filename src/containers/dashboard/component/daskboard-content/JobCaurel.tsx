@@ -7,7 +7,7 @@ const { Title, Text } = Typography;
 
 const JobCard = ({ job, className }: any) => {
   return (
-    <div className={`${className} p-2 shadow-xl `}>
+    <div className={`${className} p-2 `}>
       <Card
         style={{
           borderRadius: 10,

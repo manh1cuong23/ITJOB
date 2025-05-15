@@ -4,6 +4,10 @@ export const pageTitles: { url: string; title: string; regex?: RegExp }[] = [
   { url: '/admin/users', title: 'Quản lý tài khoản' },
   { url: '/admin/jobs', title: 'Quản lý tin tuyển dụng' },
   { url: '/admin/envalutions', title: 'Quản lý đánh giá công ty' },
+  { url: '/recruiter/management/transaction', title: 'Quản lý giao dịch' },
+  { url: '/admin/management/transaction', title: 'Quản lý giao dịch' },
+  { url: '/admin/management/package', title: 'Quản lý gói tuyển dụng' },
+
   {
     url: '/recruiter/jobs/results/:id',
     title: 'Quản lý ứng viên',
@@ -15,6 +19,7 @@ export const pageTitles: { url: string; title: string; regex?: RegExp }[] = [
     regex: /^\/recruiter\/cv\/([a-f0-9]+)\/detail\/([a-f0-9]+)$/,
   },
   { url: '/recruiter/candicate', title: 'Tìm kiếm ứng viên' },
+  { url: '/admin/management/package', title: 'Quản lý gói tuyển dụng' },
   { url: '/recruiter/profile', title: 'Thông tin công ty' },
   {
     url: '/recruiter/cv/:cvId/detail/invite',

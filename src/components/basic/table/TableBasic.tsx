@@ -7,6 +7,7 @@ import { useState } from 'react';
 const TableBasic = ({
   dataSource,
   columns,
+  defaultScroolY = 6,
   tableScrollY,
   paginationDetails,
   onPaginationChange,
@@ -18,7 +19,7 @@ const TableBasic = ({
 }: MyTableProps) => {
   const [pagination, setPagination] = useState({
     current: 1,
-    pageSize: 15,
+    pageSize: 10,
   });
 
   const autoPagination =
@@ -28,7 +29,7 @@ const TableBasic = ({
           pageSize: pagination.pageSize,
           total: dataSource.length,
           showSizeChanger: true,
-          pageSizeOptions: ['15', '30', '50', '100'],
+          pageSizeOptions: ['10', '20', '40', '100'],
           showTotal: (total: number) => `Total: ${total}`,
           onChange: (page: number, pageSize: number) => {
             setPagination({ current: page, pageSize });
@@ -73,8 +74,8 @@ const TableBasic = ({
     }, 0);
 
   const scroll =
-    dataSource && dataSource.length > 6
-      ? { y: 240, x: tableScrollX ? totalWidth : 0 }
+    dataSource && dataSource.length > defaultScroolY
+      ? { y: 500, x: tableScrollX ? totalWidth : 0 }
       : { x: tableScrollX ? totalWidth : 0 };
 
   return (

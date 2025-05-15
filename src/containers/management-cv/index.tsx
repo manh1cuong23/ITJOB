@@ -107,7 +107,7 @@ const dataSource = [
   },
 ];
 const ManagementCandicateContainer: React.FC = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<any>([]);
   const [skills, setSkill] = useState([]);
   const [fields, setFields] = useState([]);
   const [form] = Form.useForm();
@@ -137,8 +137,6 @@ const ManagementCandicateContainer: React.FC = () => {
       setFields(fieldOptions);
     }
   };
-  console.log('skills', skills);
-  console.log('fields', fields);
   const fetchAllCV = async (data?: any) => {
     const res = await getListCandicate(data);
     if (res.result) {
@@ -227,8 +225,13 @@ const ManagementCandicateContainer: React.FC = () => {
         </div>
       </div>
       <div className="bg white  m-[20px]">
-        <div className=" w-full h-[800px]">
-          <TableBasic dataSource={data} columns={columns} isPaginationClient />
+        <div className=" w-full ">
+          <TableBasic
+            defaultScroolY={4}
+            dataSource={data}
+            columns={columns}
+            isPaginationClient
+          />
         </div>
       </div>
     </div>
