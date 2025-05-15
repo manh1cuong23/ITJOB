@@ -45,6 +45,11 @@ export const mockMenuList: MenuList = [
     icon: <DashboardSvg />,
   },
   {
+    key: '/recruiter/management/transaction',
+    label: 'Quản lý giao dịch',
+    icon: <DashboardSvg />,
+  },
+  {
     key: '/recruiter/profile',
     label: 'Xem và chỉnh sửa trang công ty',
     icon: <DashboardSvg />,
@@ -62,8 +67,18 @@ export const adminMenuList: MenuList = [
     icon: <DashboardSvg />,
   },
   {
+    key: '/admin/management/package',
+    label: 'Quản lý gói tuyển dụng',
+    icon: <DashboardSvg />,
+  },
+  {
     key: '/admin/envalutions',
     label: 'Quản lý đánh giá',
+    icon: <DashboardSvg />,
+  },
+  {
+    key: '/admin/management/transaction',
+    label: 'Quản lý giao dịch',
     icon: <DashboardSvg />,
   },
 ];

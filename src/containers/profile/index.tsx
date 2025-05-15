@@ -59,7 +59,10 @@ export default function ProfilePageContainer() {
           <div className="flex gap-[40px]">
             <img
               className="rounded-full h-[160px] w-[160px] object-cover"
-              src="https://c.topdevvn.com/v4/_next/static/media/no-avatar.6db79731.svg"
+              src={
+                dataMe?.avatar ||
+                'https://c.topdevvn.com/v4/_next/static/media/no-avatar.6db79731.svg'
+              }
             />
             <div className="flex w-full justify-between">
               <div className="w-full">
@@ -99,7 +102,7 @@ export default function ProfilePageContainer() {
                       setOpen(true);
                     }}>
                     <EditOutlined />
-                    <h1 className="text-[16px]  ml-2 text-black-700 w-[80px]">
+                    <h1 className="text-[16px] mb-0  ml-2 text-black-700 w-[80px]">
                       Sửa hồ sơ
                     </h1>
                   </div>
@@ -178,7 +181,7 @@ export default function ProfilePageContainer() {
             </div>
           </div>
         </div>
-        <div className="bg-white p-4 mt-4 pb-[500px]">
+        <div className="bg-white p-4 mt-4 ">
           <h1 className="text-[22px] font-bold text-[#333] mb-2 ">
             CV của bạn
           </h1>

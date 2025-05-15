@@ -167,7 +167,7 @@ const CVDetailContainer: React.FC = () => {
     },
   ];
   return (
-    <div className=" w-[1260px] pt-[20px] bg-white  m-[20px] px-4">
+    <div className="  pt-[20px] bg-white  m-[20px] px-4">
       <div>
         <div className="flex gap-[16px] items-center mb-4">
           <h1 className="text-[22px] font-medium ">Chức danh/ Vị trí</h1>
@@ -234,7 +234,7 @@ const CVDetailContainer: React.FC = () => {
                 Xem CV
               </Button>
             ) : (
-              'Vui lòng tải cv của bạn lên'
+              'Chưa có CV'
             )}
 
             <Modal

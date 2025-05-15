@@ -16,6 +16,7 @@ const PrivateRoute: FC<PrivateRouteProps> = ({ element, rolePermision }) => {
   const accessToken = localStorage.getItem('token');
   const location = useLocation();
   const { role, username } = useSelector(state => state.auth);
+  console.log('check role', role);
   useEffect(() => {
     console.log('role pee', role, rolePermision);
 

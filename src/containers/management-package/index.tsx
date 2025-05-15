@@ -1,11 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { MyButton } from '@/components/basic/button';
 import { SingleSelectSearchCustom } from '@/components/basic/select';
-import { Button, Col, Form, Input, message, Row, Space } from 'antd';
 import {
+  Button,
+  Col,
+  Dropdown,
+  Form,
+  Input,
+  Menu,
+  message,
+  Row,
+  Space,
+} from 'antd';
+import {
+  CheckOutlined,
   DeleteOutlined,
+  DownOutlined,
   EditOutlined,
   EyeOutlined,
+  PoweroffOutlined,
   SearchOutlined,
 } from '@ant-design/icons';
 import { TableBasic } from '@/components/basic/table';
@@ -18,11 +31,12 @@ import { JobStatus, JobStatusOptions, jobStatusOptions } from '@/constants/job';
 import { DatePickerFromTo } from '@/components/business/date-picker';
 import { create } from 'lodash';
 import { formatDateToYMD } from '@/utils/formatDate';
-import JobCruModal from '@/components/business/modal/job-cru';
 import ConfirmModal from '@/components/business/modal/ConfirmModal/BookInterviewModal';
 import { getMe } from '@/api/features/user';
 import SalePost from '@/components/business/modal/SalePost';
-import { uploadImage } from '@/api/features/media';
+import { formatCurrency } from '@/utils/helper';
+import { deletePackage, getListPackage } from '@/api/features/package';
+import PackageCruModal from '@/components/business/modal/package-cru';
 
 const getStatusStyles = (status: number) => {
   switch (status) {
@@ -37,42 +51,7 @@ const getStatusStyles = (status: number) => {
   }
 };
 
-const dataSource = [
-  {
-    key: '1',
-    code: 'DEV001',
-    service: 'Lập trình viên Frontend',
-    createdAt: '2025-04-01',
-    status: 'Đang tuyển',
-    applicants: 15,
-  },
-  {
-    key: '2',
-    code: 'DEV002',
-    service: 'Lập trình viên Backend',
-    createdAt: '2025-03-28',
-    status: 'Hết hạn',
-    applicants: 25,
-  },
-  {
-    key: '3',
-    code: 'DEV003',
-    service: 'Tester',
-    createdAt: '2025-03-30',
-    status: 'Đang tuyển',
-    applicants: 10,
-  },
-  {
-    key: '4',
-    code: 'DEV004',
-    service: 'Quản lý dự án',
-    createdAt: '2025-03-25',
-    status: 'Đóng',
-    applicants: 5,
-  },
-];
-
-const ManagementJobContainer: React.FC = () => {
+const PackageContainer: React.FC = () => {
   const [data, setData] = useState([]);
   const [employInfor, setEmployInfor] = useState<any>([]);
   const [idSelect, setIdSelect] = useState('');
@@ -81,10 +60,10 @@ const ManagementJobContainer: React.FC = () => {
   const [openEdit, setOpenEdit] = useState(false);
   const [resume, setResumne] = useState(false);
   const [stop, setStop] = useState(false);
+  const [deleteD, setDeleteD] = useState<any>(false);
   const [isViewMode, setIsViewMode] = useState(false);
   const [idSelected, setIdSelected] = useState('');
   const [forceUpdate, setForceUpdate] = useState(1);
-  const [imageUrl, setImageUrls] = useState('');
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
@@ -92,119 +71,58 @@ const ManagementJobContainer: React.FC = () => {
     setIsViewMode(false);
   };
 
-  const handleUpload = async ({ file }: any) => {
-    const formData = new FormData();
-    formData.append('image', file);
-
-    try {
-      // Giả sử uploadImage là hàm API trả về URL của ảnh
-      const res = await uploadImage(formData);
-      console.log('check res', res);
-      const newImageUrl = res.result?.[0]?.url; // Điều chỉnh theo response của API
-
-      // Thêm URL mới vào state
-      setImageUrls(newImageUrl);
-    } catch (error) {
-      console.error('Upload failed:', error);
-    }
-  };
   const columns: any = [
     {
-      title: 'Vị trí',
+      title: 'Tên gói',
       dataIndex: 'name',
       key: 'name',
     },
     {
-      title: 'Ngày tạo',
-      dataIndex: 'createdAt',
-      key: 'createdAt',
-      render: (createdAt: any) => createdAt && formatDateToYMD(createdAt),
+      title: 'Giá gói',
+      dataIndex: 'price',
+      key: 'price',
+      render: (price: any) => price && formatCurrency(price),
     },
     {
-      title: 'Hạn Nộp',
-      dataIndex: 'deadline',
-      key: 'deadline',
-      render: (deadline: any) => deadline && formatDateToYMD(deadline),
+      title: 'Số lượt tuyển dụng thêm',
+      dataIndex: 'count',
+      key: 'count',
     },
     {
-      title: 'Trạng thái',
+      title: 'Trạng thái',
       dataIndex: 'status',
       key: 'status',
-      render: (status: number, recod: any) => {
-        const statusLabel =
-          jobStatusOptions.find(item => item.value === status)?.label ||
-          'Không xác định';
-        return (
-          <div className="flex justify-between items-center">
-            <span
-              className={`inline-block py-1  rounded-full  font-medium  ${getStatusStyles(
-                status
-              )}`}>
-              {statusLabel}
-            </span>
-            {status == JobStatus.Recuriting && (
-              <span
-                onClick={e => {
-                  e.stopPropagation();
-                  setIdSelect(recod._id);
-                  setStop(true);
-                }}
-                className="text-primary hover:underline cursor-pointer">
-                Tạm dừng
-              </span>
-            )}
-            {status == JobStatus.Stopped && (
-              <span
-                className="text-blue-500 hover:underline cursor-pointer"
-                onClick={e => {
-                  e.stopPropagation();
-                  setIdSelect(recod._id);
-                  setResumne(true);
-                }}>
-                Tiếp tục
-              </span>
-            )}
-          </div>
+      render: (status: boolean) => {
+        return status ? (
+          <span style={{ color: 'green' }}>Đang hoạt động</span>
+        ) : (
+          <span style={{ color: 'red' }}>Không hoạt động</span>
         );
       },
     },
-    {
-      title: 'Số lượng tuyển dụng',
-      dataIndex: 'num_of_employees',
-      key: 'num_of_employees',
-    },
   ];
-  const fetchListJob = async (data: any) => {
-    const res = await getListJob(data);
+  const fetchListPackage = async (data?: any) => {
+    const res = await getListPackage();
     if (res && res.result) {
-      setData(res.result.jobs);
+      setData(res.result);
     }
-  };
-
-  const fetchMe = async () => {
-    const res = await getMe();
-    if (res?.result) {
-      setEmployInfor(res?.result?.employer_info);
-    }
-    console.log('res', res);
   };
 
   const handleSearch = async () => {
     const data = await form.validateFields();
     console.log('check dataa', data);
-    fetchListJob(data);
+    fetchListPackage(data);
   };
 
   useEffect(() => {
-    fetchListJob([]);
-    fetchMe();
+    fetchListPackage([]);
   }, [forceUpdate]);
 
   const handleResume = async () => {
     const res = await changeStatus(idSelect, { status: JobStatus.Recuriting });
     if (res?.message) {
       message.success('Tin tuyển dụng đã được yêu cầu tiếp tục tuyển dụng');
-      fetchListJob([]);
+      fetchListPackage([]);
       setResumne(false);
     }
   };
@@ -212,12 +130,19 @@ const ManagementJobContainer: React.FC = () => {
   const handleStop = async () => {
     const res = await changeStatus(idSelect, { status: JobStatus.Stopped });
     if (res?.message) {
-      fetchListJob([]);
+      fetchListPackage([]);
       message.success('Tin tuyển dụng đã được yêu cầu dừng tuyển dụng');
       setStop(false);
     }
   };
-  const handleBuy = () => {};
+  const handleDelete = async () => {
+    const res = await deletePackage(idSelected);
+    if (res?.message) {
+      message.success('Gói đã được xóa thành công');
+      setDeleteD(false);
+      fetchListPackage();
+    }
+  };
 
   const columnAdd = [
     ...columns,
@@ -227,32 +152,85 @@ const ManagementJobContainer: React.FC = () => {
       key: 'service',
       width: 160,
       align: 'center',
-      render: (_: any, record: any) => (
-        <div className="flex items-center gap-[16px] justify-center">
-          <EyeOutlined
-            onClick={e => {
-              e.stopPropagation();
+      render: (_: any, record: any) => {
+        console.log('check record', record);
+        const menu = (
+          <Menu
+            onClick={({ key }) => {
+              console.log('Checkl record', record?._id);
               setIdSelected(record?._id);
-              setIsViewMode(true);
-              setOpenEdit(true);
+              if (key === 'view') {
+                setIdSelected(record?._id);
+                setIsViewMode(true);
+                setOpenEdit(true);
+              } else if (key === 'edit') {
+                setIdSelected(record?._id);
+                setIsViewMode(false);
+                setOpenEdit(true);
+              } else if (key === 'delete') {
+                setIdSelected(record?._id);
+                setDeleteD(true);
+              } else if (key === 'active') {
+                setResumne(true);
+                console.log('vo dfay');
+              } else if (key === 'inactive') {
+                // xử lý xóa tại đây
+                setStop(true);
+              }
             }}
-            className="text-blue-500 text-[16px] cursor-pointer p-1 rounded-md hover:bg-gray-200"
+            items={[
+              {
+                key: 'view',
+                icon: <EyeOutlined />,
+                label: 'Xem gói',
+                className: 'min-w-[160px] left-[0]',
+              },
+              {
+                key: 'edit',
+                icon: <EditOutlined />,
+                label: 'Sửa gói',
+                className: 'min-w-[160px] left-[0]',
+              },
+              {
+                key: 'delete',
+                icon: <DeleteOutlined className="text-red-500" />,
+                label: <span>Xoá gói</span>,
+                className: 'min-w-[160px] left-[0]',
+              },
+              // record.status
+              //   ? {
+              //       key: 'inactive',
+              //       icon: <PoweroffOutlined className="text-red-500" />,
+              //       label: 'Dừng hoạt động',
+              //       className: 'min-w-[160px] left-[0]',
+              //     }
+              //   : {
+              //       key: 'active',
+              //       icon: <CheckOutlined className="text-green-500" />,
+              //       label: 'Bật hoạt động',
+              //       className: 'min-w-[160px] left-[0]',
+              //     },
+            ]}
           />
-          <EditOutlined
-            onClick={e => {
-              e.stopPropagation();
-              setIdSelected(record?._id);
-              setIsViewMode(false);
-              setOpenEdit(true);
-            }}
-            className="text-green-500 cursor-pointer p-1 rounded-md hover:bg-gray-200"
-          />
-          <DeleteOutlined className="text-red-500 cursor-pointer p-1 rounded-md hover:bg-gray-200" />
-        </div>
-      ),
+        );
+
+        return (
+          <Dropdown
+            overlay={menu}
+            placement="bottomLeft"
+            trigger={['click']}
+            className="!z-10"
+            getPopupContainer={triggerNode => document.body}>
+            <div
+              onClick={e => e.stopPropagation()}
+              className="cursor-pointer border px-2 py-1 rounded-md hover:bg-gray-100 inline-flex items-center gap-1">
+              Thao tác <DownOutlined />
+            </div>
+          </Dropdown>
+        );
+      },
     },
   ];
-
   return (
     <div className="w-full">
       <div className="mx-[20px] p-6 bg-white mt-[20px]">
@@ -308,21 +286,7 @@ const ManagementJobContainer: React.FC = () => {
             </Row>
 
             <div className="flex gap-[16px]  items-center justify-between bg-white w-full ">
-              <div className="flex gap-[16px] items-center">
-                <div>
-                  <Button
-                    onClick={() => {
-                      setStatusBuy(true);
-                    }}
-                    className="h-[40px] !bg-green-800 border-none !hover:bg-green-500 text-white !hover:text-white">
-                    Mua thêm lượt đăng tuyển
-                  </Button>
-                </div>
-                <div className="text-green-500">
-                  Số lần đăng tin tuyển dụng còn lại:
-                  {' ' + employInfor?.numberOffFree}
-                </div>
-              </div>
+              <div className="flex gap-[16px] items-center"></div>
               <div>
                 <MyButton
                   disabled={employInfor?.numberOffFree <= 0}
@@ -330,7 +294,7 @@ const ManagementJobContainer: React.FC = () => {
                   onClick={() => {
                     setOpenCreate(true);
                   }}>
-                  <p>Thêm tin tuyển dụng</p>
+                  <p>Thêm gói mới</p>
                 </MyButton>
                 <Button
                   className="!bg-blue-500 text-white h-[40px] rounded-lg px-4"
@@ -346,18 +310,11 @@ const ManagementJobContainer: React.FC = () => {
             dataSource={data}
             columns={columnAdd}
             isPaginationClient
-            onRow={(record, rowIndex) => {
-              return {
-                onClick: () => {
-                  navigate(`/recruiter/jobs/results/${record?._id}`);
-                },
-              };
-            }}
           />
         </div>
       </div>
-      <JobCruModal
-        title={`Thêm mới tin tuyển dụng`}
+      <PackageCruModal
+        title={`Thêm mới gói`}
         // id={data?._id}
         open={openCreate}
         isCreate={true}
@@ -370,7 +327,7 @@ const ManagementJobContainer: React.FC = () => {
           setOpenCreate(false);
         }}
       />
-      <JobCruModal
+      <PackageCruModal
         title={`${
           isViewMode ? 'Xem  tin tuyển dụng' : 'Chỉnh sửa tin tuyển dụng'
         }`}
@@ -387,33 +344,18 @@ const ManagementJobContainer: React.FC = () => {
           setOpenEdit(false);
         }}
       />
+
       <ConfirmModal
-        title={`Xác nhận tiếp tục tuyển`}
-        open={resume}
-        onFinish={handleResume}
+        title={`Xác nhận xóa gói này`}
+        open={deleteD}
+        onFinish={handleDelete}
         onCancel={() => {
-          setResumne(false);
+          setDeleteD(false);
         }}>
-        <h1>Bạn xác nhận tiếp tục tuyển thêm ứng viên cho công việc</h1>
+        <h1>Bạn xác nhận xóa gói này</h1>
       </ConfirmModal>
-      <ConfirmModal
-        title={`Xác nhận dừng tuyển`}
-        open={stop}
-        onFinish={handleStop}
-        onCancel={() => {
-          setStop(false);
-        }}>
-        <h1>Bạn xác nhận dừng việc tuyển thêm ứng viên cho công việc</h1>
-      </ConfirmModal>
-      <SalePost
-        title={`Chọn gói tuyển dụng`}
-        open={statusBuy}
-        onFinish={handleBuy}
-        onCancel={() => {
-          setStatusBuy(false);
-        }}></SalePost>
     </div>
   );
 };
 
-export default ManagementJobContainer;
+export default PackageContainer;

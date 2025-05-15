@@ -28,7 +28,7 @@ interface Props {}
 const tabs = [
   { key: '1', label: 'Giới thiệu' },
   { key: '2', label: 'Đánh giá' },
-  { key: '3', label: 'Thông tin khác' },
+  // { key: '3', label: 'Thông tin khác' },
 ];
 
 const RecruiterContainer: React.FC<Props> = ({}) => {
@@ -134,10 +134,10 @@ const RecruiterContainer: React.FC<Props> = ({}) => {
           </div>
           <div className="w-1/3 mt-[20px]">
             <div className="ml-4">
-              <h1 className="text-[22px] font-bold h-[70px] flex items-center">
+              <h1 className="text-[22px] font-bold h-[54px] flex items-center">
                 {dataJob?.length} Việc làm đang tuyển dụng
               </h1>
-              <div className="mt-[20px] h-[1000px] overflow-auto pr-2">
+              <div className="mt-[20px] overflow-auto max-h-[700px] pr-2">
                 {dataJob?.length > 0 &&
                   dataJob?.map((item: any, index: number) => (
                     <div key={index} className="mb-[16px]">

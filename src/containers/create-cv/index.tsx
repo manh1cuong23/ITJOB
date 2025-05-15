@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 });
 
 // Component PDF cho CV
-const CvDocument = ({ userData }) => (
+const CvDocument = ({ userData }: any) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <Text style={styles.header}>Hồ Sơ Cá Nhân</Text>
@@ -97,7 +97,7 @@ const CreateCvContainer = () => {
   }, []);
 
   // Xử lý thay đổi input
-  const handleInputChange = e => {
+  const handleInputChange = (e: any) => {
     const { name, value } = e.target;
     setUserData(prev => ({ ...prev, [name]: value }));
   };
@@ -192,7 +192,7 @@ const CreateCvContainer = () => {
         <PDFDownloadLink
           document={<CvDocument userData={userData} />}
           fileName="cv.pdf">
-          {({ loading }) =>
+          {({ loading }: any) =>
             loading ? (
               <button
                 className="bg-gray-500 text-white px-4 py-2 rounded"

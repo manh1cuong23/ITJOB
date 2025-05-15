@@ -9,20 +9,27 @@ interface NoDataProps {
   label?: string;
 }
 
-const TableNoData: React.FC<NoDataProps> = ({ isSearched, handleReset,label ='Set to default' }) => (
-  <div className="no-data-found show">
+const TableNoData: React.FC<NoDataProps> = ({
+  isSearched,
+  handleReset,
+  label = 'Set to default',
+}) => (
+  <div className="no-data-found show flex items-center justify-center">
     <img src={NotFoundSvg} alt="Not Found" style={{ width: '100px' }} />
-    <div className="no-data-txt" style={{
-      fontWeight: 500,
-      color: '#000'
-    }}>No data found</div>
+    <div
+      className="no-data-txt"
+      style={{
+        fontWeight: 500,
+        color: '#000',
+      }}>
+      No data found
+    </div>
     {isSearched && (
       <Button
         icon={<RedoSvg width={16} height={16} />}
         type="text"
         onClick={handleReset}
-        className="no-data-button"
-      >
+        className="no-data-button">
         {label}
       </Button>
     )}

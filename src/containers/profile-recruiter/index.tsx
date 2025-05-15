@@ -64,7 +64,9 @@ const ProfileRecruiterPage: React.FC<Props> = ({ isCreate = true }) => {
       const newImageUrl = res.result?.[0]?.url; // Điều chỉnh theo response của API
 
       // Thêm URL mới vào state
-      setImageUrls((prevUrls: any) => [...prevUrls, newImageUrl]);
+      imageUrls?.lenght > 0
+        ? setImageUrls((prevUrls: any) => [...prevUrls, newImageUrl])
+        : setImageUrls([newImageUrl]);
     } catch (error) {
       console.error('Upload failed:', error);
     }
@@ -428,27 +430,28 @@ const ProfileRecruiterPage: React.FC<Props> = ({ isCreate = true }) => {
                         flexWrap: 'wrap',
                         marginTop: 16,
                       }}>
-                      {imageUrls.map((url: any, index: any) => (
-                        <div
-                          key={index}
-                          style={{ position: 'relative', margin: 8 }}>
-                          <img
-                            src={url}
-                            alt={`preview-${index}`}
-                            style={{
-                              width: 100,
-                              height: 100,
-                              objectFit: 'cover',
-                            }}
-                          />
-                          <Button
-                            size="small"
-                            style={{ position: 'absolute', top: 0, right: 0 }}
-                            onClick={() => handleRemove(url)}>
-                            X
-                          </Button>
-                        </div>
-                      ))}
+                      {imageUrls?.length > 0 &&
+                        imageUrls?.map((url: any, index: any) => (
+                          <div
+                            key={index}
+                            style={{ position: 'relative', margin: 8 }}>
+                            <img
+                              src={url}
+                              alt={`preview-${index}`}
+                              style={{
+                                width: 100,
+                                height: 100,
+                                objectFit: 'cover',
+                              }}
+                            />
+                            <Button
+                              size="small"
+                              style={{ position: 'absolute', top: 0, right: 0 }}
+                              onClick={() => handleRemove(url)}>
+                              X
+                            </Button>
+                          </div>
+                        ))}
                     </div>
                   </div>
                 </MyFormItem>

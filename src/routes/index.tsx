@@ -11,9 +11,6 @@ import RedirectByRole from './redirectRoute';
 const NotFound = lazy(
   () => import(/* webpackChunkName: "404'"*/ '@/pages/404')
 );
-const BookingPage = lazy(
-  () => import(/* webpackChunkName: "booking'"*/ '@/pages/booking')
-);
 const DashboardPage = lazy(
   () => import(/* webpackChunkName: "dashboard'"*/ '@/pages/dashboard')
 );
@@ -48,6 +45,16 @@ const InviteJobPage = lazy(
 );
 const ManagementJobPage = lazy(
   () => import(/* webpackChunkName: "package-plan'"*/ '@/pages/management-job')
+);
+const TransactionPage = lazy(
+  () =>
+    import(
+      /* webpackChunkName: "package-plan'"*/ '@/pages/management-transaction'
+    )
+);
+const PackagePage = lazy(
+  () =>
+    import(/* webpackChunkName: "package-plan'"*/ '@/pages/management-package')
 );
 const CandicatePage = lazy(
   () => import(/* webpackChunkName: "package-plan'"*/ '@/pages/management-cv')
@@ -220,6 +227,39 @@ const routeList: RouteObject[] = [
             role={TypeUser.Employer}
             auth={true}
             element={<ManagementJobPage />}
+            title="Guest Profile"
+          />
+        ),
+      },
+      {
+        path: 'recruiter/management/transaction',
+        element: (
+          <WrapperRouteComponent
+            role={TypeUser.Employer}
+            auth={true}
+            element={<TransactionPage />}
+            title="Guest Profile"
+          />
+        ),
+      },
+      {
+        path: 'admin/management/transaction',
+        element: (
+          <WrapperRouteComponent
+            role={TypeUser.Admin}
+            auth={true}
+            element={<TransactionPage />}
+            title="Guest Profile"
+          />
+        ),
+      },
+      {
+        path: 'admin/management/package',
+        element: (
+          <WrapperRouteComponent
+            role={TypeUser.Admin}
+            auth={true}
+            element={<PackagePage />}
             title="Guest Profile"
           />
         ),

@@ -54,7 +54,7 @@ export default function JobApplyContainer() {
   return (
     <div className="mt-[20px] mx-auto w-[1260px] flex gap-[20px]">
       <ContentLeftProfile />
-      <div className="  w-full">
+      <div className="  w-full ">
         <div className="bg-white p-4">
           <h1 className="text-[22px] font-bold text-[#333] mb-4 w-full">
             Việc làm của tôi
@@ -80,11 +80,13 @@ export default function JobApplyContainer() {
             ))}
           </div>
         </div>
-        {data &&
-          data.length > 0 &&
-          data.map((item: any, index: number) => (
-            <CardJobApply setForceUpdate={setForceUpdate} data={item} />
-          ))}
+        <div className="max-h-[600px] overflow-auto mt-2">
+          {data &&
+            data.length > 0 &&
+            data.map((item: any, index: number) => (
+              <CardJobApply setForceUpdate={setForceUpdate} data={item} />
+            ))}
+        </div>
       </div>
     </div>
   );

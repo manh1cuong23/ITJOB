@@ -12,10 +12,8 @@ const DaskboardContentLeft: React.FC<Props> = ({
   isJob = true,
   listRecruiter,
 }) => {
-  console.log('data', listJob);
-  console.log('listRecruiter', listRecruiter);
   return (
-    <div className="w-2/3 pb-[500px]">
+    <div className="w-2/3">
       <div className="mr-4">
         <div className="text-lg text-primary mb-4">
           {isJob ? listJob.length : listRecruiter?.length}
@@ -23,7 +21,7 @@ const DaskboardContentLeft: React.FC<Props> = ({
             {isJob ? ' Việc làm' : ' Công ty'}
           </span>
         </div>
-        <div className="h-[1400px] overflow-auto">
+        <div className="max-h-[1400px] overflow-auto">
           {isJob
             ? listJob &&
               listJob.length > 0 &&

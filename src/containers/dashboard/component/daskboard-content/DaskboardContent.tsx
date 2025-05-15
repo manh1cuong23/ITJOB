@@ -72,7 +72,6 @@ const DaskboardContent: React.FC = () => {
           </div>
         </h1>
       </div>
-      <div className="h-[1000px]"></div>
     </div>
   );
 };
