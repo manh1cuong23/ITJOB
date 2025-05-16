@@ -110,7 +110,7 @@ const SideBar = () => {
           theme="light">
           <div className="logo">
             {collapsed ? (
-              <Link to={'/'}>
+              <Link to={'/dashboard'}>
                 <img
                   src={logo}
                   alt=""
@@ -121,7 +121,7 @@ const SideBar = () => {
                 />
               </Link>
             ) : (
-              <Link to={'/'}>
+              <Link to={'/dashboard'}>
                 <img src={logo} alt="" className="object-contain !h-[40px]" />
               </Link>
             )}

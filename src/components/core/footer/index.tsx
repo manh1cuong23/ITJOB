@@ -1,5 +1,5 @@
 import { FC } from 'react';
-
+import logo from '../../../assets/logo/logo.png';
 const data = {
   about: [
     'Về chúng tôi',
@@ -31,10 +31,7 @@ const Footer: FC<{}> = () => {
         <div className="grid grid-cols-6 gap-x-2">
           <div className="col-span-2">
             <div className="my-4">
-              <img
-                src="https://c.topdevvn.com/v4/assets/images/td-logo.png"
-                className=""
-              />
+              <img src={logo} className="h-[60px] object-containt" />
             </div>
             <div className="text-[#424242] text-[16px] my-3">
               Tầng 12A, Toà nhà AP Tower, 518B Điện Biên Phủ, Phường 21, Quận

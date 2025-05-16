@@ -5,6 +5,8 @@ import WrapperRouteComponent from './config';
 import LayoutPage from '@/components/core/layout';
 import { useSelector } from 'react-redux';
 import LoginForm from '@/pages/login';
+import RegisterForm from '@/pages/register';
+import VerifyPage from '@/pages/verify-email';
 import { TypeUser } from '@/interface/common/type';
 import RedirectByRole from './redirectRoute';
 
@@ -88,6 +90,26 @@ const routeList: RouteObject[] = [
     element: (
       <WrapperRouteComponent
         element={<LoginForm />}
+        // titleId="title.login"
+        auth={false}
+      />
+    ),
+  },
+  {
+    path: '/register',
+    element: (
+      <WrapperRouteComponent
+        element={<RegisterForm />}
+        // titleId="title.login"
+        auth={false}
+      />
+    ),
+  },
+  {
+    path: '/verify-email',
+    element: (
+      <WrapperRouteComponent
+        element={<VerifyPage />}
         // titleId="title.login"
         auth={false}
       />

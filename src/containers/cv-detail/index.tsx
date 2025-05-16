@@ -139,7 +139,7 @@ const CVDetailContainer: React.FC = () => {
       value: getLableSingle(data?.level, levels),
     },
     {
-      name: 'Ngành nghề',
+      name: 'Lĩnh vực',
       value: data?.fields?.[0]?.name,
     },
   ];

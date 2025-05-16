@@ -6,21 +6,61 @@ export async function getListJobByCandicate(
   const params: any = {};
 
   // Duyệt qua từng field lọc để gán vào params nếu tồn tại
-  ['city', 'level', 'type_work', 'year_experience'].forEach(field => {
-    if (data[field] && data[field].length > 0) {
-      params[field] = JSON.stringify(data[field]); // chuyển mảng thành chuỗi JSON
+  ['city', 'level', 'type_work', 'year_experience', 'page', 'limit'].forEach(
+    field => {
+      if (data[field] && data[field].length > 0) {
+        params[field] = JSON.stringify(data[field]); // chuyển mảng thành chuỗi JSON
+      }
     }
-  });
+  );
   if (data.key) {
     params.key = data.key;
   }
+  console.log('params', params);
   try {
-    const response = await request(`/candidates/search-job`, {
-      method: 'GET',
-      params: params,
-      data: data,
-      ...(options || {}),
-    });
+    const response = await request(
+      `/candidates/search-job?page=${data?.page}&limit=${data?.limit}`,
+      {
+        method: 'GET',
+        params: params,
+        data: data,
+        ...(options || {}),
+      }
+    );
+    return response;
+  } catch (error) {
+    console.error('Error create service:', error);
+    throw error;
+  }
+}
+export async function getListJobByCandicateDb(
+  data: any,
+  options?: RequestOptions
+) {
+  const params: any = {};
+
+  // Duyệt qua từng field lọc để gán vào params nếu tồn tại
+  ['city', 'level', 'type_work', 'year_experience', 'page', 'limit'].forEach(
+    field => {
+      if (data[field] && data[field].length > 0) {
+        params[field] = JSON.stringify(data[field]); // chuyển mảng thành chuỗi JSON
+      }
+    }
+  );
+  if (data.key) {
+    params.key = data.key;
+  }
+  console.log('params', params);
+  try {
+    const response = await request(
+      `/candidates/search-jobdb?page=${data?.page}&limit=${data?.limit}`,
+      {
+        method: 'GET',
+        params: params,
+        data: data,
+        ...(options || {}),
+      }
+    );
     return response;
   } catch (error) {
     console.error('Error create service:', error);

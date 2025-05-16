@@ -18,8 +18,14 @@ import { MyFormItem } from '@/components/basic/form-item';
 import ForgotPasswordModal from '../../components/business/modal/forgot-password/ForgotPassword';
 import { MyButton } from '@/components/basic/button';
 import { decryptData, encryptData } from '@/utils/crypto';
+import {
+  SelectCompactWithoutBorder,
+  SingleSelectSearchCustom,
+} from '@/components/basic/select';
+import { authRegister } from '@/api/features/auth';
+import { InputBasic } from '@/components/business/input';
 
-const LoginForm = () => {
+const RegisterForm = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -75,55 +81,20 @@ const LoginForm = () => {
     form.setFieldsValue({ username: value });
   };
 
-  const handleLogin = async (values: {
+  const handle = async (values: {
     username: string;
     password: string;
+    role: number;
   }) => {
-    dispatch(setLoading(true));
-    try {
-      const passwordWithPrefix = values.password + 'TAPortal';
-      const encryptedPassword = encryptData(passwordWithPrefix);
-      if (rememberMe) {
-        localStorage.setItem(
-          'rememberedCredentials',
-          JSON.stringify({
-            username: values.username,
-            password: encryptedPassword,
-            remember: true,
-          })
-        );
-      } else {
-        localStorage.removeItem('rememberedCredentials');
-      }
-
-      await dispatch(
-        loginAsync({
-          params: values,
-          onSuccess: data => {
-            dispatch(
-              setUserItem({
-                logged: true,
-                username: data?.username || data?.userId,
-                role: data?.role,
-                token: data?.token,
-              })
-            );
-            localStorage.setItem('json', JSON.stringify(encryptedPassword));
-            message.success('Signed in successfully');
-            navigate('/');
-          },
-          onError: error => {
-            dispatch(setLoading(false));
-            message.error(error);
-            console.error(error);
-          },
-        })
-      );
-    } catch (error) {
-      dispatch(setLoading(false));
-      console.error('An unexpected error occurred:', error);
-    } finally {
-      dispatch(setLoading(false));
+    const res = await authRegister({
+      ...values,
+      confirmPassword: values.password,
+    });
+    if (res?.result) {
+      message.success('Đăng ký thành công vui lòng kiểm tra email xác nhận');
+      navigate('/login');
+    } else {
+      message.error('Đã có lỗi xảy ra');
     }
   };
 
@@ -157,19 +128,24 @@ const LoginForm = () => {
                 alt="Lotus Xpert Logo"
                 className="h-[30px] mb-2"
               />
-              <p className="login-title1 py-2">Đăng nhập</p>
+              <p className="login-title1 py-2">Đăng ký</p>
               <p className="login-title2 py-2">Chào mừng bạn đến với JobHub</p>
             </div>
             <Form
               form={form}
-              onFinish={handleLogin}
+              onFinish={handle}
               layout="vertical"
               className="login-form">
+              <InputBasic
+                name="name"
+                label="Họ tên của bạn hoặc công ty"
+                required
+              />
               <MyFormItem
                 name="email"
                 label="Email"
                 rules={[{ validator: validateUsername }]}
-                className="form-item">
+                className="pb-2">
                 <MyInput
                   className="login-input"
                   placeholder="Enter"
@@ -178,7 +154,7 @@ const LoginForm = () => {
               </MyFormItem>
               <MyFormItem
                 name="password"
-                className="form-item"
+                className="pb-2"
                 label="Mật khẩu"
                 rules={[{ required: true, message: 'Mật khẩu là bắt buộc!' }]}>
                 <MyInput
@@ -189,7 +165,21 @@ const LoginForm = () => {
                   placeholder="Enter"
                 />
               </MyFormItem>
-
+              <MyFormItem
+                name="role"
+                className="pb-2"
+                label="Vai trò của bạn"
+                required
+                labelCol={{ span: 24 }}
+                wrapperCol={{ span: 24 }}>
+                <SingleSelectSearchCustom
+                  className="change-field"
+                  options={[
+                    { label: 'Ứng viên', value: 1 },
+                    { label: 'Nhà tuyển dụng', value: 2 },
+                  ]}
+                />
+              </MyFormItem>
               <div className="remember-forgot-container">
                 <Checkbox
                   className="remember-checkbox"
@@ -208,7 +198,7 @@ const LoginForm = () => {
                 loading={loading}
                 block
                 className="login-button">
-                <span>Đăng nhập</span>
+                <span>Đăng ký</span>
               </MyButton>
             </Form>
           </div>
@@ -226,4 +216,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default RegisterForm;

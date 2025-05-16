@@ -21,11 +21,8 @@ export async function authLogin(body: any, options?: RequestOptions) {
 
 /** Register POST /api/auth/register */
 export async function authRegister(body: any, options?: RequestOptions) {
-  return request<any>('/api/auth/register', {
+  return request<any>('/users/register', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
     data: body,
     ...(options || {}),
   });
@@ -70,6 +67,14 @@ export async function authResetPassword(body: any, options?: RequestOptions) {
     headers: {
       'Content-Type': 'application/json',
     },
+    data: body,
+    ...(options || {}),
+  });
+}
+
+export async function verifyEmail(body: any, options?: RequestOptions) {
+  return request<any>('/users/verify-email', {
+    method: 'POST',
     data: body,
     ...(options || {}),
   });

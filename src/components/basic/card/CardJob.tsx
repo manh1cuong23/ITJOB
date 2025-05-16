@@ -20,7 +20,6 @@ const MyCardjob: React.FC<MyCardProps> = ({
   style,
   data,
 }) => {
-  console.log('cdata', data);
   // const level =
   return (
     <NavLink to={`/${data?._id}/job-detail`}>
