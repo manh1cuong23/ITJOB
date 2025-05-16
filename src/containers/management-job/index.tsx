@@ -84,7 +84,6 @@ const ManagementJobContainer: React.FC = () => {
   const [isViewMode, setIsViewMode] = useState(false);
   const [idSelected, setIdSelected] = useState('');
   const [forceUpdate, setForceUpdate] = useState(1);
-  const [imageUrl, setImageUrls] = useState('');
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
@@ -92,22 +91,6 @@ const ManagementJobContainer: React.FC = () => {
     setIsViewMode(false);
   };
 
-  const handleUpload = async ({ file }: any) => {
-    const formData = new FormData();
-    formData.append('image', file);
-
-    try {
-      // Giả sử uploadImage là hàm API trả về URL của ảnh
-      const res = await uploadImage(formData);
-      console.log('check res', res);
-      const newImageUrl = res.result?.[0]?.url; // Điều chỉnh theo response của API
-
-      // Thêm URL mới vào state
-      setImageUrls(newImageUrl);
-    } catch (error) {
-      console.error('Upload failed:', error);
-    }
-  };
   const columns: any = [
     {
       title: 'Vị trí',

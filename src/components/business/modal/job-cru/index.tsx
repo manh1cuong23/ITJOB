@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { MyButton } from '@/components/basic/button';
 import { ReactComponent as BackSvg } from '@/assets/icons/ic_back.svg';
-import { Row, Col, Form, message } from 'antd';
+import { Row, Col, Form, message, Upload, Button } from 'antd';
 import { MyModal } from '@/components/basic/modal';
 import { MyFormItem } from '@/components/basic/form-item';
 import { InputBasic } from '../../input';
@@ -30,6 +30,8 @@ import MultiSelectWithSearchAdd from '@/components/basic/select/MultiSelectWithS
 import DatepickerBasic from '../../date-picker/DatepickerBasic';
 import ReactQuill from 'react-quill';
 import dayjs from 'dayjs';
+import { UploadOutlined } from '@ant-design/icons';
+import { uploadImage } from '@/api/features/media';
 
 const JobCruModal: React.FC<{
   id?: string;
@@ -45,6 +47,7 @@ const JobCruModal: React.FC<{
   switchEditmode?: any;
   isCreate?: boolean;
   isInAdmin?: boolean;
+  handleUpLoad?: any;
 }> = ({
   id,
   open,
@@ -53,6 +56,7 @@ const JobCruModal: React.FC<{
   isInAdmin,
   switchEditmode,
   setForceUpdate,
+  handleUpLoad,
   title,
   setPageData,
   setOpen,
@@ -66,6 +70,24 @@ const JobCruModal: React.FC<{
   const [skill, setSkill] = useState([]);
   const [fields, setFields] = useState([]);
   const [form] = Form.useForm();
+  const [imageUrl, setImageUrls] = useState('');
+
+  const handleUpload = async ({ file }: any) => {
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+      // Giả sử uploadImage là hàm API trả về URL của ảnh
+      const res = await uploadImage(formData);
+      console.log('check res', res);
+      const newImageUrl = res.result?.[0]?.url; // Điều chỉnh theo response của API
+
+      // Thêm URL mới vào state
+      setImageUrls(newImageUrl);
+    } catch (error) {
+      console.error('Upload failed:', error);
+    }
+  };
 
   const fetchSkillAndFields = async () => {
     const resSkills = await getListSkill();
@@ -100,6 +122,8 @@ const JobCruModal: React.FC<{
         salaryFrom: data.salary[0],
         salaryTo: data.salary[1],
       };
+      setImageUrls(data.background);
+      console.log('check data', data);
       const skills = data.skills_info.map((item: any, index: number) => {
         return item.name;
       });
@@ -128,6 +152,7 @@ const JobCruModal: React.FC<{
       dataForm.description = content;
       const updatedData = {
         ...dataForm, // sao chép dữ liệu cũ
+        background: imageUrl,
         salary: [dataForm.salaryFrom, dataForm.salaryTo], // thay thế salaryFrom và salaryTo bằng mảng salary
       };
 
@@ -464,6 +489,46 @@ const JobCruModal: React.FC<{
                         name="deadline"
                       />
                     </Col>
+                  </Row>
+                  <Row>
+                    <MyFormItem
+                      label="Thêm background tuyển dụng"
+                      labelCol={{ span: 24 }}
+                      wrapperCol={{ span: 24 }}>
+                      <div>
+                        {/* Component Upload của Ant Design */}
+                        <Upload
+                          customRequest={handleUpload}
+                          accept="image/*"
+                          multiple
+                          showUploadList={false} // Tắt danh sách upload mặc định của antd
+                        >
+                          <Button icon={<UploadOutlined />}>Tải ảnh lên</Button>
+                        </Upload>
+
+                        {/* Hiển thị preview ảnh */}
+                        <div
+                          style={{
+                            display: 'flex',
+                            flexWrap: 'wrap',
+                            marginTop: 16,
+                          }}>
+                          {imageUrl && (
+                            <div style={{ position: 'relative', margin: 8 }}>
+                              <img
+                                src={imageUrl}
+                                alt={`preview-${imageUrl}`}
+                                style={{
+                                  width: 100,
+                                  height: 100,
+                                  objectFit: 'cover',
+                                }}
+                              />
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </MyFormItem>
                   </Row>
                   <Row gutter={16}>
                     <Col

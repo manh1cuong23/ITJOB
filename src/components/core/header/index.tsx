@@ -8,7 +8,7 @@ import {
   CloseOutlined,
 } from '@ant-design/icons';
 import { Layout, Dropdown, Divider, Tooltip } from 'antd';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { MyButton } from '@/components/basic/button';
 import { pageTitles } from '@/constants/page';
@@ -58,6 +58,9 @@ const HeaderComponent: FC<HeaderProps> = ({ collapsed, toggle }) => {
   const [selectedChatId, setSelectedChatId] = useState<any>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [isOpenProfile, setIsOpenProfile] = useState(false);
+
+  const { username } = useSelector(state => state.auth);
+
   useEffect(() => {
     dispatch(setLastName(''));
   }, [location.pathname, dispatch]);
@@ -126,7 +129,7 @@ const HeaderComponent: FC<HeaderProps> = ({ collapsed, toggle }) => {
 
             <div>
               <div style={{ color: 'black', fontWeight: 'bold' }}>
-                {localStorage.getItem('username') || 'Nguyen Van A'}
+                {username || 'Nguyen Van A'}
               </div>
             </div>
           </div>
@@ -238,9 +241,15 @@ const HeaderComponent: FC<HeaderProps> = ({ collapsed, toggle }) => {
         data-theme="light">
         {role === TypeUser.User ? (
           <div className="flex gap-[10px] items-center">
-            <div className="">
-              <img className="h-[40px] object-contain" src={logo} alt="Logo" />
-            </div>
+            <NavLink to="/dashboard">
+              <div className="">
+                <img
+                  className="h-[40px] object-contain"
+                  src={logo}
+                  alt="Logo"
+                />
+              </div>
+            </NavLink>
             <div className="mx-4">
               <MenuList />
             </div>
@@ -328,7 +337,7 @@ const HeaderComponent: FC<HeaderProps> = ({ collapsed, toggle }) => {
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
                 <HeaderAvatar className="w-[30px] h-[30px]" />
                 <span style={{ color: '#000000' }}>
-                  {(localStorage.getItem('username') || 'Nguyen Van A')
+                  {(username || 'Nguyen Van A')
                     .split(' ')
                     .map(
                       word =>

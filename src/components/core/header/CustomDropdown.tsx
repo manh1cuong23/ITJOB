@@ -165,8 +165,14 @@ const CustomMessagesDropdown: FC<{
                 }>
                 <img
                   src={
-                    conversation?.employer_info?.avatar != ''
-                      ? conversation?.employer_info?.avatar
+                    role === TypeUser.Employer
+                      ? conversation?.candidate_info?.avatar &&
+                        conversation.candidate_info.avatar !== ''
+                        ? conversation.candidate_info.avatar
+                        : 'https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740'
+                      : conversation?.employer_info?.avatar &&
+                        conversation.employer_info.avatar !== ''
+                      ? conversation.employer_info.avatar
                       : 'https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740'
                   }
                   alt={conversation?.employer_info?.name}
@@ -180,7 +186,9 @@ const CustomMessagesDropdown: FC<{
                 />
                 <div style={{ flex: 1 }}>
                   <div style={{ fontWeight: 'bold', fontSize: '14px' }}>
-                    {conversation?.employer_info?.name}
+                    {role == TypeUser.Employer
+                      ? conversation?.candidate_info?.name
+                      : conversation?.employer_info?.name}
                   </div>
                   <div
                     style={{

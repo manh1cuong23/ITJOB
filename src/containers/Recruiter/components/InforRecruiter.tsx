@@ -15,7 +15,7 @@ export default function InforRecruiter({ data }: any) {
 
     {
       title: 'Lĩnh vực công ty',
-      descriptiopn: data?.fields_info?.[0]?.name,
+      descriptiopn: data?.fields_info?.map((item: any) => item.name).join(', '),
     },
     {
       title: 'Quy mô công ty',

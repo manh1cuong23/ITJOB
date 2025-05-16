@@ -8,8 +8,8 @@ import { MyFormItem } from '@/components/basic/form-item';
 import { InputBasic } from '../../input';
 import { MyModal } from '@/components/basic/modal';
 import ChangePassword from './ChangePassword';
-import { selectPassWord } from '@/stores/slices/auth.slice';
-import { useSelector } from 'react-redux';
+import { selectPassWord, setUserItem } from '@/stores/slices/auth.slice';
+import { useDispatch, useSelector } from 'react-redux';
 import Password from 'antd/es/input/Password';
 import { decryptData } from '@/utils/crypto';
 import { getMe, updateAccount } from '@/api/features/user';
@@ -28,6 +28,7 @@ const Profile: React.FC<IProps> = ({ isOpen, onClose, onSubmit }) => {
   const [userName, setUserName] = useState('');
   const [currentPass, setCurrentPass] = useState('');
   const [initialValues, setInitialValues] = useState<any>();
+  const dispatch = useDispatch();
 
   const featData = async () => {
     const res = await getMe();
@@ -61,6 +62,11 @@ const Profile: React.FC<IProps> = ({ isOpen, onClose, onSubmit }) => {
       await updateAccount({ username: formData.username });
       message.success('cập nhật username thành công');
       localStorage.setItem('username', formData.username);
+      dispatch(
+        setUserItem({
+          username: formData.username,
+        })
+      );
     }
     onSubmit && onSubmit();
   };
