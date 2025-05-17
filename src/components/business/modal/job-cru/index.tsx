@@ -212,13 +212,13 @@ const JobCruModal: React.FC<{
                       lg={12} // Chiếm 19/24 phần màn hình cỡ lớn (lg)
                       xl={12} // Chiếm 19/24 phần màn hình cực lớn (xl)
                     >
-                      <InputBasic
-                        label="Tiêu đề tuyển dụng"
-                        name="name"
-                        disabled={isViewMode}
-                        isSpan
-                        required
-                      />
+                        <InputBasic
+                          label="Tiêu đề tuyển dụng"
+                          name="name"
+                          disabled={isViewMode}
+                          isSpan
+                          required
+                        />
                     </Col>
                   </Row>
                 </div>

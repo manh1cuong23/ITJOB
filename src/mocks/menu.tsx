@@ -81,4 +81,9 @@ export const adminMenuList: MenuList = [
     label: 'Quản lý giao dịch',
     icon: <DashboardSvg />,
   },
+  {
+    key: '/admin/management/blog',
+    label: 'Quản lý blog',
+    icon: <DashboardSvg />,
+  },
 ];

@@ -75,6 +75,9 @@ const AdminEnvalutionPage = lazy(
   () =>
     import(/* webpackChunkName: "package-plan'"*/ '@/pages/admin/envalution')
 );
+const AdminBlogsPage = lazy(
+  () => import(/* webpackChunkName: "package-plan'"*/ '@/pages/admin/blogs')
+);
 const CreateRecruiterPage = lazy(
   () =>
     import(
@@ -337,6 +340,17 @@ const routeList: RouteObject[] = [
             role={TypeUser.Admin}
             auth={true}
             element={<AdminEnvalutionPage />}
+            title="Guest Profile"
+          />
+        ),
+      },
+      {
+        path: 'admin/management/blog',
+        element: (
+          <WrapperRouteComponent
+            role={TypeUser.Admin}
+            auth={true}
+            element={<AdminBlogsPage />}
             title="Guest Profile"
           />
         ),
