@@ -27,6 +27,7 @@ export const pageTitles: { url: string; title: string; regex?: RegExp }[] = [
     regex: /^\/recruiter\/cv\/([a-f0-9]+)\/detail\/invite$/,
   },
   { url: '/dashboard', title: 'Trang chủ' },
+  { url: '/admin/management/blog', title: 'Quản lý blog' },
 ];
 
 export const STATUS_BOOKING = {

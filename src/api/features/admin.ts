@@ -166,3 +166,57 @@ export async function makeActiveEnvalution(
     throw error;
   }
 }
+
+export const createBlog = async (body: any, options?: RequestOptions) => {
+  try {
+    const response = await request(`/admins/createBlog`, {
+      method: 'POST',
+      data: body,
+      ...(options || {}),
+    });
+    return response;
+  } catch (error) {
+    console.error('Error during update guest info:', error);
+    throw error;
+  }
+}
+
+export const updateBlog = async (body: any, options?: RequestOptions) => {
+  try {
+    const response = await request(`/admins/updateBlog`, {
+      method: 'PUT',
+      data: body,
+      ...(options || {}),
+    });
+    return response;
+  } catch (error) {
+    console.error('Error during update guest info:', error);
+    throw error;
+  }
+}
+
+export const getListBlog = async ({ limit, page }: { limit: number, page: number }, options?: any) => {
+  try {
+    const response = await request(`/admins/getListBlog?limt=${limit}&page=${page}`, {
+      method: 'GET',
+      ...(options || {}),
+    });
+    return response;
+  } catch (error) {
+    console.error('Error create service:', error);
+    throw error;
+  }
+}
+
+export const deleteBlog = async (id: string, options?: any) => {
+  try {
+    const response = await request(`/admins/deleteBlog/${id}`, {
+      method: 'DELETE',
+      ...(options || {}),
+    });
+    return response;
+  } catch (error) {
+    console.error('Error create service:', error);
+    throw error;
+  }
+}
