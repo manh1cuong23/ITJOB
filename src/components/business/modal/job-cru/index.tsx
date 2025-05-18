@@ -208,7 +208,11 @@ const JobCruModal: React.FC<{
                   Hủy bỏ
                 </MyButton>
                 <MyButton onClick={() => handleOk(false)}>
-                  {isViewMode ? 'Chỉnh sửa' : 'Đăng tin'}
+                  {isViewMode
+                    ? 'Chỉnh sửa'
+                    : isCreate
+                    ? 'Đăng tin'
+                    : 'Cập nhật'}
                 </MyButton>
               </>
             )}

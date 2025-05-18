@@ -1,6 +1,6 @@
 // Mảng chứa các cặp URL và tiêu đề trang
 export const pageTitles: { url: string; title: string; regex?: RegExp }[] = [
-  { url: '/recruiter/management/job', title: 'Quản lý trang tuyển dụng' },
+  { url: '/recruiter/management/job', title: 'Quản lý tin tuyển dụng' },
   { url: '/admin/users', title: 'Quản lý tài khoản' },
   { url: '/admin/jobs', title: 'Quản lý tin tuyển dụng' },
   { url: '/admin/envalutions', title: 'Quản lý đánh giá công ty' },

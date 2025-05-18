@@ -55,14 +55,14 @@ export default function InforRecruiter({ data }: any) {
           Giới thiệu công ty
         </h1>
         <div dangerouslySetInnerHTML={{ __html: data?.description }} />
-        <div className="py-4">
+        {/* <div className="py-4">
           <div className="flex items-center justify-center py-2 horver:bg-red-500 gap-[2px] text-[#0e2eed] border w-[200px]">
             <FacebookOutlined className="text-[16px]" />
             <h1 className="text-center text-[16px]  font-bold">
               Website công ty
             </h1>
           </div>
-        </div>
+        </div> */}
       </div>
 
       <div className="mt-4 bg-white px-4  py-4">

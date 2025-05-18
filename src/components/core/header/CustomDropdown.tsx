@@ -246,8 +246,8 @@ const CustomMessagesDropdown: FC<{
                 }>
                 <img
                   src={
-                    employer?.candidate_info?.avatar != ''
-                      ? employer?.candidate_info?.avatar
+                    employer?.avatar != ''
+                      ? employer?.avatar
                       : 'https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740'
                   }
                   alt={employer?.name}

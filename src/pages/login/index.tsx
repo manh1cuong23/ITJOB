@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import type { InputRef } from 'antd';
 import { Form, Row, Col, Checkbox, message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { selectLoading, setLoading } from '@/stores/slices/global.slice';
 import { loginAsync } from '@/stores/thunks/auth.thunk';
 import { setUserItem } from '@/stores/slices/auth.slice';
@@ -211,6 +211,12 @@ const LoginForm = () => {
                 <span>Đăng nhập</span>
               </MyButton>
             </Form>
+            <p className="pt-2">
+              Chưa có tài khoản{' '}
+              <Link className="ml-2 text-primary" to="/register">
+                Đăng ký
+              </Link>
+            </p>
           </div>
         </Col>
         <Col xs={0} sm={0} md={12} lg={12} xl={12} className="image-container">

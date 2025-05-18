@@ -93,7 +93,10 @@ const AdminUsersContainer: React.FC = () => {
       key: 'avatar',
       render: (avatar: any) => (
         <img
-          src={avatar}
+          src={
+            avatar ||
+            'https://media.istockphoto.com/id/1300845620/vector/user-icon-flat-isolated-on-white-background-user-symbol-vector-illustration.jpg?s=612x612&w=0&k=20&c=yBeyba0hUkh14_jgv1OKqIH0CCSWU_4ckRkAoy2p73o='
+          }
           className="h-[50px] w-[50px] rounded-full"
           alt="img"
         />

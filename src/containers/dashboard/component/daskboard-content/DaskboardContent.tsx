@@ -57,7 +57,7 @@ const DaskboardContent: React.FC = () => {
           Bài viết nổi bật
           <div className="flex mt-4">
             <div className="w-1/2 ">
-              <CardBlog className="h-[530px]" data={data} />
+              <CardBlog className="h-[530px]" data={data2} />
             </div>
             <div className="w-1/2 px-4">
               <div className="flex gap-[4px]">

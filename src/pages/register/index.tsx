@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import type { InputRef } from 'antd';
 import { Form, Row, Col, Checkbox, message } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { selectLoading, setLoading } from '@/stores/slices/global.slice';
 import { loginAsync } from '@/stores/thunks/auth.thunk';
 import { setUserItem } from '@/stores/slices/auth.slice';
@@ -180,18 +180,6 @@ const RegisterForm = () => {
                   ]}
                 />
               </MyFormItem>
-              <div className="remember-forgot-container">
-                <Checkbox
-                  className="remember-checkbox"
-                  checked={rememberMe}
-                  onChange={e => handleRememberMe(e.target.checked)}>
-                  Nhớ tôi
-                </Checkbox>
-                <a className="forgot-password" onClick={handleForgotPassword}>
-                  Quên mật khẩu
-                </a>
-              </div>
-
               <MyButton
                 type="primary"
                 htmlType="submit"
@@ -201,6 +189,12 @@ const RegisterForm = () => {
                 <span>Đăng ký</span>
               </MyButton>
             </Form>
+            <p className="pt-2">
+              Đã có tài khoản{' '}
+              <Link className="ml-2 text-primary" to="/login">
+                Đăng nhập
+              </Link>
+            </p>
           </div>
         </Col>
         <Col xs={0} sm={0} md={12} lg={12} xl={12} className="image-container">

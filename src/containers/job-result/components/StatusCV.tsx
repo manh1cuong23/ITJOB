@@ -69,11 +69,11 @@ const StatusTag: React.FC<StatusTagProps> = ({
       )}
       <BookInterviewModal
         setForceUpdate={setForceUpdate}
-        isEmployerCreate
+        isEmployerCreate={value == ApplyStatus.Approved}
         id={id}
         open={open}
         title={
-          value == ApplyStatus.Approved
+          ApplyStatus.Approved
             ? 'Hẹn lịch phỏng vấn'
             : 'Gợi ý phỏng vấn của ứng viên'
         }
