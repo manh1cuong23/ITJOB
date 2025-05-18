@@ -6,6 +6,7 @@ import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 const { Title, Text } = Typography;
 
 const JobCard = ({ job, className }: any) => {
+  console.log('check job', job);
   return (
     <div className={`${className} p-2 `}>
       <Card
@@ -28,9 +29,7 @@ const JobCard = ({ job, className }: any) => {
               color: 'white',
               fontSize: 18,
               fontWeight: 'bold',
-            }}>
-            {job?.name}
-          </div>
+            }}></div>
         }
         actions={[
           <Button type="link" href={'#'} className="text-primary ">

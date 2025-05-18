@@ -4,9 +4,10 @@ import { ReactComponent as DolasSvg } from '@/assets/icons/ic_dollar.svg';
 import { MyButton } from '@/components/basic/button';
 import { formatDateNew } from '@/utils/formatDate';
 import ConfirmModal from '@/components/business/modal/ConfirmModal/BookInterviewModal';
-import { acceptInviteCV } from '@/api/features/candicate';
+import { acceptInviteCV, rejectInviteCV } from '@/api/features/candicate';
 import { message } from 'antd';
 import { ApplyStatus } from '@/constants/job';
+import { NavLink } from 'react-router-dom';
 interface Props {
   data: any;
   setForceUpdate: any;
@@ -21,9 +22,18 @@ export default function CardJobApply({ data, setForceUpdate }: Props) {
       setForceUpdate((a: number) => a + 1);
     }
   };
+  const handleSubmit = async () => {
+    const res = await rejectInviteCV(data?._id);
+    if (res.message) {
+      message.success('Từ chối lời mời công việc thành công!');
+      setForceUpdate((a: number) => a + 1);
+    }
+  };
   return (
     <div className="bg-white px-4 py-6 flex justify-between mt-[10px]">
-      <div className="flex items-center gap-[16px]">
+      <NavLink
+        to={`/${data?.job_id}/job-detail`}
+        className="flex items-center gap-[16px]">
         <img
           className="w-[80px] h-[80px] object-cover rounded-base"
           src="https://itviec.com/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBMzhxREE9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--96410be9fc35379f21c6201ae00c2d6c44be6feb/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBPZ2wzWldKd09oSnlaWE5wZW1WZmRHOWZabWwwV3dkcGFXbHAiLCJleHAiOm51bGwsInB1ciI6InZhcmlhdGlvbiJ9fQ==--20b0435834affc851fb8b496383cefc8135158a8/goline-corporation-logo.jpg"
@@ -43,17 +53,24 @@ export default function CardJobApply({ data, setForceUpdate }: Props) {
             </h1>
           </div>
         </div>
-      </div>
+      </NavLink>
       <div>
         <h1 className="text-[14px] text-black">
           Lời mời vào ngày {formatDateNew(data?.createdAt)}
         </h1>
         {data?.status == ApplyStatus.WaitingCandidateAcceptInvite && (
           <div className="mt-2 flex items-center gap-[12px]">
-            <MyButton onClick={handleOk}>Xác nhận</MyButton>
+            <MyButton
+              onClick={e => {
+                e.stopPropagation();
+                handleOk();
+              }}>
+              Xác nhận
+            </MyButton>
             <MyButton
               buttonType="secondary"
-              onClick={() => {
+              onClick={e => {
+                e.stopPropagation();
                 setOpenCancel(true);
               }}>
               Từ chối
@@ -67,14 +84,14 @@ export default function CardJobApply({ data, setForceUpdate }: Props) {
         )}
         {data?.status == ApplyStatus.CandidateRejectInvite && (
           <div className="mt-2">
-            <MyButton>Đã từ chối lời mời</MyButton>
+            <MyButton buttonType="secondary">Đã từ chối lời mời</MyButton>
           </div>
         )}
       </div>
       <ConfirmModal
         title={`Xác nhận từ chối lời mời`}
         open={openCancel}
-        onFinish={handleCancel}
+        onFinish={handleSubmit}
         setOpen={setOpenCancel}
         onCancel={() => {
           setOpenCancel(false);

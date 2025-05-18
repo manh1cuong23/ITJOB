@@ -132,7 +132,8 @@ const BookInterviewModal: React.FC<{
     onCancel && onCancel();
     setIsNewInterview(false);
   };
-
+  console.log('isNewInterView', isNewInterView);
+  console.log('data', data);
   return (
     <>
       <MyModal

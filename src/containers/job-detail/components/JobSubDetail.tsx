@@ -97,6 +97,7 @@ const JobSubDetail: React.FC<Props> = ({
         <img
           className="w-full h-[200px] object-cover"
           src={
+            data?.background ||
             data?.employer_info?.cover_photo ||
             'https://salt.topdev.vn/75VadizXM8hmNkdG26qUXYwIAVX3KcVcqvehkraKrMQ/fit/828/1000/ce/1/aHR0cHM6Ly9hc3NldHMudG9wZGV2LnZuL2ltYWdlcy8yMDI1LzAyLzIwL1RvcERldi1hN2UyZmMyZmE5Y2IyOGQzZDMyM2Y2ODgyNDIxNDU3OS0xNzQwMDQ0NzQyLnBuZw'
           }

@@ -75,6 +75,19 @@ export async function acceptInviteCV(id: string, options?: RequestOptions) {
   }
 }
 
+export async function rejectInviteCV(id: string, options?: RequestOptions) {
+  try {
+    const response = await request(`/jobs/candidate-reject-invite/${id}`, {
+      method: 'POST',
+      ...(options || {}),
+    });
+    return response;
+  } catch (error) {
+    console.error('Error during update guest info:', error);
+    throw error;
+  }
+}
+
 export async function getDetailEmployer(id: string, options?: RequestOptions) {
   try {
     const response = await request(`/candidates/employer-detail/${id}`, {

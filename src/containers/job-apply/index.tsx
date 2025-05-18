@@ -50,7 +50,7 @@ export default function JobApplyContainer() {
       status: [ApplyStatus.Interview, ApplyStatus.Passed, ApplyStatus.Failed],
     },
   ];
-
+  console.log('data', data);
   return (
     <div className="mt-[20px] mx-auto w-[1260px] flex gap-[20px]">
       <ContentLeftProfile />

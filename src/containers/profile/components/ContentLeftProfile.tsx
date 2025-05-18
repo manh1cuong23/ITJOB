@@ -3,10 +3,6 @@ import { NavLink, useLocation } from 'react-router-dom';
 export default function ContentLeftProfile() {
   const data = [
     {
-      title: 'Tổng quan',
-      Icon: ProfileSvg,
-    },
-    {
       title: 'Hồ sơ của tôi',
       Icon: ProfileSvg,
       to: '/profile',
@@ -34,7 +30,7 @@ export default function ContentLeftProfile() {
       {data.map((item: any, index: number) => {
         const isActive = item.to === location.pathname;
         return (
-          <NavLink to={item?.to}>
+          <NavLink to={item?.to} className="flex items-center">
             <div
               className={`flex gap-[16px] py-4 px-6 items-center rounded-xl cursor-pointer
         text-[#414042]
@@ -46,7 +42,7 @@ export default function ContentLeftProfile() {
       `}
               key={index}>
               <item.Icon className="" />
-              <h1 className="text-[16px] font-medium">{item.title}</h1>
+              <h1 className="text-[16px] m-0 font-medium">{item.title}</h1>
             </div>
           </NavLink>
         );

@@ -39,10 +39,7 @@ export default function JobInviteContainer() {
     {
       key: 'interview',
       label: 'Đã từ chối',
-      status: [
-        ApplyStatus.WaitingCandidateAcceptSchedule,
-        ApplyStatus.WaitingEmployerAcceptSchedule,
-      ],
+      status: [ApplyStatus.CandidateRejectInvite],
     },
   ];
 
@@ -89,13 +86,11 @@ export default function JobInviteContainer() {
           {data &&
             data?.length > 0 &&
             data?.map((item: any, index: number) => (
-              <NavLink to={`/${item?.job_id}/job-detail`}>
-                <CardJobApply
-                  setForceUpdate={setForceUpdate}
-                  key={index}
-                  data={item}
-                />
-              </NavLink>
+              <CardJobApply
+                setForceUpdate={setForceUpdate}
+                key={index}
+                data={item}
+              />
             ))}
         </div>
       </div>
