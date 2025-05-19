@@ -15,7 +15,7 @@ const DaskboardSearch: React.FC<Props> = ({ handleSeach, isDashBoard }) => {
         false ? 'h-[480px]' : 'h-[300px]'
       } bg-cover bg-center bg-no-repeat bg-main-search py-[20px] relative`}>
       <h2 className="text-center font-bold text-[#1E1E1E]  text-[24px]">
-        Tìm việc làm nhanh 24h, việc làm mới nhất trên toàn quốc.
+        Tìm việc làm nhanh 24h, việc làm mới nhất trên toàn quốc.hihi
       </h2>
       <p className="text-center text-s mb-[16px] pb-[16px]">
         {' '}
