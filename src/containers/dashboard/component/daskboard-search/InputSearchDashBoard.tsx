@@ -11,8 +11,8 @@ interface Props {
 }
 const InputSearchDashBoard: React.FC<Props> = ({ handleSeach }) => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const formData = location.state?.formData;
+  const location: any = useLocation();
+  const formData: any = location.state?.formData;
   const [form] = Form.useForm();
   const handleClick = async () => {
     const data = await form.validateFields();

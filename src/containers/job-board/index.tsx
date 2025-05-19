@@ -14,10 +14,10 @@ const JobBoardContainer: React.FC = () => {
   const [limit, setLimit] = useState(10);
   const [activeTab, setActiveTab] = useState('Việc làm');
   const tabs = ['Việc làm', 'Công ty'];
-  const location = useLocation();
+  const location: any = useLocation();
   const [hasMore, setHasMore] = useState(true);
   const [total, setTotal] = useState({ job: 0, employer: 0 });
-  const formData = location.state?.formData;
+  const formData: any = location.state?.formData;
 
   const handleSeach = async (data: any) => {
     setPage(1); // Reset page về 1 khi tìm kiếm mới
