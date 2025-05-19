@@ -16,23 +16,23 @@ const CardBlog: React.FC<MyCardProps> = ({
   style,
 }) => {
   return (
-    <div
-      className={` ${className} border flex flex-col justify-between`}
-      style={style}>
-      <div className="">
-        <img src={data.img} />
-      </div>
-      <div className="p-2">
-        {data.title && <h1 className="text-lg font-bold my-2">{data.title}</h1>}
-
-        <h1 className="text-base font-bold text-gray-500">
-          {data.description}
-        </h1>
-      </div>
-      <div className="pb-4 mx-2">
-        <NavLink
-          className="text-sm text !no-underline "
-          to="#">{`Bắt Đầu đọc >`}</NavLink>
+    <div className={`${className} p-2 shadow-md`}>
+      <div
+        className={` border flex flex-col justify-between h-[320px]`}
+        style={style}>
+        <div className="">
+          <img src={data.avatar} className="h-[200px] w-full object-cover" />
+        </div>
+        <div className="p-2">
+          {data.title && (
+            <h1 className="text-lg font-bold my-2 truncate">{data.title}</h1>
+          )}
+        </div>
+        <div className="pb-4 mx-2">
+          <NavLink
+            className="text-sm text-primary !no-underline "
+            to={`/blog/${data?._id}`}>{`Bắt đầu đọc >`}</NavLink>
+        </div>
       </div>
     </div>
   );

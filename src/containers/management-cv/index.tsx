@@ -34,6 +34,12 @@ const columns: any = [
       getLableSingle(experience_years, experienceLevels),
   },
   {
+    title: 'Lĩnh vực',
+    dataIndex: 'fields',
+    key: 'fields',
+    render: (fields: any) => fields?.map((item: any) => item.name).join(', '),
+  },
+  {
     title: 'Mức Lương mong muốn',
     dataIndex: 'salary_expected',
     key: 'salary_expected',
@@ -43,7 +49,6 @@ const columns: any = [
     title: 'Kỹ năng',
     dataIndex: 'skills',
     key: 'skills',
-    width: 300,
     render: (skills: any) => {
       return (
         <div className="w-full flex flex-wrap">
@@ -72,38 +77,6 @@ const columns: any = [
         </NavLink>
       </div>
     ),
-  },
-];
-const dataSource = [
-  {
-    key: '1',
-    experience: '5 năm',
-    salary: '12 - 14 triệu',
-    place: 'Hà Nội',
-  },
-  {
-    key: '2',
-    experience: '5 năm',
-    salary: '12 - 14 triệu',
-    place: 'Hà Nội',
-  },
-  {
-    key: '3',
-    experience: '5 năm',
-    salary: '12 - 14 triệu',
-    place: 'Hà Nội',
-  },
-  {
-    key: '4',
-    experience: '5 năm',
-    salary: '12 - 14 triệu',
-    place: 'Hà Nội',
-  },
-  {
-    key: '5',
-    experience: '5 năm',
-    salary: '12 - 14 triệu',
-    place: 'Hà Nội',
   },
 ];
 const ManagementCandicateContainer: React.FC = () => {
@@ -140,10 +113,12 @@ const ManagementCandicateContainer: React.FC = () => {
   const fetchAllCV = async (data?: any) => {
     const res = await getListCandicate(data);
     if (res.result) {
+      console.log('res?.result', res.result);
       const data = res.result?.map((item: any) => ({
         email: item.email,
         ...item.candidate_info,
         skills: item?.skills_info,
+        fields: item?.fields_info,
       }));
       setData(data);
     }

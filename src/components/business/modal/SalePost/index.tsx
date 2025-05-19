@@ -17,6 +17,7 @@ const SalePost = ({ open, onFinish, onCancel, title, children }: any) => {
     }
   };
   useEffect(() => {
+    console.log('vo day');
     fetchPackages();
   }, [open]);
 

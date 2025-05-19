@@ -32,7 +32,10 @@ const JobCard = ({ job, className }: any) => {
             }}></div>
         }
         actions={[
-          <Button type="link" href={'#'} className="text-primary ">
+          <Button
+            type="link"
+            href={`/recruiter/${job?._id}`}
+            className="text-primary ">
             Xem công ty
           </Button>,
         ]}>

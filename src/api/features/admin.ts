@@ -8,6 +8,7 @@ export async function getListUser(data: any, options?: RequestOptions) {
   // Duyệt qua từng field lọc để gán vào params nếu tồn tại
   [
     'key',
+    'name',
     'level',
     'status',
     'type_work',
@@ -82,6 +83,8 @@ export async function getListJob(data: any, options?: RequestOptions) {
     'type_work',
     'role',
     'active',
+    'deadline',
+    'createdAt',
     'year_experience',
   ].forEach(field => {
     if (
@@ -179,7 +182,7 @@ export const createBlog = async (body: any, options?: RequestOptions) => {
     console.error('Error during update guest info:', error);
     throw error;
   }
-}
+};
 
 export const updateBlog = async (body: any, options?: RequestOptions) => {
   try {
@@ -193,20 +196,41 @@ export const updateBlog = async (body: any, options?: RequestOptions) => {
     console.error('Error during update guest info:', error);
     throw error;
   }
-}
+};
 
-export const getListBlog = async ({ limit, page }: { limit: number, page: number }, options?: any) => {
+export const getListBlog = async (data: any, options?: any) => {
   try {
-    const response = await request(`/admins/getListBlog?limt=${limit}&page=${page}`, {
-      method: 'GET',
-      ...(options || {}),
+    const { limit, page } = data;
+    const params: any = {};
+
+    // Duyệt qua từng field lọc để gán vào params nếu tồn tại
+    ['created_at', 'title'].forEach(field => {
+      if (
+        data.hasOwnProperty(field) &&
+        data[field] !== undefined &&
+        data[field] !== null &&
+        !(typeof data[field] === 'string' && data[field].trim() === '')
+      ) {
+        params[field] = data[field];
+      }
     });
+    if (data.key) {
+      params.key = data.key;
+    }
+    const response = await request(
+      `/admins/getListBlog?limit=${limit}&page=${page}`,
+      {
+        method: 'GET',
+        params: params,
+        ...(options || {}),
+      }
+    );
     return response;
   } catch (error) {
     console.error('Error create service:', error);
     throw error;
   }
-}
+};
 
 export const deleteBlog = async (id: string, options?: any) => {
   try {
@@ -219,4 +243,16 @@ export const deleteBlog = async (id: string, options?: any) => {
     console.error('Error create service:', error);
     throw error;
   }
-}
+};
+export const getDeatailBlog = async (id: string, options?: any) => {
+  try {
+    const response = await request(`/admins/getDetailBlog/${id}`, {
+      method: 'GET',
+      ...(options || {}),
+    });
+    return response;
+  } catch (error) {
+    console.error('Error create service:', error);
+    throw error;
+  }
+};

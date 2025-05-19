@@ -146,7 +146,7 @@ const HeaderComponent: FC<HeaderProps> = ({ collapsed, toggle }) => {
             alignItems: 'center',
           }}>
           <HeaderAccountSettings style={{ marginRight: '10px' }} />
-          Account settings
+          Cài đặt tài khoản
         </div>
       ),
       onClick: () => onActionClick('userSetting'),
@@ -154,6 +154,23 @@ const HeaderComponent: FC<HeaderProps> = ({ collapsed, toggle }) => {
     {
       type: 'divider',
       style: { margin: '0 10px' },
+    },
+    {
+      key: 'profile',
+      label: (
+        <div
+          style={{
+            padding: '10px 20px',
+            display: 'flex',
+            alignItems: 'center',
+          }}>
+          <HeaderAccountSettings style={{ marginRight: '10px' }} />
+          Xem thông tin cá nhân
+        </div>
+      ),
+      onClick: () => {
+        navigate('/profile');
+      },
     },
     {
       key: 'logout',
@@ -166,7 +183,7 @@ const HeaderComponent: FC<HeaderProps> = ({ collapsed, toggle }) => {
             color: '#EF4444',
           }}>
           <HeaderLogout style={{ marginRight: '10px' }} />
-          Logout
+          Đăng xuất
         </div>
       ),
       onClick: () => onActionClick('logout'),

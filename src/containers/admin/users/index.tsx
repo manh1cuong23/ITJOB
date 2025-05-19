@@ -86,6 +86,10 @@ const AdminUsersContainer: React.FC = () => {
       title: 'Tên tài khoản',
       dataIndex: 'name',
       key: 'name',
+      render: (_: any, record: any) => {
+        console.log('check ', record);
+        return record?.employer_info?.name || _;
+      },
     },
     {
       title: 'Ảnh đại diện',
@@ -246,17 +250,31 @@ const AdminUsersContainer: React.FC = () => {
           <Form form={form}>
             <Row gutter={16}>
               <Col
-                xs={24} // Chiếm 100% chiều rộng màn hình nhỏ (xs)
-                sm={24} // Chiếm 19/24 phần chiều rộng màn hình nhỏ hơn sm (80% chiều rộng)
-                md={12} // Chiếm 19/24 phần màn hình cỡ trung bình (md)
-                lg={12} // Chiếm 19/24 phần màn hình cỡ lớn (lg)
-                xl={12} // Chiếm 19/24 phần màn hình cực lớn (xl)
+                xs={6} // Chiếm 100% chiều rộng màn hình nhỏ (xs)
+                sm={6} // Chiếm 19/24 phần chiều rộng màn hình nhỏ hơn sm (80% chiều rộng)
+                md={6} // Chiếm 19/24 phần màn hình cỡ trung bình (md)
+                lg={6} // Chiếm 19/24 phần màn hình cỡ lớn (lg)
+                xl={6} // Chiếm 19/24 phần màn hình cực lớn (xl)
               >
                 <InputBasic
                   isSpan
-                  label="Email,Tên"
+                  label="Email"
                   name="key"
-                  placeholder="Nhập email hoặc tên tài khoản"
+                  placeholder="Nhập email"
+                />
+              </Col>
+              <Col
+                xs={6} // Chiếm 100% chiều rộng màn hình nhỏ (xs)
+                sm={6} // Chiếm 19/24 phần chiều rộng màn hình nhỏ hơn sm (80% chiều rộng)
+                md={6} // Chiếm 19/24 phần màn hình cỡ trung bình (md)
+                lg={6} // Chiếm 19/24 phần màn hình cỡ lớn (lg)
+                xl={6} // Chiếm 19/24 phần màn hình cực lớn (xl)
+              >
+                <InputBasic
+                  isSpan
+                  label="Tên"
+                  name="name"
+                  placeholder="Nhập tên"
                 />
               </Col>
               <Col span={6}>

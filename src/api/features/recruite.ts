@@ -85,6 +85,21 @@ export async function getListCandicate(data?: any, options?: RequestOptions) {
   }
 }
 
+export async function getStatusCandicate(data?: any, options?: RequestOptions) {
+  const params: any = {};
+  const { id, user_id } = data;
+  try {
+    const response = await request(`/apply/${id}/candidate/${user_id}`, {
+      method: 'GET',
+      ...(options || {}),
+    });
+    return response;
+  } catch (error) {
+    console.error('Error during update guest info:', error);
+    throw error;
+  }
+}
+
 export async function makeApproveCV(id: string, options?: RequestOptions) {
   try {
     const response = await request(`/jobs/approve/${id}`, {

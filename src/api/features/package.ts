@@ -1,8 +1,21 @@
 import { request, RequestOptions } from '@/utils/request';
-export async function getListPackage(options?: RequestOptions) {
+export async function getListPackage(data?: any, options?: RequestOptions) {
+  const params: any = {};
+
+  // Duyệt qua từng field lọc để gán vào params nếu tồn tại
+  ['name', 'status'].forEach(field => {
+    if (data?.[field] && data?.[field].length > 0) {
+      params[field] = data[field];
+    }
+  });
+  if (data?.key) {
+    params.key = data?.key;
+  }
+  console.log('params', params);
   try {
     const response = await request(`/package/get`, {
       method: 'GET',
+      params: params,
       ...(options || {}),
     });
     return response;

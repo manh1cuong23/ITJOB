@@ -101,8 +101,8 @@ const PackageContainer: React.FC = () => {
       },
     },
   ];
-  const fetchListPackage = async (data?: any) => {
-    const res = await getListPackage();
+  const fetchListPackage = async (data: any = []) => {
+    const res = await getListPackage(data);
     if (res && res.result) {
       setData(res.result);
     }
@@ -244,7 +244,7 @@ const PackageContainer: React.FC = () => {
                 lg={12} // Chiếm 19/24 phần màn hình cỡ lớn (lg)
                 xl={12} // Chiếm 19/24 phần màn hình cực lớn (xl)
               >
-                <InputBasic isSpan label="Vị trí" name="key" />
+                <InputBasic isSpan label="Tên gói" name="name" />
               </Col>
               <Col span={12}>
                 <MyFormItem
@@ -254,34 +254,13 @@ const PackageContainer: React.FC = () => {
                   wrapperCol={{ span: 24 }}>
                   <SingleSelectSearchCustom
                     className="change-field"
-                    options={JobStatusOptions}
+                    options={[
+                      { label: 'Đang hoạt động', value: 'true' },
+                      { label: 'Dừng hoạt động', value: 'false' },
+                      { label: 'Tất cả', value: '' },
+                    ]}
                   />
                 </MyFormItem>
-              </Col>
-            </Row>
-            <Row gutter={16}>
-              <Col span={12}>
-                <DatePickerFromTo
-                  labelFromDate="Hạn nộp từ"
-                  labelToDate="đến"
-                  name="deadline"
-                  notInitValue
-                />
-              </Col>
-              <Col
-                xs={24} // Chiếm 100% chiều rộng màn hình nhỏ (xs)
-                sm={24} // Chiếm 19/24 phần chiều rộng màn hình nhỏ hơn sm (80% chiều rộng)
-                md={12} // Chiếm 19/24 phần màn hình cỡ trung bình (md)
-                lg={12} // Chiếm 19/24 phần màn hình cỡ lớn (lg)
-                xl={12} // Chiếm 19/24 phần màn hình cực lớn (xl)
-              >
-                <DatePickerFromTo
-                  labelFromDate="Ngày tạo từ"
-                  labelToDate="đến"
-                  label="Ngày tạo"
-                  name="createdAt"
-                  notInitValue
-                />
               </Col>
             </Row>
 

@@ -1,6 +1,7 @@
 import {
   getListCandicate,
   getListJob,
+  getStatusCandicate,
   inviteCandicate,
   makeApproveCV,
   makeRejectCV,
@@ -27,6 +28,7 @@ import { Label } from 'recharts';
 const CVDetailContainer: React.FC = () => {
   const { id, applyId } = useParams();
   const [data, setData] = useState<any>([]);
+  const [dataStatus, setDataStatus] = useState<any>({});
   const [dataJob, setDataJob] = useState<any>([]);
   const [open, setOpen] = useState(false);
   const [openCancel, setOpenCancel] = useState(false);
@@ -48,6 +50,14 @@ const CVDetailContainer: React.FC = () => {
         idUser: _id,
       });
     }
+  };
+
+  const fetchStatusCV = async () => {
+    const res = await getStatusCandicate({ id: applyId, user_id: id });
+    if (res?.result) {
+      setDataStatus(res?.result);
+    }
+    console.log('res', res);
   };
 
   const fetListJob = async () => {
@@ -105,6 +115,7 @@ const CVDetailContainer: React.FC = () => {
   useEffect(() => {
     if (id) {
       fetchById(id);
+      fetchStatusCV();
     }
   }, [id]);
   const dataUser = [

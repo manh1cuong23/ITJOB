@@ -42,6 +42,12 @@ const ProfileRecruiterPage = lazy(
 const ApplyJobPage = lazy(
   () => import(/* webpackChunkName: "package-plan'"*/ '@/pages/apply-job')
 );
+const BlogPage = lazy(
+  () => import(/* webpackChunkName: "package-plan'"*/ '@/pages/blog')
+);
+const BlogDetailPage = lazy(
+  () => import(/* webpackChunkName: "package-plan'"*/ '@/pages/blog-detail')
+);
 const InviteJobPage = lazy(
   () => import(/* webpackChunkName: "package-plan'"*/ '@/pages/invite-job')
 );
@@ -174,6 +180,26 @@ const routeList: RouteObject[] = [
           <WrapperRouteComponent
             element={<ApplyJobPage />}
             title="Profile"
+            role={TypeUser.User}
+            auth={true}
+          />
+        ),
+      },
+      {
+        path: 'blog',
+        element: (
+          <WrapperRouteComponent
+            element={<BlogPage />}
+            role={TypeUser.User}
+            auth={true}
+          />
+        ),
+      },
+      {
+        path: 'blog/:id',
+        element: (
+          <WrapperRouteComponent
+            element={<BlogDetailPage />}
             role={TypeUser.User}
             auth={true}
           />

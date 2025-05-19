@@ -2,6 +2,13 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { MenuList } from '@/interface/layout/menu.interface';
 import { ReactComponent as DashboardSvg } from '@/assets/menu/ic_dashboard.svg';
+import { ReactComponent as TransactionSvg } from '@/assets/menu/transaction.svg';
+import { ReactComponent as TestSvg } from '@/assets/menu/documentation.svg';
+import { ReactComponent as Test2Svg } from '@/assets/menu/ic_dailyreport.svg';
+import { ReactComponent as Test22Svg } from '@/assets/menu/ic_master_data.svg';
+import { ReactComponent as Test3Svg } from '@/assets/menu/ic_cloud-lightning.svg';
+import { ReactComponent as UserSvg } from '@/assets/menu/ic_user.svg';
+import { ReactComponent as EnvalueSvg } from '@/assets/menu/ic_booking.svg';
 import { ReactComponent as MenuTickSvg } from '@/assets/menu/ic_menu_tick.svg';
 
 interface MenuItemWithTickProps {
@@ -29,11 +36,11 @@ const MenuItemWithTick: React.FC<MenuItemWithTickProps> = ({ label, path }) => {
 };
 
 export const mockMenuList: MenuList = [
-  {
-    key: '/dashboard',
-    label: 'Tổng quan',
-    icon: <DashboardSvg />,
-  },
+  // {
+  //   key: '/dashboard',
+  //   label: 'Tổng quan',
+  //   icon: <DashboardSvg />,
+  // },
   {
     key: '/recruiter/management/job',
     label: 'Quản lý tin tuyển dụng',
@@ -42,24 +49,24 @@ export const mockMenuList: MenuList = [
   {
     key: '/recruiter/candicate',
     label: 'Tìm kiếm ứng viên',
-    icon: <DashboardSvg />,
+    icon: <TestSvg />,
   },
   {
     key: '/recruiter/management/transaction',
     label: 'Quản lý giao dịch',
-    icon: <DashboardSvg />,
+    icon: <TransactionSvg />,
   },
   {
     key: '/recruiter/profile',
     label: 'Xem và chỉnh sửa trang công ty',
-    icon: <DashboardSvg />,
+    icon: <Test2Svg />,
   },
 ];
 export const adminMenuList: MenuList = [
   {
     key: '/admin/users',
     label: 'Quản lý tài khoản',
-    icon: <DashboardSvg />,
+    icon: <UserSvg />,
   },
   {
     key: '/admin/jobs',
@@ -69,21 +76,21 @@ export const adminMenuList: MenuList = [
   {
     key: '/admin/management/package',
     label: 'Quản lý gói tuyển dụng',
-    icon: <DashboardSvg />,
+    icon: <Test3Svg />,
   },
   {
     key: '/admin/envalutions',
     label: 'Quản lý đánh giá',
-    icon: <DashboardSvg />,
+    icon: <EnvalueSvg />,
   },
   {
     key: '/admin/management/transaction',
     label: 'Quản lý giao dịch',
-    icon: <DashboardSvg />,
+    icon: <TransactionSvg />,
   },
   {
     key: '/admin/management/blog',
     label: 'Quản lý blog',
-    icon: <DashboardSvg />,
+    icon: <Test22Svg />,
   },
 ];

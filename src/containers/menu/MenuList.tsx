@@ -9,6 +9,7 @@ const menuItems: any = [
   },
   { title: 'Việc làm của bạn', to: '/apply-jobs' },
   { title: 'Việc làm được mời', to: '/invite-jobs' },
+  { title: 'Blogs', to: '/blog' },
 ];
 
 export default function HeaderMenu() {

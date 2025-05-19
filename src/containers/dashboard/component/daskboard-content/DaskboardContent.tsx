@@ -9,14 +9,12 @@ import CardBlog from '@/components/basic/card/CardBlog';
 import { getListEmployer } from '@/api/features/chat';
 import { getListJobByCandicate } from '@/api/features/job';
 import MyCardjobDb from '@/components/basic/card/CardJobDbcopy';
+import { getListBlog } from '@/api/features/admin';
 
-const data2 = {
-  img: 'https://itviec.com/rails/active_storage/representations/proxy/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaHBBOW5tV2c9PSIsImV4cCI6bnVsbCwicHVyIjoiYmxvYl9pZCJ9fQ==--87dd2337b87d990fa0f37a62de789ab0051bbb45/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdCem9MWm05eWJXRjBPZ2wzWldKd09oSnlaWE5wZW1WZmRHOWZabWwwV3dkcEFwSUNNQT09IiwiZXhwIjpudWxsLCJwdXIiOiJ2YXJpYXRpb24ifX0=--d4dc962f8dfd42219a41803be77916f56a123c1e/elasticsearch-query-la-gi-vippro-scaled.jpg',
-  description: 'Bạn cần một giải pháp tìm kiếm dữ liệu siêu tốc',
-};
 const DaskboardContent: React.FC = () => {
   const [data, setData] = useState<any>([]);
   const [jobs, setJobs] = useState<any>([]);
+  const [blogs, setBlogs] = useState<any>([]);
   const fetchCompany = async () => {
     const res = await getListEmployer({ page: 1, limit: 6 });
     if (res?.result) {
@@ -29,9 +27,17 @@ const DaskboardContent: React.FC = () => {
       setJobs(res?.result?.jobs);
     }
   };
+  const fetchBlog = async () => {
+    const res = await getListBlog({ page: 1, limit: 4 });
+    if (res?.result) {
+      setBlogs(res?.result);
+    }
+  };
+
   useEffect(() => {
     fetchCompany();
     fetchJob();
+    fetchBlog();
   }, []);
   return (
     <div className="mx-auto w-[1260px] pt-[20px]  bg-white ">
@@ -55,20 +61,12 @@ const DaskboardContent: React.FC = () => {
       <div>
         <h1 className="text-[28px] font-bold text-black my-4">
           Bài viết nổi bật
-          <div className="flex mt-4">
-            <div className="w-1/2 ">
-              <CardBlog className="h-[530px]" data={data2} />
-            </div>
-            <div className="w-1/2 px-4">
-              <div className="flex gap-[4px]">
-                <CardBlog className="h-[280px]" data={data2} />
-                <CardBlog className="h-[280px]" data={data2} />
-              </div>
-              <div className="flex gap-[4px] mt-2">
-                <CardBlog className="h-[280px]" data={data2} />
-                <CardBlog className="h-[280px]" data={data2} />
-              </div>
-            </div>
+          <div className="flex mt-5 flex-wrap">
+            {blogs &&
+              blogs.length > 0 &&
+              blogs?.map((item: any, index: number) => (
+                <CardBlog key={index} className=" w-1/2" data={item} />
+              ))}
           </div>
         </h1>
       </div>
