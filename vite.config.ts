@@ -13,6 +13,7 @@ export default defineConfig({
   },
   server: {
     port: 8889,
+    host: '0.0.0.0',
     proxy: {
       '/api': {
         target: `http://localhost:${process.env.PORT}/api`,
@@ -42,7 +43,7 @@ export default defineConfig({
       libList: [
         {
           libName: 'antd',
-          style: (name) => name !== 'time-picker' && `antd/es/${name}/style`,
+          style: name => name !== 'time-picker' && `antd/es/${name}/style`,
         },
         {
           libName: 'lodash',
@@ -63,7 +64,7 @@ export default defineConfig({
   ],
   esbuild: {
     define: {
-      this: 'window'
-     }
-  }
+      this: 'window',
+    },
+  },
 });
