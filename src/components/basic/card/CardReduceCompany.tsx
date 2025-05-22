@@ -14,7 +14,6 @@ interface Props {
 }
 
 const CardReduceCompany: React.FC<Props> = ({ data }) => {
-  console.log('data', data);
   return (
     <div className="border shadow-sm p-4 bg-white hover:shadow-md hover:cursor-pointer rounded-md">
       <div>

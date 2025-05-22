@@ -20,7 +20,6 @@ const MyCardRecruiter: React.FC<MyCardProps> = ({
   style,
   data,
 }) => {
-  console.log('cdata', data);
   // const level =
   return (
     <NavLink to={`/recruiter/${data?._id}`}>

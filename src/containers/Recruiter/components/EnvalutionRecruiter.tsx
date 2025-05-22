@@ -10,8 +10,6 @@ import ProgressCircle from './Progess';
 import EnvalutionContent from './EnvalutionContent';
 
 export default function EnvalutionRecruiter({ data }: any) {
-  console.log('check datcca2', data?.rateSummary?.encouragedPercentage);
-
   return (
     <div className="mt-4">
       <div className="bg-white p-[20px]">

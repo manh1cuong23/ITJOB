@@ -16,7 +16,6 @@ const MyCardjobCompany: React.FC<MyCardProps> = ({
   style,
   data,
 }) => {
-  console.log('data', data);
   const dataitem = {
     nameCompany: 'PRIME TECH SOLUTION COMPANY LIMITED',
     title: 'Your Partner All The Way',

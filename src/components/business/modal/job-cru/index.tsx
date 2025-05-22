@@ -79,7 +79,6 @@ const JobCruModal: React.FC<{
     try {
       // Giả sử uploadImage là hàm API trả về URL của ảnh
       const res = await uploadImage(formData);
-      console.log('check res', res);
       const newImageUrl = res.result?.[0]?.url; // Điều chỉnh theo response của API
 
       // Thêm URL mới vào state
@@ -123,7 +122,6 @@ const JobCruModal: React.FC<{
         salaryTo: data.salary[1],
       };
       setImageUrls(data.background);
-      console.log('check data', data);
       const skills = data.skills_info.map((item: any, index: number) => {
         return item.name;
       });
@@ -241,13 +239,13 @@ const JobCruModal: React.FC<{
                       lg={12} // Chiếm 19/24 phần màn hình cỡ lớn (lg)
                       xl={12} // Chiếm 19/24 phần màn hình cực lớn (xl)
                     >
-                        <InputBasic
-                          label="Tiêu đề tuyển dụng"
-                          name="name"
-                          disabled={isViewMode}
-                          isSpan
-                          required
-                        />
+                      <InputBasic
+                        label="Tiêu đề tuyển dụng"
+                        name="name"
+                        disabled={isViewMode}
+                        isSpan
+                        required
+                      />
                     </Col>
                   </Row>
                 </div>

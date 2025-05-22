@@ -81,7 +81,6 @@ const JobResultContainer: React.FC = () => {
   };
   const fetchListCountCandicates = async (id: string) => {
     const res = await getListCountCandicateByJob(id);
-    console.log('check res', res);
 
     if (res && res.result) {
       setDataCount(res.result);
@@ -134,7 +133,6 @@ const JobResultContainer: React.FC = () => {
       dataIndex: 'createdAt',
       key: 'createdAt',
       render: (createdAt: any) => {
-        console.log('check ', createdAt);
         return createdAt && formatDateNew(createdAt);
       },
     },
@@ -144,7 +142,6 @@ const JobResultContainer: React.FC = () => {
       key: 'cv',
       width: 150,
       render: (cv: any, record: any) => {
-        console.log('cv', cv);
         return (
           cv && (
             <NavLink to={cv} target="_blank" className="text-primary">
@@ -198,7 +195,6 @@ const JobResultContainer: React.FC = () => {
       ),
     },
   ].filter(Boolean);
-  console.log('Check dataCount', dataCount);
   return (
     <div className="m-[20px] ">
       <div className="flex items-center gap-[20px]">

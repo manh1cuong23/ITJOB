@@ -26,7 +26,6 @@ export function convertDataToIntervals(data: any) {
 // Hàm kiểm tra sự chồng chéo
 export function hasOverlap(data: any) {
   const intervals = convertDataToIntervals(data);
-  console.log('mang sau khi interval', intervals);
   // Sắp xếp các khoảng theo giá trị 'from' tăng dần
   intervals.sort((a, b) => a.from - b.from);
 

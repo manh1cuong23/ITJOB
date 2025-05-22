@@ -52,7 +52,6 @@ const MyCheckBox = (props: IProps) => {
     // Cập nhật giá trị của checkbox vào form
     if (form && name) {
       form.setFieldsValue({ [name]: checked });
-      console.log('Check checked', checked);
       setCheck(checked);
     }
     // Nếu có onChange từ props, gọi hàm onChange đó
@@ -71,14 +70,12 @@ const MyCheckBox = (props: IProps) => {
       initialValue={defaultValue}
       hidden={hidden}
       form={form}
-      status={status}
-    >
+      status={status}>
       <Checkbox
         defaultChecked={defaultValue}
         checked={defaultValue !== undefined ? check : form?.getFieldValue(name)}
         disabled={disabled}
-        onChange={handleCheckboxChange}
-      >
+        onChange={handleCheckboxChange}>
         {label}
       </Checkbox>
     </MyFormItem>

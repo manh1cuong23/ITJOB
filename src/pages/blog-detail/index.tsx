@@ -9,7 +9,6 @@ const BlogDetailPage = () => {
   const { id } = useParams();
   const [blogs, setBlogs] = useState<any>([]);
   const [data, setData] = useState<any>();
-  console.log('id', id);
   const getDetailBlog = async () => {
     if (id) {
       const data = await getDeatailBlog(id);

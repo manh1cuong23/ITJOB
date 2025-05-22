@@ -60,7 +60,6 @@ const ProfileRecruiterPage: React.FC<Props> = ({ isCreate = true }) => {
     try {
       // Giả sử uploadImage là hàm API trả về URL của ảnh
       const res = await uploadImage(formData);
-      console.log('check res', res);
       const newImageUrl = res.result?.[0]?.url; // Điều chỉnh theo response của API
 
       // Thêm URL mới vào state
@@ -131,7 +130,6 @@ const ProfileRecruiterPage: React.FC<Props> = ({ isCreate = true }) => {
     dataForm.isOt = dataForm.isOt ? true : false;
     dataForm.avatar = dataImg?.avatar?.url;
     dataForm.cover_photo = dataImg?.background?.url;
-    console.log(dataForm);
     // Xóa salaryFrom và salaryTo nếu không cần nữa
     const response = await updateMe({
       employer_body: { ...dataForm, images: imageUrls },

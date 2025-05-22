@@ -82,14 +82,12 @@ const CreateRecruiteModal: React.FC<{
 
   const handleOk = async (force: boolean = false) => {
     const data = await form.validateFields();
-    console.log('data', data);
     if (id && data) {
       const res = await applyJob(id, data);
       if (res && res.message) {
         message.success('Bạn đã ứng tuyển thành công!');
         onCancel && onCancel();
       }
-      console.log('res', res);
     }
   };
 

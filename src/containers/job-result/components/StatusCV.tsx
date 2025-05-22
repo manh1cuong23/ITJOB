@@ -28,7 +28,6 @@ const StatusTag: React.FC<StatusTagProps> = ({
   setForceUpdate,
   id,
 }) => {
-  console.log('value', value);
   const [open, setOpen] = useState<boolean>(false);
   const [openResult, setOpenResult] = useState<boolean>(false);
   const color = statusColorMap[value];

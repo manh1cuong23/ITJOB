@@ -16,7 +16,6 @@ const JobDetailContainer: React.FC = () => {
     const res = await getDetailJob(id);
     if (res && res.result) {
       setDataJob(res.result);
-      console.log('res.resul', res.result);
       setDataEmployer(res.result?.employer_info);
     }
   };
@@ -28,7 +27,6 @@ const JobDetailContainer: React.FC = () => {
   };
   const fetchCheckIsApply = async () => {
     const res = await getListApplyJob(undefined, id);
-    console.log('check res', res);
     if (res?.result && res?.result?.applyJobs?.length > 0) {
       setIsApply(true);
     }

@@ -16,7 +16,6 @@ const MyCardjobDb: React.FC<MyCardProps> = ({
   style,
   data,
 }) => {
-  console.log('data', data);
   return (
     <div
       className={`${className} my-6 rounded bg-white shadow-md hover:shadow-lg`}>

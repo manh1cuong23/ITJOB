@@ -6,7 +6,6 @@ import { LeftOutlined, RightOutlined } from '@ant-design/icons';
 const { Title, Text } = Typography;
 
 const JobCard = ({ job, className }: any) => {
-  console.log('check job', job);
   return (
     <div className={`${className} p-2 `}>
       <Card
@@ -66,7 +65,6 @@ const JobCard = ({ job, className }: any) => {
 };
 
 const JobCarousel = ({ jobs }: any) => {
-  console.log('job', jobs);
   return (
     <Carousel slidesToShow={3} slidesToScroll={1} arrows autoplay dots={false}>
       {jobs.map((job: any, index: number) => (

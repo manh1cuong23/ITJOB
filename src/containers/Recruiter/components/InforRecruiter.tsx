@@ -6,7 +6,6 @@ import { FacebookOutlined } from '@ant-design/icons';
 import { NavLink, useLocation } from 'react-router-dom';
 
 export default function InforRecruiter({ data }: any) {
-  console.log('data', data);
   const gioithie = [
     {
       title: 'Mô hình công ty',

@@ -14,7 +14,6 @@ interface Props {
 }
 
 const BackgroundCandidate: React.FC<Props> = ({ data, isShowJob = false }) => {
-  console.log('data1', data);
   return (
     <div className="">
       <h1 className="ml-[20px] text-[16px] text-[#2f4ba0] mb-2">

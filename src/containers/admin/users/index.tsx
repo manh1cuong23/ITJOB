@@ -87,7 +87,6 @@ const AdminUsersContainer: React.FC = () => {
       dataIndex: 'name',
       key: 'name',
       render: (_: any, record: any) => {
-        console.log('check ', record);
         return record?.employer_info?.name || _;
       },
     },
@@ -136,7 +135,6 @@ const AdminUsersContainer: React.FC = () => {
   ];
   const fetchListUser = async (data: any) => {
     const res = await getListUser(data);
-    console.log('check', res);
     if (res && res.result) {
       const datas = res.result?.map((item: any, index: number) => {
         const { candidate_info, ...prev } = item;
@@ -147,7 +145,6 @@ const AdminUsersContainer: React.FC = () => {
   };
   const handleSearch = async () => {
     const data = await form.validateFields();
-    console.log('dataa form', data);
     fetchListUser(data);
   };
 
@@ -155,7 +152,6 @@ const AdminUsersContainer: React.FC = () => {
     fetchListUser([]);
   }, [forceUpdate]);
 
-  console.log(idSelected);
   const handleResume = async () => {
     const res = await makeActiveAccount(idSelected);
     if (res?.message) {
@@ -186,7 +182,6 @@ const AdminUsersContainer: React.FC = () => {
         const menu = (
           <Menu
             onClick={({ key }) => {
-              console.log('Checkl record', record?._id);
               setIdSelected(record?._id);
               if (key === 'view') {
                 setIdSelected(record?._id);
@@ -198,7 +193,6 @@ const AdminUsersContainer: React.FC = () => {
                 setOpenEdit(true);
               } else if (key === 'active') {
                 setResumne(true);
-                console.log('vo dfay');
               } else if (key === 'inactive') {
                 // xử lý xóa tại đây
                 setStop(true);

@@ -27,7 +27,6 @@ const CardJobRec: React.FC<MyCardProps> = ({
   style,
   data,
 }) => {
-  console.log('check data', data);
   return (
     <div
       className={` text-black ${className} border rounded-lg pb-[24px]  hover:bg-[#f9ebdd] transition-colors cursor-pointer duration-200 py-4 px-2 bg-red-50 shadow-md`}>

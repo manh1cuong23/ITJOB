@@ -55,8 +55,6 @@ const MenuComponent: FC<IMenuProps> = props => {
       key => stateOpenKeys.indexOf(key) === -1
     );
     // open
-    console.log(currentOpenKey);
-    console.log(openKeys);
     if (currentOpenKey !== undefined) {
       const repeatIndex = openKeys
         .filter(key => key !== currentOpenKey)

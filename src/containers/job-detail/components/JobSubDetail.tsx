@@ -36,8 +36,6 @@ const JobSubDetail: React.FC<Props> = ({
 }) => {
   const [open, setOpen] = useState(false);
 
-  console.log('data', data);
-  console.log('cover_photo', data.cover_photo);
   let datak: any = [];
   if (data && data) {
     datak = [

@@ -50,9 +50,13 @@ const JobBoardContainer: React.FC = () => {
     }
   };
   useEffect(() => {
+    console.log('formData', formData);
     if (formData && Object.keys(formData).length > 0) {
+      console.log('vo 1');
       handleSeach(formData);
     } else {
+      console.log('vo 2');
+
       handleSeach([]);
     }
   }, [formData]);

@@ -87,7 +87,6 @@ const ManagementCandicateContainer: React.FC = () => {
 
   const handleClickSeach = async () => {
     const data = await form.validateFields();
-    console.log('data form', data);
     await fetchAllCV(data);
   };
 
@@ -113,7 +112,6 @@ const ManagementCandicateContainer: React.FC = () => {
   const fetchAllCV = async (data?: any) => {
     const res = await getListCandicate(data);
     if (res.result) {
-      console.log('res?.result', res.result);
       const data = res.result?.map((item: any) => ({
         email: item.email,
         ...item.candidate_info,

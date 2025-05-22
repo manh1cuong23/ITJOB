@@ -31,7 +31,6 @@ export default function ProfilePageContainer() {
       setDataMe({ ...candidate_info, skills_info, fields_info });
     }
   };
-  console.log('data ,e ', dataMe);
   useEffect(() => {
     fetMe();
   }, [force]);

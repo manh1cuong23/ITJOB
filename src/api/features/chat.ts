@@ -25,7 +25,6 @@ export async function getListConversation(data: any, options?: RequestOptions) {
   if (data.key) {
     params.key = data.key;
   }
-  console.log('check para', params);
   try {
     const response = await request(`/chats/get-conversations`, {
       method: 'GET',
@@ -66,7 +65,6 @@ export async function getListEmployer(data: any, options?: RequestOptions) {
   if (data.key) {
     params.key = data.key;
   }
-  console.log('check para', params);
   try {
     const response = await request(`/candidates/list-employer`, {
       method: 'GET',

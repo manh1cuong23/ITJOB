@@ -1,8 +1,6 @@
 import { request, RequestOptions } from '@/utils/request';
 
 export async function getListUser(data: any, options?: RequestOptions) {
-  console.log('dataa', data);
-
   const params: any = {};
 
   // Duyệt qua từng field lọc để gán vào params nếu tồn tại
@@ -28,7 +26,6 @@ export async function getListUser(data: any, options?: RequestOptions) {
   if (data.key) {
     params.key = data.key;
   }
-  console.log('check para', params);
   try {
     const response = await request(`/admins/list-accounts`, {
       method: 'GET',
@@ -139,7 +136,6 @@ export async function getListEnvalutions(data: any, options?: RequestOptions) {
   if (data.key) {
     params.key = data.key;
   }
-  console.log('check para', params);
   try {
     const response = await request(`/admins/list-envalutions`, {
       method: 'GET',

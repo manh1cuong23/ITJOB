@@ -164,14 +164,12 @@ const AdminEnvalutionContainer: React.FC = () => {
   ];
   const fetchListUser = async (data: any) => {
     const res = await getListEnvalutions(data);
-    console.log('check', res);
     if (res && res.result) {
       setData(res.result);
     }
   };
   const handleSearch = async () => {
     const data = await form.validateFields();
-    console.log('dataa form', data);
     fetchListUser(data);
   };
 
@@ -179,7 +177,6 @@ const AdminEnvalutionContainer: React.FC = () => {
     fetchListUser([]);
   }, [forceUpdate]);
 
-  console.log(idSelected);
   const handleResume = async () => {
     const res = await makeActiveAccount(idSelected);
     if (res?.message) {

@@ -32,9 +32,6 @@ const Profile: React.FC<IProps> = ({ isOpen, onClose, onSubmit }) => {
 
   const featData = async () => {
     const res = await getMe();
-    console.log('res', res);
-    console.log('check', res.result?.username);
-    console.log('res.result?.email', res.result?.email);
     form.setFieldsValue({
       username: res.result?.username,
       email: res.result?.email,

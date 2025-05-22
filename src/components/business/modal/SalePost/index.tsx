@@ -17,7 +17,6 @@ const SalePost = ({ open, onFinish, onCancel, title, children }: any) => {
     }
   };
   useEffect(() => {
-    console.log('vo day');
     fetchPackages();
   }, [open]);
 
@@ -46,14 +45,12 @@ const SalePost = ({ open, onFinish, onCancel, title, children }: any) => {
     return schemes[index % schemes.length];
   };
   const handleBuy = async (data: any) => {
-    console.log(data);
     const res = await createPayOs({ price: data?.price, idPackage: data?._id });
     if (res?.checkoutUrl) {
       if (res?.checkoutUrl) {
         window.open(res.checkoutUrl, '_blank'); // 👈 Mở trong tab mới
       }
     }
-    console.log('res', res);
   };
 
   return (

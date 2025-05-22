@@ -11,8 +11,16 @@ export interface DebounceSelectProps<ValueType = any>
 }
 
 export default function DebounceSelect<
-  ValueType extends { key?: string; label: React.ReactNode; value: string | number } = any,
->({ fetchOptions, debounceTimeout = 800, ...props }: DebounceSelectProps<ValueType>) {
+  ValueType extends {
+    key?: string;
+    label: React.ReactNode;
+    value: string | number;
+  } = any
+>({
+  fetchOptions,
+  debounceTimeout = 800,
+  ...props
+}: DebounceSelectProps<ValueType>) {
   const [fetching, setFetching] = useState(false);
   const [options, setOptions] = useState<ValueType[]>([]);
   const fetchRef = useRef(0);
@@ -24,11 +32,10 @@ export default function DebounceSelect<
       setOptions([]); // Clear options when search starts
       setFetching(true);
 
-      fetchOptions(value).then((newOptions) => {
+      fetchOptions(value).then(newOptions => {
         if (fetchId !== fetchRef.current) {
           return;
         }
-        console.log(newOptions);
         setOptions(newOptions);
         setFetching(false);
       });
@@ -41,7 +48,7 @@ export default function DebounceSelect<
     <Select
       className="my-select"
       filterOption={false}
-      onSearch={debounceFetcher} 
+      onSearch={debounceFetcher}
       notFoundContent={fetching ? <Spin size="small" /> : null}
       style={{ height: '36px' }}
       allowClear

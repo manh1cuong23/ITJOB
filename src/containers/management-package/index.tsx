@@ -110,7 +110,6 @@ const PackageContainer: React.FC = () => {
 
   const handleSearch = async () => {
     const data = await form.validateFields();
-    console.log('check dataa', data);
     fetchListPackage(data);
   };
 
@@ -153,11 +152,9 @@ const PackageContainer: React.FC = () => {
       width: 160,
       align: 'center',
       render: (_: any, record: any) => {
-        console.log('check record', record);
         const menu = (
           <Menu
             onClick={({ key }) => {
-              console.log('Checkl record', record?._id);
               setIdSelected(record?._id);
               if (key === 'view') {
                 setIdSelected(record?._id);
@@ -172,7 +169,6 @@ const PackageContainer: React.FC = () => {
                 setDeleteD(true);
               } else if (key === 'active') {
                 setResumne(true);
-                console.log('vo dfay');
               } else if (key === 'inactive') {
                 // xử lý xóa tại đây
                 setStop(true);

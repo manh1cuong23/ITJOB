@@ -119,7 +119,6 @@ const TransactionContainer: React.FC = () => {
 
   const handleSearch = async () => {
     const data = await form.validateFields();
-    console.log('check dataa', data);
     fetchListTransaction(data);
   };
 

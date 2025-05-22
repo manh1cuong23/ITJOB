@@ -28,9 +28,7 @@ const MyCollapse = (props: IProps) => {
   }, [activeKey]);
 
   const handleIconClick = (key: string) => {
-    console.log(`Panel key clicked: ${key}`);
     setExpandedKeys((prevKeys: any) => {
-      console.log('check preveKeys', prevKeys);
       return prevKeys.includes(key)
         ? prevKeys?.filter((k: any) => k !== key)
         : [...prevKeys, key];
