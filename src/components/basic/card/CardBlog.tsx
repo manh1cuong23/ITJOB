@@ -18,12 +18,15 @@ const CardBlog: React.FC<MyCardProps> = ({
   return (
     <div className={`${className} p-2 shadow-md`}>
       <div
-        className={` border flex flex-col justify-between h-[320px]`}
+        className={` border flex flex-col justify-between h-[300px]`}
         style={style}>
-        <div className="">
-          <img src={data.avatar} className="h-[200px] w-full object-cover" />
+        <div className="overflow-hidden">
+          <img
+            src={data.avatar}
+            className="h-[200px] w-full object-cover transition-transform duration-300 hover:scale-105"
+          />
         </div>
-        <div className="p-2">
+        <div className="py-1 mx-2">
           {data.title && (
             <h1 className="text-lg font-bold my-2 truncate">{data.title}</h1>
           )}

@@ -30,9 +30,11 @@ const JobBoardContainer: React.FC = () => {
         job: res.result.jobs?.pagination?.total_records,
         employer: res.result.employers?.pagination?.total_records,
       });
+      setPageTotal(res?.result?.jobs?.pagination?.total_pages);
     }
   };
   const fetchMoreData = async () => {
+    console.log('ccc', page, pageTotal);
     if (page >= pageTotal) return;
     const nextPage = page + 1;
     setPage(nextPage);
@@ -49,17 +51,16 @@ const JobBoardContainer: React.FC = () => {
       setListRecruiter((prev: any) => [...prev, ...newRecruiters]);
     }
   };
+
   useEffect(() => {
     console.log('formData', formData);
     if (formData && Object.keys(formData).length > 0) {
       console.log('vo 1');
       handleSeach(formData);
     } else {
-      console.log('vo 2');
-
       handleSeach([]);
     }
-  }, [formData]);
+  }, []);
   return (
     <div className="dashboard bg-white">
       <DaskboardSearch handleSeach={handleSeach} />

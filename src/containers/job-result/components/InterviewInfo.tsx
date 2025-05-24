@@ -8,10 +8,27 @@ import { Link } from 'react-router-dom';
 import { formatDateTime } from '@/utils/formatDate';
 
 interface Props {
-  data?: any;
+  data2?: any;
 }
 
-const InterviewInfo: React.FC<Props> = ({ data }) => {
+const InterviewInfo: React.FC<Props> = ({ data2 }) => {
+  const isObjectNotEmpty = (obj: any) =>
+    obj &&
+    typeof obj === 'object' &&
+    !Array.isArray(obj) &&
+    Object.keys(obj).length > 0;
+
+  const hasFinalSchedule = isObjectNotEmpty(data2?.interview_final_schedule);
+  const hasSuggestSchedule = isObjectNotEmpty(
+    data2?.interview_employee_suggest_schedule
+  );
+
+  // Chọn theo ưu tiên: nếu có final_schedule thì lấy, ngược lại lấy suggest_schedule
+  const data = hasFinalSchedule
+    ? data2.interview_final_schedule
+    : hasSuggestSchedule
+    ? data2.interview_employee_suggest_schedule
+    : null;
   return (
     <div className="">
       <div className="flex flex-col">

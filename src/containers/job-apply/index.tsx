@@ -15,9 +15,7 @@ export default function JobApplyContainer() {
 
   const fetchJobApply = async (status: any) => {
     const res = await getListApplyJob(status);
-    console.log('check res', res);
     if (res.result) {
-      console.log(res.result?.applyJobs);
       setData(res.result?.applyJobs);
     }
   };
@@ -50,7 +48,6 @@ export default function JobApplyContainer() {
       status: [ApplyStatus.Interview, ApplyStatus.Passed, ApplyStatus.Failed],
     },
   ];
-  console.log('data', data);
   return (
     <div className="mt-[20px] mx-auto w-[1260px] flex gap-[20px]">
       <ContentLeftProfile />

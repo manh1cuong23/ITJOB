@@ -177,6 +177,7 @@ const JobCruModal: React.FC<{
         }
       }
       form.resetFields();
+      setContent('');
       onFinish && onFinish();
       setForceUpdate((prev: number) => prev + 1);
     }

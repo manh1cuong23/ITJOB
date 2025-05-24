@@ -22,13 +22,13 @@ const DaskboardContent: React.FC = () => {
     }
   };
   const fetchJob = async () => {
-    const res = await getListJobByCandicate({ page: 1, limit: 10 });
+    const res = await getListJobByCandicate({ page: 1, limit: 9 });
     if (res?.result) {
       setJobs(res?.result?.jobs);
     }
   };
   const fetchBlog = async () => {
-    const res = await getListBlog({ page: 1, limit: 4 });
+    const res = await getListBlog({ page: 1, limit: 3 });
     if (res?.result) {
       setBlogs(res?.result);
     }
@@ -65,7 +65,7 @@ const DaskboardContent: React.FC = () => {
             {blogs &&
               blogs.length > 0 &&
               blogs?.map((item: any, index: number) => (
-                <CardBlog key={index} className=" w-1/2" data={item} />
+                <CardBlog key={index} className=" w-1/3" data={item} />
               ))}
           </div>
         </h1>

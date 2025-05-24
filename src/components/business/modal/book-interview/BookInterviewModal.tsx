@@ -56,7 +56,6 @@ const BookInterviewModal: React.FC<{
     form.resetFields();
   };
 
-  console.log('check open', open);
   const handleChange = (e: any) => {
     setSelectedValue(e.target.value);
   };
@@ -67,15 +66,15 @@ const BookInterviewModal: React.FC<{
 
   const fetchDataInterview = async (id: string) => {
     const res = await getDetailInterview(id);
-    console.log('check ', res);
     if (res.result) {
       if (isInfo) {
         setData(res.result?.interview_final_schedule);
-      }
-      if (!isSeeEmploy) {
-        setData(res.result?.interview_candidate_suggest_schedule);
       } else {
-        setData(res.result?.interview_employee_suggest_schedule);
+        if (!isSeeEmploy) {
+          setData(res.result?.interview_candidate_suggest_schedule);
+        } else {
+          setData(res.result?.interview_employee_suggest_schedule);
+        }
       }
     }
   };
@@ -125,15 +124,12 @@ const BookInterviewModal: React.FC<{
     if (data?.date) {
       data.date = dayjs(data?.date);
     }
-    console.log('check data', data);
     form.setFieldsValue(data);
   }, [data]);
   const handleCancel = () => {
     onCancel && onCancel();
     setIsNewInterview(false);
   };
-  console.log('isNewInterView', isNewInterView);
-  console.log('data', data);
   return (
     <>
       <MyModal

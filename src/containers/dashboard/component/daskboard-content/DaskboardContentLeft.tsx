@@ -26,7 +26,10 @@ const DaskboardContentLeft: React.FC<Props> = ({
     if (divRef.current) {
       const { scrollTop, scrollHeight, clientHeight } = divRef.current;
       // Kiểm tra nếu cuộn đến cuối (có thể thêm một khoảng nhỏ để tăng tính linh hoạt)
-      if (scrollTop + clientHeight >= scrollHeight) {
+      if (
+        Math.floor(scrollTop + clientHeight) + 2 >=
+        Math.floor(scrollHeight)
+      ) {
         console.log('Đã cuộn đến cuối div!');
         // Thực hiện hành động khi cuộn đến cuối, ví dụ: tải thêm dữ liệu
         fetchMoreData();

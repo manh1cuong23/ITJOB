@@ -17,12 +17,6 @@ export default function CardJobApply({ data, setForceUpdate }: Props) {
   const [open, setOpen] = useState(false);
   const [openSeeMe, setOpenSeeme] = useState(false);
   const [openInfor, setOpenInfor] = useState(false);
-  console.log(
-    'check ddata2',
-    data?.status == ApplyStatus.Interview ||
-      data?.status == ApplyStatus.Passed ||
-      data?.status == ApplyStatus.Failed
-  );
 
   useEffect(() => {
     if (!open || !openSeeMe || !openInfor) {
@@ -54,7 +48,6 @@ export default function CardJobApply({ data, setForceUpdate }: Props) {
         return 'bg-primary text-white hover:bg-primary/90';
     }
   };
-  console.log('data', data);
   return (
     <div className="bg-white px-4 py-6 flex justify-between mt-[10px]">
       <NavLink to={`/${data?.job_id}/job-detail`}>

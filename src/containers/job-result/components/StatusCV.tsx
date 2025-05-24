@@ -47,7 +47,8 @@ const StatusTag: React.FC<StatusTagProps> = ({
         }}>
         {label}
       </Tag>
-      {value == ApplyStatus.Approved && (
+      {(value == ApplyStatus.Approved ||
+        value == ApplyStatus.CandidateAcceptInvite) && (
         <div className="pt-2" onClick={() => setOpen(true)}>
           <a className="text-underline  hover:underline">Tạo cuộc phỏng vấn</a>
         </div>
@@ -68,11 +69,14 @@ const StatusTag: React.FC<StatusTagProps> = ({
       )}
       <BookInterviewModal
         setForceUpdate={setForceUpdate}
-        isEmployerCreate={value == ApplyStatus.Approved}
+        isEmployerCreate={
+          value == ApplyStatus.Approved ||
+          value == ApplyStatus.CandidateAcceptInvite
+        }
         id={id}
         open={open}
         title={
-          ApplyStatus.Approved
+          ApplyStatus.Approved || ApplyStatus.CandidateAcceptInvite
             ? 'Hẹn lịch phỏng vấn'
             : 'Gợi ý phỏng vấn của ứng viên'
         }

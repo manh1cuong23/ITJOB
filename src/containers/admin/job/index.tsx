@@ -108,6 +108,14 @@ const AdminJobsContainer: React.FC = () => {
       key: 'name',
     },
     {
+      title: 'Công ty',
+      dataIndex: 'name',
+      key: 'name',
+      render: (_: any, record: any) => {
+        return record?.employer_info?.name;
+      },
+    },
+    {
       title: 'Ngày tạo',
       dataIndex: 'createdAt',
       key: 'createdAt',
@@ -184,7 +192,7 @@ const AdminJobsContainer: React.FC = () => {
       setData(res.result.jobs);
     }
   };
-
+  console.log('data', data);
   const handleSearch = async () => {
     const data = await form.validateFields();
     fetchListJob(data);

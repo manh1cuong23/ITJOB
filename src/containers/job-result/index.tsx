@@ -53,7 +53,11 @@ const JobResultContainer: React.FC = () => {
   const aRef = useRef(true);
   const filters = [
     { key: 'all', label: 'Tất cả', status: '' },
-    { key: 'matched', label: 'CV phù hợp', status: ApplyStatus.Approved }, // từ 'unread' → 'matched'
+    {
+      key: 'matched',
+      label: 'CV phù hợp',
+      status: [ApplyStatus.Approved, ApplyStatus.CandidateAcceptInvite],
+    }, // từ 'unread' → 'matched'
     {
       key: 'interview',
       label: 'CV đã hẹn phỏng vấn',
@@ -157,7 +161,7 @@ const JobResultContainer: React.FC = () => {
       dataIndex: 'interview_employee_suggest_schedule',
       key: 'interview_employee_suggest_schedule',
       width: 200,
-      render: (_: any, record: any) => <InterviewInfo data={_} />,
+      render: (_: any, record: any) => <InterviewInfo data2={record} />,
     },
     {
       title: 'Trạng thái',

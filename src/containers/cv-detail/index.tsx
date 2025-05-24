@@ -12,6 +12,8 @@ import { SingleSelectSearchCustom } from '@/components/basic/select';
 import MyTag from '@/components/basic/tags/tag';
 import ConfirmModal from '@/components/business/modal/ConfirmModal/BookInterviewModal';
 import {
+  ApplyStatus,
+  applyStatusOptions,
   educationLevels,
   englishSkillOptions,
   experienceLevels,
@@ -81,7 +83,6 @@ const CVDetailContainer: React.FC = () => {
       fetListJob();
     }
   }, [applyId]);
-  console.log('Data', data);
   const makeAprroCv = async () => {
     if (applyId && applyId !== 'invite') {
       const res = await makeApproveCV(applyId);
@@ -102,6 +103,7 @@ const CVDetailContainer: React.FC = () => {
         }
       }
     }
+    fetchStatusCV();
   };
   const makeRejectCv = async () => {
     if (applyId) {
@@ -177,6 +179,7 @@ const CVDetailContainer: React.FC = () => {
         )),
     },
   ];
+  console.log('dataStatus', dataStatus);
   return (
     <div className="  pt-[20px] bg-white  m-[20px] px-4">
       <div>
@@ -268,23 +271,31 @@ const CVDetailContainer: React.FC = () => {
         </div>
       </div>
       <div className="py-4 flex justify-end gap-[16px]">
-        {!isInvite && (
-          <MyButton
-            onClick={() => {
-              setOpenCancel(true);
-            }}
-            buttonType="secondary">
-            Bỏ qua
+        {Object.keys(dataStatus || {}).length > 0 ? (
+          dataStatus?.status == ApplyStatus.Pending ? (
+            <div>
+              <MyButton
+                className="mx-2"
+                onClick={() => setOpenCancel(true)}
+                buttonType="secondary">
+                Bỏ qua
+              </MyButton>
+              <MyButton className="mx-2" onClick={() => setOpen(true)}>
+                {isInvite ? 'Mời ứng viên' : 'Phù hợp'}
+              </MyButton>
+            </div>
+          ) : (
+            <MyButton className="mx-2" disabled>
+              {getLableSingle(dataStatus?.status, applyStatusOptions)}
+            </MyButton>
+          )
+        ) : (
+          <MyButton className="mx-2" onClick={() => setOpen(true)}>
+            {'Mời ứng viên'}
           </MyButton>
         )}
-
-        <MyButton
-          onClick={() => {
-            setOpen(true);
-          }}>
-          {!isInvite ? 'Phù hợp' : 'Mời ứng viên'}
-        </MyButton>
       </div>
+
       <ConfirmModal
         title={`Xác nhận ứng viên`}
         open={openCancel}
