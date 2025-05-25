@@ -188,7 +188,7 @@ const CreateCvContainer = () => {
       </div>
 
       {/* Nút tải PDF */}
-      {isClient && (
+      {/* {isClient && (
         <PDFDownloadLink
           document={<CvDocument userData={userData} />}
           fileName="cv.pdf">
@@ -206,7 +206,7 @@ const CreateCvContainer = () => {
             )
           }
         </PDFDownloadLink>
-      )}
+      )} */}
     </div>
   );
 };

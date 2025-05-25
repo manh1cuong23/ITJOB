@@ -115,7 +115,7 @@ const MyInput = forwardRef<InputRef, MyInputProps>(
     };
 
     return (
-      <Tooltip title={isOverflow() ? value : ''}>
+      <Tooltip title={isOverflow() ? value?.toString() : ''}>
         <div className={`my-input-container`}>
           <Skeleton.Input
             active

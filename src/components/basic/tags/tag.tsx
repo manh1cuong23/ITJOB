@@ -4,6 +4,7 @@ interface MyCardProps {
   title: string | ReactNode;
   className?: string;
   style?: React.CSSProperties;
+  children?: React.ReactNode;
 }
 
 const MyTag: React.FC<MyCardProps> = ({

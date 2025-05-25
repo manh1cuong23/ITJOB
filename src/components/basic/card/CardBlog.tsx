@@ -6,6 +6,7 @@ interface MyCardProps {
   className?: string;
   style?: React.CSSProperties;
   data: any;
+  children?: React.ReactNode; // thêm dòng này
 }
 
 const CardBlog: React.FC<MyCardProps> = ({

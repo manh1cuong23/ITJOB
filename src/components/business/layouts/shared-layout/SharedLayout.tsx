@@ -177,7 +177,7 @@ const SharedLayout = (props: SharedLayoutProps) => {
     getPageData({ sortFields: field, sortOrder: order });
   };
   const getPageDataClient = useCallback(
-    async (pageParams: Record<string, any> = {}, allPageData) => {
+    async (pageParams: Record<string, any> = {}, allPageData: any) => {
       try {
         let timeout: NodeJS.Timeout;
         setLoading(true);
@@ -402,8 +402,7 @@ const SharedLayout = (props: SharedLayoutProps) => {
                 form={quickSearchTopForm}
                 initialValues={initialValueQuickSearch}
                 onKeyDown={handleKeyPress}
-                layout="vertical"
-              >
+                layout="vertical">
                 {quickSearchFields}
               </Form>
             )}
@@ -412,8 +411,7 @@ const SharedLayout = (props: SharedLayoutProps) => {
                 type="link"
                 onClick={handleQuickSearchReset}
                 style={{ marginRight: 8 }}
-                icon={<ReloadOutlined />}
-              >
+                icon={<ReloadOutlined />}>
                 Set To Default
               </Button>
               <div className="h-center">
@@ -427,8 +425,7 @@ const SharedLayout = (props: SharedLayoutProps) => {
                         height="14"
                         viewBox="0 0 14 14"
                         fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
+                        xmlns="http://www.w3.org/2000/svg">
                         <path
                           fillRule="evenodd"
                           clipRule="evenodd"
@@ -438,8 +435,7 @@ const SharedLayout = (props: SharedLayoutProps) => {
                       </svg>
                     }
                     onClick={openDrawer}
-                    className="filter"
-                  >
+                    className="filter">
                     {activeFiltersCount > 0 && (
                       <div className="filter-count">
                         <span>{activeFiltersCount}</span>
@@ -508,8 +504,7 @@ const SharedLayout = (props: SharedLayoutProps) => {
           <div
             className={`shared-not-found-content ${
               isNotFound ? 'visible' : ''
-            } ${loading ? 'loading' : ''}`}
-          >
+            } ${loading ? 'loading' : ''}`}>
             <SharedTableNotFoundData onClearFilter={onClearFilter} />
           </div>
         </div>
