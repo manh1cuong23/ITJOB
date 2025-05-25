@@ -144,7 +144,7 @@ const routeList: RouteObject[] = [
         ),
       },
       {
-        path: 'dashboard/recruiter',
+        path: 'admin/dashboard',
         element: (
           <WrapperRouteComponent
             element={<DashboardRecruiterPage />}

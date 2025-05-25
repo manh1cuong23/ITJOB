@@ -1,46 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { MyButton } from '@/components/basic/button';
-import { SingleSelectSearchCustom } from '@/components/basic/select';
-import {
-  Button,
-  Col,
-  Dropdown,
-  Form,
-  Input,
-  Menu,
-  message,
-  Row,
-  Space,
-} from 'antd';
-import {
-  CheckOutlined,
-  DeleteOutlined,
-  DownOutlined,
-  EditOutlined,
-  EyeOutlined,
-  PoweroffOutlined,
-  SearchOutlined,
-} from '@ant-design/icons';
+import { Button, Col, Form, Row } from 'antd';
+
 import { TableBasic } from '@/components/basic/table';
 import { InputBasic } from '@/components/business/input';
-import DatepickerBasic from '@/components/business/date-picker/DatepickerBasic';
-import { MyFormItem } from '@/components/basic/form-item';
-import { changeStatus, getListJob } from '@/api/features/recruite';
-import { Navigate, NavLink, useNavigate } from 'react-router-dom';
-import { JobStatus, JobStatusOptions, jobStatusOptions } from '@/constants/job';
 import { DatePickerFromTo } from '@/components/business/date-picker';
-import { create } from 'lodash';
-import {
-  formatDateNew,
-  formatDateTime,
-  formatDateToYMD,
-} from '@/utils/formatDate';
-import ConfirmModal from '@/components/business/modal/ConfirmModal/BookInterviewModal';
-import { getMe } from '@/api/features/user';
-import SalePost from '@/components/business/modal/SalePost';
+import { formatDateTime } from '@/utils/formatDate';
 import { formatCurrency } from '@/utils/helper';
-import { deletePackage, getListPackage } from '@/api/features/package';
-import PackageCruModal from '@/components/business/modal/package-cru';
 import { getListTransaction, getOverViewTransaction } from '@/api/features/pay';
 import { useSelector } from 'react-redux';
 import { TypeUser } from '@/interface/common/type';
@@ -48,9 +13,6 @@ import { TypeUser } from '@/interface/common/type';
 const TransactionContainer: React.FC = () => {
   const [data, setData] = useState([]);
   const [dataOverV, setDataOverV] = useState<any>([]);
-  const [employInfor, setEmployInfor] = useState<any>([]);
-  const [idSelect, setIdSelect] = useState('');
-  const [idSelected, setIdSelected] = useState('');
   const { role, username } = useSelector(state => state.auth);
   const [forceUpdate, setForceUpdate] = useState(1);
   const [form] = Form.useForm();
@@ -108,7 +70,7 @@ const TransactionContainer: React.FC = () => {
   ].filter(Boolean);
   const fetchListTransaction = async (data?: any) => {
     const res = await getListTransaction(data);
-    const resOv = await getOverViewTransaction();
+    const resOv = await getOverViewTransaction(data);
     if (res && res.result) {
       setData(res.result);
     }

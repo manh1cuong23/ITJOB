@@ -78,10 +78,25 @@ export async function updatePackage(
   }
 }
 
-export async function getOverViewTransaction(options?: RequestOptions) {
+export async function getOverViewTransaction(
+  data?: any,
+  options?: RequestOptions
+) {
   try {
+    const params: any = {};
+
+    // Duyệt qua từng field lọc để gán vào params nếu tồn tại
+    ['name', 'createdAt'].forEach(field => {
+      if (data[field] && data[field].length > 0) {
+        params[field] = JSON.stringify(data[field]); // chuyển mảng thành chuỗi JSON
+      }
+    });
+    if (data.key) {
+      params.key = data.key;
+    }
     const response = await request(`/transaction/get-overview`, {
       method: 'GET',
+      params: params,
       ...(options || {}),
     });
     return response;

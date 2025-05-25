@@ -252,3 +252,16 @@ export const getDeatailBlog = async (id: string, options?: any) => {
     throw error;
   }
 };
+
+export const getOverViewJob = async (options?: any) => {
+  try {
+    const response = await request(`/admins/get-overview-job`, {
+      method: 'GET',
+      ...(options || {}),
+    });
+    return response;
+  } catch (error) {
+    console.error('Error create service:', error);
+    throw error;
+  }
+};
