@@ -3,6 +3,7 @@ export const pageTitles: { url: string; title: string; regex?: RegExp }[] = [
   { url: '/recruiter/management/job', title: 'Quản lý tin tuyển dụng' },
   { url: '/admin/users', title: 'Quản lý tài khoản' },
   { url: '/admin/jobs', title: 'Quản lý tin tuyển dụng' },
+  { url: '/admin/dashboard', title: 'Trang chủ' },
   { url: '/admin/envalutions', title: 'Quản lý đánh giá công ty' },
   { url: '/recruiter/management/transaction', title: 'Quản lý giao dịch' },
   { url: '/admin/management/transaction', title: 'Quản lý giao dịch' },

@@ -192,7 +192,6 @@ const AdminJobsContainer: React.FC = () => {
       setData(res.result.jobs);
     }
   };
-  console.log('data', data);
   const handleSearch = async () => {
     const data = await form.validateFields();
     fetchListJob(data);
@@ -266,7 +265,6 @@ const AdminJobsContainer: React.FC = () => {
         const handleMenuClick = ({ key }: any) => {
           if (key === 'see') {
             setIdSelect(record?._id);
-            console.log('vao day');
             setIdSelected(record?._id);
             setIsViewMode(true);
             setOpenEdit(true);
@@ -275,7 +273,6 @@ const AdminJobsContainer: React.FC = () => {
           if (key === 'stop') {
             setIdSelect(record?._id);
             setIdSelected(record?._id);
-            console.log('Xử lý bỏ duyệt');
             setIsStop(true);
             setAccept(true);
           }

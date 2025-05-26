@@ -30,7 +30,6 @@ const DaskboardContentLeft: React.FC<Props> = ({
         Math.floor(scrollTop + clientHeight) + 2 >=
         Math.floor(scrollHeight)
       ) {
-        console.log('Đã cuộn đến cuối div!');
         // Thực hiện hành động khi cuộn đến cuối, ví dụ: tải thêm dữ liệu
         fetchMoreData();
         if (page < totalPage) divRef.current.scrollTop -= 50; // Kéo lên 50px, điều chỉnh nếu cần

@@ -19,7 +19,6 @@ export default function JobInviteContainer() {
     if (res?.result) {
       setData(res?.result?.applyJobs);
     }
-    console.log('check res', res);
   };
   useEffect(() => {
     fetchDataJob(ApplyStatus.WaitingCandidateAcceptInvite);

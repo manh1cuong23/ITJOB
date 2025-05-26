@@ -70,7 +70,6 @@ const ProfileRecruiterPage: React.FC<Props> = ({ isCreate = true }) => {
       console.error('Upload failed:', error);
     }
   };
-  console.log('check', imageUrls);
   // Hàm xóa ảnh khỏi state
   const handleRemove = (url: any) => {
     setImageUrls((prevUrls: any) =>
@@ -106,7 +105,6 @@ const ProfileRecruiterPage: React.FC<Props> = ({ isCreate = true }) => {
     const response = await getMe();
     if (response.result) {
       const { employer_info, fields_info, skills_info } = response.result;
-      console.log('check', response.result);
       setDataImg({
         avatar: { url: employer_info?.avatar },
         background: { url: employer_info?.cover_photo },
@@ -149,7 +147,6 @@ const ProfileRecruiterPage: React.FC<Props> = ({ isCreate = true }) => {
     formData.append('image', event.target.files[0]);
     const res = await uploadImage(formData);
     if (res?.result) {
-      console.log('res?.re', res?.result);
       setDataImg((prev: any) => ({
         ...prev,
         avatar: res?.result[0], // nên dùng optional chaining đầy đủ

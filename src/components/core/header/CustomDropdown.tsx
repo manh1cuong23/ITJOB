@@ -43,8 +43,6 @@ const CustomMessagesDropdown: FC<{
       } else {
         fetchCandicate({ name: value });
       }
-
-      console.log('Gọi API với:', value);
     }, 300);
   };
   const handleMakeConversation = async (id: string) => {

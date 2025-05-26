@@ -38,7 +38,6 @@ const EnvalutionRecruiterModal: React.FC<{
   const [form] = Form.useForm();
 
   const handleOk = async (force: boolean = false) => {
-    console.log('chjeck rate', rate);
     const data = await form.validateFields();
     let dataForm = { ...data, content, rate };
     if (id && dataForm) {

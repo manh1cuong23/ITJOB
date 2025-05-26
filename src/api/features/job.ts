@@ -49,7 +49,6 @@ export async function getListJobByCandicateDb(
   if (data.key) {
     params.key = data.key;
   }
-  console.log('params', params);
   try {
     const response = await request(
       `/candidates/search-jobdb?page=${data?.page}&limit=${data?.limit}`,

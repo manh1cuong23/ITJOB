@@ -238,7 +238,6 @@ const AdminEnvalutionContainer: React.FC = () => {
           if (key === 'stop') {
             setIdSelect(record?._id);
             setIdSelected(record?._id);
-            console.log('Xử lý bỏ duyệt');
           }
         };
         return (

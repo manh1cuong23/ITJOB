@@ -81,6 +81,19 @@ const TransactionContainer: React.FC = () => {
 
   const handleSearch = async () => {
     const data = await form.validateFields();
+
+    // Kiểm tra nếu `createdAt` không hợp lệ thì không gửi
+    if (
+      !data.createdAt || // undefined, null
+      !Array.isArray(data.createdAt) || // không phải array
+      data.createdAt.length !== 2 || // không có đủ 2 phần tử
+      data.createdAt.every((item: any) => !item) // cả 2 đều là '', null, false
+    ) {
+      fetchListTransaction({ ...data, createdAt: null });
+      return;
+    }
+
+    console.log('data', data);
     fetchListTransaction(data);
   };
 

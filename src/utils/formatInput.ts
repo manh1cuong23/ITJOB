@@ -36,7 +36,6 @@ export const convertCommaToDot = (value: string | undefined): string => {
 };
 export const convertDotToComma = (value: string | undefined): string => {
   if (!value) return '';
-  console.log('check value', value);
   // Chuyển chuỗi thành số
   const num = parseFloat(value);
   // let formatted;

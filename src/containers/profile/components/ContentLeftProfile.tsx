@@ -23,16 +23,16 @@ export default function ContentLeftProfile() {
 
   return (
     <div className="w-[300px] min-h-[600px] bg-white px-2 sticky top-[20px]">
-      <h1 className="pt-4 px-6">Xin chào</h1>
-      <h1 className="px-6 text-[22px] font-medium text-[#414042]">
-        Võ Mạnh Cường
+      {/* <h1 className="pt-4 px-6">Xin chào</h1> */}
+      <h1 className="px-6 text-[22px] font-medium text-[#414042] my-2">
+        Xin chào
       </h1>
       {data.map((item: any, index: number) => {
         const isActive = item.to === location.pathname;
         return (
-          <NavLink to={item?.to} className="flex items-center">
+          <NavLink to={item?.to} className="flex items-center my-1">
             <div
-              className={`flex gap-[16px] py-4 px-6 items-center rounded-xl cursor-pointer
+              className={`flex gap-[16px] py-4 px-6 items-center rounded-xl cursor-pointer w-full
         text-[#414042]
         ${
           isActive

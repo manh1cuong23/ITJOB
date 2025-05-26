@@ -68,7 +68,6 @@ export const validateBooleanField = (
 ) => {
   return (_: any, value: any) => {
     if (check) {
-      console.log('Check value', value);
       if (typeof value !== 'boolean') {
         // Nếu giá trị không phải kiểu boolean
         setIsNotValid((prevState: any) => ({

@@ -98,7 +98,6 @@ const AdminBlogsPage = () => {
       width: 160,
       align: 'center',
       render: (_: any, record: any) => {
-        console.log('check record', record);
         const menu = (
           <Menu
             onClick={({ key }) => {
@@ -153,7 +152,6 @@ const AdminBlogsPage = () => {
 
   const handleSearch = async () => {
     const data = await form.validateFields();
-    console.log('dataa form', data);
     fetchBlogList(data);
   };
   return (

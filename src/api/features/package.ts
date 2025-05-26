@@ -11,7 +11,6 @@ export async function getListPackage(data?: any, options?: RequestOptions) {
   if (data?.key) {
     params.key = data?.key;
   }
-  console.log('params', params);
   try {
     const response = await request(`/package/get`, {
       method: 'GET',

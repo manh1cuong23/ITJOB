@@ -169,12 +169,10 @@ const ManagementJobContainer: React.FC = () => {
     if (res?.result) {
       setEmployInfor(res?.result?.employer_info);
     }
-    console.log('res', res);
   };
 
   const handleSearch = async () => {
     const data = await form.validateFields();
-    console.log('check dataa', data);
     fetchListJob(data);
   };
 

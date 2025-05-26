@@ -31,9 +31,8 @@ const MyRadio: FC<MyRadioProps> = ({
   }, [loading]);
 
   const handleRadioChange = (e: any) => {
-    console.log(e)
     const newValue = e.target.value;
-    
+
     if (newValue === internalValue) {
       setInternalValue(undefined);
       onChange?.({ target: { value: undefined } });

@@ -35,7 +35,6 @@ const InsertUpdateBlog = ({
     // }
     form.setFieldsValue({ image: file });
 
-    console.log('file', file);
     setPreview(URL.createObjectURL(file));
     return Upload.LIST_IGNORE;
   };
@@ -45,7 +44,6 @@ const InsertUpdateBlog = ({
       setLoading(true);
       const values = await form.validateFields();
       const { image, ...rest } = values;
-      console.log('image', image);
       let resAvatar: any;
       if (!!image) {
         const formData = new FormData();

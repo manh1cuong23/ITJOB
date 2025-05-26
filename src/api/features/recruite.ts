@@ -20,7 +20,6 @@ export async function getListJob(data: any, options?: RequestOptions) {
   if (data.key) {
     params.key = data.key;
   }
-  console.log('check para', params);
   try {
     const response = await request(`/jobs/list`, {
       method: 'GET',
@@ -71,7 +70,6 @@ export async function getListCountCandicateByJob(
 
 export async function getListCandicate(data?: any, options?: RequestOptions) {
   const params: any = {};
-  console.log('data', data);
   try {
     const response = await request(`/employers/get-candicate`, {
       method: 'GET',

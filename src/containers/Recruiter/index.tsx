@@ -70,7 +70,6 @@ const RecruiterContainer: React.FC<Props> = ({}) => {
       fetchEnvalution(id);
     }
   }, [activeTab]);
-  console.log('Data', data);
   return (
     <div className="">
       <div className=" mt-[20px] mx-auto w-[1260px]">
@@ -103,11 +102,11 @@ const RecruiterContainer: React.FC<Props> = ({}) => {
                   onClick={() => setOpen(true)}>
                   <p className="text-[14px]">Viết đánh giá</p>
                 </MyButton>
-                <MyButton
+                {/* <MyButton
                   buttonType="outline"
                   className="w-[160px] !h-[50px] ml-4">
                   <p className="text-[14px]">Theo dõi</p>
-                </MyButton>
+                </MyButton> */}
               </div>
             </div>
           </div>

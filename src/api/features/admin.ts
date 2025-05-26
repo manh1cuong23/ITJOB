@@ -96,7 +96,6 @@ export async function getListJob(data: any, options?: RequestOptions) {
   if (data.key) {
     params.key = data.key;
   }
-  console.log('check para', params);
   try {
     const response = await request(`/admins/list-jobs`, {
       method: 'GET',
@@ -256,6 +255,32 @@ export const getDeatailBlog = async (id: string, options?: any) => {
 export const getOverViewJob = async (options?: any) => {
   try {
     const response = await request(`/admins/get-overview-job`, {
+      method: 'GET',
+      ...(options || {}),
+    });
+    return response;
+  } catch (error) {
+    console.error('Error create service:', error);
+    throw error;
+  }
+};
+
+export const getOverViewTransaction = async (options?: any) => {
+  try {
+    const response = await request(`/admins/get-overview-transactions`, {
+      method: 'GET',
+      ...(options || {}),
+    });
+    return response;
+  } catch (error) {
+    console.error('Error create service:', error);
+    throw error;
+  }
+};
+
+export const getOverViewAll = async (options?: any) => {
+  try {
+    const response = await request(`/admins/get-overview-all`, {
       method: 'GET',
       ...(options || {}),
     });

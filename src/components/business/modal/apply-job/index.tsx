@@ -43,7 +43,6 @@ const ApplyJobModal: React.FC<{
     form.resetFields();
   };
 
-  console.log('check open', open);
   const handleChange = (e: any) => {
     setSelectedValue(e.target.value);
   };
@@ -71,7 +70,6 @@ const ApplyJobModal: React.FC<{
       };
       form.setFieldsValue(newData);
     }
-    console.log('data', data);
   };
   useEffect(() => {
     if (open) {
@@ -83,14 +81,12 @@ const ApplyJobModal: React.FC<{
   }, [open]);
   const handleOk = async (force: boolean = false) => {
     const data = await form.validateFields();
-    console.log('data', data);
     if (id && data) {
       const res = await applyJob(id, { ...data, cv: pdfUrl });
       if (res && res.message) {
         message.success('Bạn đã ứng tuyển thành công!');
         onCancel && onCancel();
       }
-      console.log('res', res);
     }
     setForceUpdate((prev: number) => prev + 1);
   };

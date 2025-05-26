@@ -34,7 +34,6 @@ const JobBoardContainer: React.FC = () => {
     }
   };
   const fetchMoreData = async () => {
-    console.log('ccc', page, pageTotal);
     if (page >= pageTotal) return;
     const nextPage = page + 1;
     setPage(nextPage);
@@ -53,9 +52,7 @@ const JobBoardContainer: React.FC = () => {
   };
 
   useEffect(() => {
-    console.log('formData', formData);
     if (formData && Object.keys(formData).length > 0) {
-      console.log('vo 1');
       handleSeach(formData);
     } else {
       handleSeach([]);

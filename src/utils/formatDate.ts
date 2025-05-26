@@ -33,7 +33,6 @@ export const formatDateTable = (dateString: string) => {
       const parsedDate = new Date(Number(year), Number(month) - 1, Number(day));
 
       if (isNaN(parsedDate.getTime())) {
-        console.log('Invalid date:', dateString);
         return '-';
       }
       return dateString;

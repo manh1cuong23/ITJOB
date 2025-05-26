@@ -10,6 +10,7 @@ import { ReactComponent as Test3Svg } from '@/assets/menu/ic_cloud-lightning.svg
 import { ReactComponent as UserSvg } from '@/assets/menu/ic_user.svg';
 import { ReactComponent as EnvalueSvg } from '@/assets/menu/ic_booking.svg';
 import { ReactComponent as MenuTickSvg } from '@/assets/menu/ic_menu_tick.svg';
+import { HomeOutlined } from '@ant-design/icons';
 
 interface MenuItemWithTickProps {
   label: string;
@@ -63,6 +64,11 @@ export const mockMenuList: MenuList = [
   },
 ];
 export const adminMenuList: MenuList = [
+  {
+    key: '/admin/dashboard',
+    label: 'Trang chủ',
+    icon: <HomeOutlined />,
+  },
   {
     key: '/admin/users',
     label: 'Quản lý tài khoản',

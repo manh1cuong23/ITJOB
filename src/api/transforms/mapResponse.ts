@@ -3,7 +3,6 @@ export function convertToPageData<T>(
   isFormated: boolean = false
 ): CORE.Response<CORE.PageData<any>> {
   if (isFormated) {
-    console.log(organizeDataByRoomType(baseResponse.data));
     return {
       status: baseResponse.isSuccess,
       message: baseResponse.errors ? baseResponse.errors[0].message : '',
@@ -75,10 +74,10 @@ export function convertToPageRoomRate<T>(
   if (isFormated) {
     return {
       status: true,
-   		message: '',
-    	result: {
-      	data: organizeDataByRoomRate(baseResponse.data) ?? [],
-      	total: baseResponse.meta?.filter_count ?? 0,
+      message: '',
+      result: {
+        data: organizeDataByRoomRate(baseResponse.data) ?? [],
+        total: baseResponse.meta?.filter_count ?? 0,
         // pageSize: baseResponse.pagination?.pageSize ?? 0,
         // pageNumber: baseResponse.pagination?.pageNum ?? 1,
       },
@@ -86,13 +85,13 @@ export function convertToPageRoomRate<T>(
   }
   return {
     status: true,
-		message: '',
-		result: {
-			data: baseResponse.data ?? [],
-			total: baseResponse.meta?.filter_count ?? 0,
-			// pageSize: baseResponse.pagination?.pageSize ?? 0,
-			// pageNumber: baseResponse.pagination?.pageNum ?? 1,
-		},
+    message: '',
+    result: {
+      data: baseResponse.data ?? [],
+      total: baseResponse.meta?.filter_count ?? 0,
+      // pageSize: baseResponse.pagination?.pageSize ?? 0,
+      // pageNumber: baseResponse.pagination?.pageNum ?? 1,
+    },
   };
 }
 
@@ -100,25 +99,19 @@ const organizeDataByRoomRate = (data: any[]) => {
   const organizedData: Record<string, any> = {};
 
   data.forEach(item => {
-    const {
-      package_plan,
-      date,
-      rate,
-      room_type,
-			rate_plan_id
-    } = item;
+    const { package_plan, date, rate, room_type, rate_plan_id } = item;
 
-		const formattedDate = new Date(date).toISOString().split('T')[0];
+    const formattedDate = new Date(date).toISOString().split('T')[0];
     // Tạo key dựa trên hotelName, roomTypeName, packageCode và allotmentNo
     const key = `${rate_plan_id?.market_segment?.id}-${rate_plan_id?.rate_code?.id}-${room_type?.id}-${package_plan?.id}`;
 
     if (!organizedData[key]) {
       organizedData[key] = {
-				market_segment: rate_plan_id?.market_segment?.name,
-				rate_code: rate_plan_id?.rate_code?.rate_code,
-				room_type: room_type?.name,
-				package_plan: package_plan?.name,
-			};
+        market_segment: rate_plan_id?.market_segment?.name,
+        rate_code: rate_plan_id?.rate_code?.rate_code,
+        room_type: room_type?.name,
+        package_plan: package_plan?.name,
+      };
     }
 
     organizedData[key][formattedDate] = {
@@ -136,10 +129,10 @@ export function convertToPageRoomAvailability<T>(
   if (isFormated) {
     return {
       status: true,
-   		message: '',
-    	result: {
-      	data: organizeDataByRoomAvailability(baseResponse.data) ?? [],
-      	total: baseResponse.meta?.filter_count ?? 0,
+      message: '',
+      result: {
+        data: organizeDataByRoomAvailability(baseResponse.data) ?? [],
+        total: baseResponse.meta?.filter_count ?? 0,
         // pageSize: baseResponse.pagination?.pageSize ?? 0,
         // pageNumber: baseResponse.pagination?.pageNum ?? 1,
       },
@@ -147,13 +140,13 @@ export function convertToPageRoomAvailability<T>(
   }
   return {
     status: true,
-		message: '',
-		result: {
-			data: baseResponse.data ?? [],
-			total: baseResponse.meta?.filter_count ?? 0,
-			// pageSize: baseResponse.pagination?.pageSize ?? 0,
-			// pageNumber: baseResponse.pagination?.pageNum ?? 1,
-		},
+    message: '',
+    result: {
+      data: baseResponse.data ?? [],
+      total: baseResponse.meta?.filter_count ?? 0,
+      // pageSize: baseResponse.pagination?.pageSize ?? 0,
+      // pageNumber: baseResponse.pagination?.pageNum ?? 1,
+    },
   };
 }
 
@@ -168,10 +161,12 @@ const organizeDataByRoomAvailability = (data: any[]) => {
       hotelId: item.hotelId || null,
     };
 
-    item.availability.forEach(({ date, availability }: { date: string; availability: string }) => {
-      const formattedDate = new Date(date).toISOString().split("T")[0];
-      roomData[formattedDate] = { availability: availability };
-    });
+    item.availability.forEach(
+      ({ date, availability }: { date: string; availability: string }) => {
+        const formattedDate = new Date(date).toISOString().split('T')[0];
+        roomData[formattedDate] = { availability: availability };
+      }
+    );
 
     organizedData.push(roomData);
   });

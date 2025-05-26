@@ -1,4 +1,8 @@
-import { getOverViewJob } from '@/api/features/admin';
+import {
+  getOverViewAll,
+  getOverViewJob,
+  getOverViewTransaction,
+} from '@/api/features/admin';
 import { Card } from 'antd';
 import React, { useEffect, useState } from 'react';
 import {
@@ -19,7 +23,9 @@ import {
 } from 'recharts';
 const DashboardAdminContainer: React.FC = () => {
   const [jobs, setJobs] = useState<any>([]);
+  const [data, setDatas] = useState<any>([]);
   const [jobCategories, setJobCategories] = useState<any>([]);
+  const [transactions, setTransaction] = useState<any>([]);
 
   const fetchOverViewjob = async () => {
     const res = await getOverViewJob();
@@ -27,8 +33,27 @@ const DashboardAdminContainer: React.FC = () => {
       setJobs(res?.result);
     }
   };
+  const fetchOverViewTransactions = async () => {
+    const res = await getOverViewTransaction();
+    if (res?.result) {
+      setTransaction(
+        res?.result.map((item: any) => ({
+          week: `Tuần ${item.week}`,
+          transactions: item.total_transactions,
+        }))
+      );
+    }
+  };
+  const fetchOverViewAll = async () => {
+    const res = await getOverViewAll();
+    if (res?.result) {
+      setDatas(res?.result);
+    }
+  };
   useEffect(() => {
     fetchOverViewjob();
+    fetchOverViewTransactions();
+    fetchOverViewAll();
   }, []);
   useEffect(() => {
     const sorted =
@@ -63,15 +88,40 @@ const DashboardAdminContainer: React.FC = () => {
 
     setJobCategories(top5);
   }, [jobs]);
+  useEffect(() => {
+    const sorted =
+      (jobs &&
+        jobs.length > 0 &&
+        jobs.sort((a: any, b: any) => b.total_jobs - a.total_jobs)) ||
+      [];
 
-  // const jobCategories = [
-  //   { name: 'IT/Software', value: 35, color: '#8884d8' },
-  //   { name: 'Marketing', value: 20, color: '#82ca9d' },
-  //   { name: 'Sales', value: 15, color: '#ffc658' },
-  //   { name: 'Finance', value: 12, color: '#ff7300' },
-  //   { name: 'HR', value: 10, color: '#00ff88' },
-  //   { name: 'Others', value: 8, color: '#ff0088' },
-  // ];
+    // Mảng màu cho 5 ngành chính
+    const colors = ['#8884d8', '#82ca9d', '#ffc658', '#ff7300', '#00ff88'];
+
+    // Lấy 5 ngành có số lượng lớn nhất
+    const top5 = sorted.slice(0, 5).map((item: any, index: number) => ({
+      name: item.field_info.name,
+      value: item.total_jobs,
+      color: colors[index],
+    }));
+
+    // Tính tổng các ngành còn lại
+    const othersTotal = sorted
+      .slice(5)
+      .reduce((sum: any, item: any) => sum + item.total_jobs, 0);
+
+    // Thêm mục "Others" nếu có ngành dư
+    if (othersTotal > 0) {
+      top5.push({
+        name: 'Others',
+        value: othersTotal,
+        color: '#ff0088',
+      });
+    }
+
+    setJobCategories(top5);
+  }, [transactions]);
+
   const monthlyData = [
     { month: 'T1', transactions: 45, employers: 12, candidates: 89, jobs: 34 },
     { month: 'T2', transactions: 52, employers: 18, candidates: 95, jobs: 41 },
@@ -85,9 +135,9 @@ const DashboardAdminContainer: React.FC = () => {
       <div className="flex ">
         <div className="w-1/4  ">
           <div className="m-2 h-[140px] rounded-md bg-[linear-gradient(135deg,rgba(59,130,246,0.48),rgba(96,165,250,0.48))]">
-            <div className="p-2 text-[16px] font-medium">Tông giao dịch</div>
+            <div className="p-2 text-[16px] font-medium">Tổng giao dịch</div>
             <div className="my-auto text-center text-[30px] font-medium mt-2">
-              88
+              {data?.transactions}
             </div>
           </div>
         </div>
@@ -95,7 +145,7 @@ const DashboardAdminContainer: React.FC = () => {
           <div className="m-2 h-[140px] rounded-md bg-[linear-gradient(135deg,rgba(236,72,153,0.48),rgba(244,114,182,0.48))]">
             <div className="p-2 text-[16px] font-medium">Nhà tuyển dụng</div>
             <div className="my-auto text-center text-[30px] font-medium mt-2">
-              88
+              {data?.employers}
             </div>
           </div>
         </div>
@@ -103,7 +153,7 @@ const DashboardAdminContainer: React.FC = () => {
           <div className="m-2 h-[140px] rounded-md bg-[linear-gradient(135deg,rgba(253,224,71,0.48),rgba(250,204,21,0.48))]">
             <div className="p-2 text-[16px] font-medium">Ứng viên</div>
             <div className="my-auto text-center text-[30px] font-medium mt-2">
-              88
+              {data?.candidates}
             </div>
           </div>
         </div>
@@ -111,7 +161,7 @@ const DashboardAdminContainer: React.FC = () => {
           <div className="m-2 h-[140px] rounded-md bg-[linear-gradient(135deg,rgba(254,215,170,0.48),rgba(253,186,116,0.48))]">
             <div className="p-2 text-[16px] font-medium">Tin đang tuyển</div>
             <div className="my-auto text-center text-[30px] font-medium mt-2">
-              88
+              {data?.jobs}
             </div>
           </div>
         </div>
@@ -154,15 +204,15 @@ const DashboardAdminContainer: React.FC = () => {
           <Card>
             <div>
               <div className="text-xl mt-2 font-medium">
-                Doanh thu theo tháng
+                Doanh thu theo tuần
               </div>
               <div className="text-base mb-2">Biểu đồ vùng doanh thu</div>
             </div>
             <div>
               <ResponsiveContainer width="100%" height={380}>
-                <AreaChart data={monthlyData}>
+                <AreaChart data={transactions}>
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="month" />
+                  <XAxis dataKey="week" />
                   <YAxis />
                   <Tooltip />
                   <Area

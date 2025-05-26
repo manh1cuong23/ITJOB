@@ -59,7 +59,6 @@ const CVDetailContainer: React.FC = () => {
     if (res?.result) {
       setDataStatus(res?.result);
     }
-    console.log('res', res);
   };
 
   const fetListJob = async () => {
@@ -93,7 +92,6 @@ const CVDetailContainer: React.FC = () => {
     } else {
       const data1 = await form.validateFields();
       if (id) {
-        console.log('data?.idUser', data?.idUser, data);
         const res = await inviteCandicate(data?.idUser, data1);
         if (res && res?.message != 'Ứng viên đã được mời') {
           message.success('Mời ứng viên thành công');
@@ -137,6 +135,10 @@ const CVDetailContainer: React.FC = () => {
       name: 'Giới tính',
       value: getLableSingle(data?.gender?.[0], genders),
     },
+    {
+      name: 'Email',
+      value: data?.email,
+    },
   ];
   const dataUser2 = [
     {
@@ -179,7 +181,6 @@ const CVDetailContainer: React.FC = () => {
         )),
     },
   ];
-  console.log('dataStatus', dataStatus);
   return (
     <div className="  pt-[20px] bg-white  m-[20px] px-4">
       <div>
@@ -190,7 +191,10 @@ const CVDetailContainer: React.FC = () => {
         <div className="flex items-center ml-5">
           <img
             className="w-[120px] h-[160px] bg-gray-500 object-cover mr-4"
-            src="https://png.pngtree.com/png-clipart/20231020/original/pngtree-job-candidate-post-employee-png-png-image_13372804.png"
+            src={
+              data?.avatar ||
+              'https://png.pngtree.com/png-clipart/20231020/original/pngtree-job-candidate-post-employee-png-png-image_13372804.png'
+            }
           />
           <div className="w-full">
             {dataUser &&
