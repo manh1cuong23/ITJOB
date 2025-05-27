@@ -42,7 +42,7 @@ const MultiSelectWithSearchAdd: React.FC<MultiSelectWithSearchProps> = ({
   showCheckbox = true,
   disabled = false,
   onBlur,
-  maxWidth = '150px',
+  maxWidth = '280px',
   defaultOption,
   classButon,
   reset = false,

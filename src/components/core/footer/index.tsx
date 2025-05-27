@@ -7,7 +7,7 @@ const data = {
     'Thỏa thuận sử dụng',
     'Cơ hội việc làm',
     'Quy định bảo mật',
-    'Quy chế hoạt động của sàn giao dịch thương mại điện tử TopDev',
+    'Quy chế hoạt động của sàn giao dịch thương mại điện tử',
     'Giải quyết khiếu nại',
   ],
   featureLinks: [
@@ -28,17 +28,16 @@ const Footer: FC<{}> = () => {
   return (
     <div className="layout-foot bg-gray-200 mt-[20px]">
       <div className="pt-[40px]  mx-[100px]">
-        <div className="grid grid-cols-6 gap-x-2">
+        <div className="grid grid-cols-5 gap-x-2">
           <div className="col-span-2">
             <div className="my-4">
               <img src={logo} className="h-[60px] object-containt" />
             </div>
             <div className="text-[#424242] text-[16px] my-3">
-              Tầng 12A, Toà nhà AP Tower, 518B Điện Biên Phủ, Phường 21, Quận
-              Bình Thạnh, Thành phố Hồ Chí Minh
+              Nguyên Xã, Minh Khai, Bắc Từ Liêm
             </div>
             <div className="text-[#424242] text-[16px] my-3">
-              Liên hệ : 0888 1555 00 - contact@topdev.vn
+              Liên hệ : 0852 747 303 - cuong06102003@gmail.com
             </div>
           </div>
           <div className="col-span-1">
@@ -65,7 +64,7 @@ const Footer: FC<{}> = () => {
               <p className="text-[#424242] text-[16px] my-3">{item}</p>
             ))}
           </div>
-          <div className="col-span-1"></div>
+          {/* <div className="col-span-1"></div> */}
         </div>
       </div>
       <div className="py-[20px] mx-[20px] border">

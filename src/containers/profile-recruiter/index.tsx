@@ -61,9 +61,9 @@ const ProfileRecruiterPage: React.FC<Props> = ({ isCreate = true }) => {
       // Giả sử uploadImage là hàm API trả về URL của ảnh
       const res = await uploadImage(formData);
       const newImageUrl = res.result?.[0]?.url; // Điều chỉnh theo response của API
-
+      console.log('imageUrls', imageUrls);
       // Thêm URL mới vào state
-      imageUrls?.lenght > 0
+      imageUrls?.length > 0
         ? setImageUrls((prevUrls: any) => [...prevUrls, newImageUrl])
         : setImageUrls([newImageUrl]);
     } catch (error) {
